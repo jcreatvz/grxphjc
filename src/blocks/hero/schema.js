@@ -1,13 +1,15 @@
-// Hero block — settings array is the single source of truth for
-// what this block accepts. Modeled on Shopify {% schema %} shape so
-// a form generator (tools/editor.html, phase 2) can build a UI from it.
 export default {
   type: 'hero',
   name: 'Hero',
   settings: [
     { id: 'media',    type: 'image',    label: 'Background media (image or video URL)', default: '' },
+    { id: 'label',    type: 'text',     label: 'Bracketed section label (e.g. "Case Study — 001")', default: '' },
     { id: 'headline', type: 'text',     label: 'Headline' },
     { id: 'subhead',  type: 'richtext', label: 'Subhead', default: '' },
+    {
+      id: 'variant', type: 'select', label: 'Variant',
+      options: ['standard', 'split-wordmark'], default: 'standard',
+    },
     {
       id: 'align', type: 'select', label: 'Alignment',
       options: ['left', 'center', 'right'], default: 'left',

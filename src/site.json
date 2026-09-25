@@ -1,6 +1,6 @@
 {
   "brand": {
-    "name": "JC Lutao",
+    "name": "Grxphjc",
     "tagline": "Motion & design, based in Edmonton."
   },
   "header": {
@@ -11,7 +11,7 @@
       {
         "type": "logo",
         "settings": {
-          "text": "JC Lutao",
+          "text": "Grxphjc",
           "href": "/"
         }
       },
@@ -60,7 +60,7 @@
       {
         "type": "footer-credits",
         "settings": {
-          "line": "© 2026 JC Lutao. Work belongs to its respective clients."
+          "line": "© 2026 Grxphjc. Work belongs to its respective clients."
         }
       }
     ]

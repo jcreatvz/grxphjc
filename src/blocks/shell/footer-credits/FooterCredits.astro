@@ -12,10 +12,17 @@ const { line = '' } = Astro.props;
   .footer-credits {
     max-width: var(--page-max);
     margin: 0 auto;
-    padding: 24px var(--gutter) 40px;
-    border-top: 1px solid currentColor;
-    opacity: 0.55;
-    font-size: 13px;
+    padding: 20px var(--gutter) 32px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    position: relative;
+    z-index: 1;
   }
-  .footer-credits p { margin: 0; }
+  .footer-credits p {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: var(--step-mono-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--footer-muted);
+  }
 </style>

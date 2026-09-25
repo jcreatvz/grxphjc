@@ -8,6 +8,7 @@
     {
       "type": "hero",
       "settings": {
+        "label": "Study — 002",
         "headline": "A study in virtual scroll",
         "subhead": "Recreating three views of the same content with a shared physics model.",
         "align": "left",
@@ -17,6 +18,7 @@
     {
       "type": "gallery",
       "settings": {
+        "label": "Selected Frames",
         "layout": "masonry",
         "images": [
           "https://picsum.photos/seed/obys1/800/1000",

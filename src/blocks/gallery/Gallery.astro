@@ -1,16 +1,21 @@
 ---
 export interface Props {
+  label?: string;
   images: string[];
   layout?: 'grid' | 'horizontal-scroll' | 'masonry' | 'sticky';
   behavior?: 'none' | 'parallax' | 'drag' | 'magnetic-cursor';
   speed?: number;
 }
 const {
+  label = '',
   images = [],
   layout = 'grid',
   behavior = 'none',
   speed = 0.8,
 } = Astro.props;
+
+const total = images.length;
+const pad = (n: number) => String(n).padStart(2, '0');
 ---
 <section
   class="gallery"
@@ -18,25 +23,65 @@ const {
   data-behavior={behavior}
   style={`--gallery-speed:${speed}`}
 >
+  {label && <div class="gallery__label section-label">{label}</div>}
+
+  <span class="plus-corner plus-corner--tl">+</span>
+  <span class="plus-corner plus-corner--tr">+</span>
+  <span class="plus-corner plus-corner--bl">+</span>
+  <span class="plus-corner plus-corner--br">+</span>
+
   <div class="gallery__track">
-    {images.map((src) => (
+    {images.map((src, i) => (
       <figure class="gallery__item">
         <img src={src} alt="" loading="lazy" decoding="async" />
+        <figcaption class="gallery__index">
+          <span>{pad(i + 1)}</span>
+          <span class="gallery__index-sep">/</span>
+          <span>{pad(total)}</span>
+        </figcaption>
       </figure>
     ))}
   </div>
 </section>
 
 <style>
-  .gallery { padding: var(--gutter); }
+  .gallery {
+    position: relative;
+    padding: var(--section-y) var(--gutter);
+    isolation: isolate;
+  }
+  .gallery__label { display: inline-block; margin-bottom: 40px; }
 
   .gallery__track {
     display: grid;
     gap: 24px;
     grid-template-columns: repeat(3, 1fr);
   }
-  .gallery__item { margin: 0; }
-  .gallery__item img { width: 100%; height: auto; }
+  .gallery__item {
+    margin: 0;
+    position: relative;
+  }
+  .gallery__item img {
+    width: 100%;
+    height: auto;
+    background: var(--paper-2);
+  }
+  .gallery__index {
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    font-family: var(--font-mono);
+    font-size: var(--step-mono-xs);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--ink-inverse);
+    background: rgba(10, 10, 10, 0.6);
+    padding: 4px 8px;
+    display: flex;
+    gap: 4px;
+  }
+  .gallery__index-sep { opacity: 0.55; }
 
   /* horizontal-scroll */
   .gallery[data-layout="horizontal-scroll"] .gallery__track {
@@ -56,7 +101,7 @@ const {
     scroll-snap-type: none;
   }
 
-  /* masonry (CSS columns) */
+  /* masonry */
   .gallery[data-layout="masonry"] .gallery__track {
     display: block;
     column-count: 3;
@@ -68,9 +113,7 @@ const {
   }
 
   /* sticky */
-  .gallery[data-layout="sticky"] .gallery__track {
-    display: block;
-  }
+  .gallery[data-layout="sticky"] .gallery__track { display: block; }
   .gallery[data-layout="sticky"] .gallery__item {
     position: sticky;
     top: 10svh;
@@ -84,19 +127,13 @@ const {
 </style>
 
 <script>
-  // Behavior: 'drag' → pointer drag on horizontal-scroll layout.
-  // Extend with more behaviors (parallax, magnetic-cursor) as separate
-  // modules in src/motion/ later.
   const galleries = document.querySelectorAll(
     '.gallery[data-behavior="drag"][data-layout="horizontal-scroll"]'
   );
   galleries.forEach((gallery) => {
     const track = gallery.querySelector('.gallery__track') as HTMLElement | null;
     if (!track) return;
-    let isDown = false;
-    let startX = 0;
-    let scrollStart = 0;
-
+    let isDown = false, startX = 0, scrollStart = 0;
     const onDown = (e: PointerEvent) => {
       isDown = true;
       track.classList.add('is-dragging');
@@ -114,7 +151,6 @@ const {
       track.classList.remove('is-dragging');
       try { track.releasePointerCapture(e.pointerId); } catch {}
     };
-
     track.addEventListener('pointerdown', onDown);
     track.addEventListener('pointermove', onMove);
     track.addEventListener('pointerup', onUp);

@@ -2,7 +2,8 @@ export default {
   type: 'gallery',
   name: 'Image Gallery',
   settings: [
-    { id: 'images', type: 'image_list', label: 'Images' },
+    { id: 'label',    type: 'text', label: 'Bracketed section label', default: '' },
+    { id: 'images',   type: 'image_list', label: 'Images' },
     {
       id: 'layout', type: 'select', label: 'Layout',
       options: ['grid', 'horizontal-scroll', 'masonry', 'sticky'],

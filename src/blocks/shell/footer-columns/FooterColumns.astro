@@ -13,7 +13,7 @@ const resolve = (h: string) => (h.startsWith('http') ? h : `${base}${h}`);
 <div class="footer-columns">
   {columns.map((col) => (
     <div class="footer-columns__col">
-      <h3 class="footer-columns__heading">{col.heading}</h3>
+      <h3 class="footer-columns__heading">{col.heading.toUpperCase()}</h3>
       <ul>
         {col.links.map((l) => (
           <li>
@@ -39,11 +39,15 @@ const resolve = (h: string) => (h.startsWith('http') ? h : `${base}${h}`);
     max-width: var(--page-max);
     margin: 0 auto;
     padding: 0 var(--gutter) 64px;
+    position: relative;
+    z-index: 1;
   }
   .footer-columns__heading {
-    font-size: 13px;
+    font-family: var(--font-mono);
+    font-size: var(--step-mono-xs);
     font-weight: 500;
-    opacity: 0.55;
+    letter-spacing: 0.06em;
+    color: var(--footer-muted);
     margin: 0 0 20px;
   }
   .footer-columns ul {
@@ -55,10 +59,13 @@ const resolve = (h: string) => (h.startsWith('http') ? h : `${base}${h}`);
     gap: 10px;
   }
   .footer-columns a {
-    font-size: 15px;
-    color: inherit;
+    font-family: var(--font-mono);
+    font-size: var(--step-mono-s);
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    color: var(--footer-ink);
     text-decoration: none;
-    transition: opacity var(--duration-fast) var(--ease-out);
+    transition: color var(--duration-fast) var(--ease-out);
   }
-  .footer-columns a:hover { opacity: 0.55; }
+  .footer-columns a:hover { color: var(--accent-strong); }
 </style>

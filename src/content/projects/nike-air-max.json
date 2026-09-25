@@ -14,15 +14,18 @@
       "type": "hero",
       "settings": {
         "media": "https://picsum.photos/seed/nike-hero/1920/1080",
-        "headline": "Air Max, reimagined",
+        "label": "Case Study — 001",
+        "headline": "Air Max",
         "subhead": "A cross-format campaign spanning film, print, and interactive OOH.",
-        "align": "center",
+        "variant": "split-wordmark",
+        "align": "left",
         "behavior": "reveal"
       }
     },
     {
       "type": "gallery",
       "settings": {
+        "label": "Frames — Selected",
         "layout": "horizontal-scroll",
         "behavior": "drag",
         "speed": 1.2,

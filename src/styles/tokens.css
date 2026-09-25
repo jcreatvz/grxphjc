@@ -1,44 +1,161 @@
-/* Placeholder tokens — swap these when the visual direction lands. */
+/* ------------------------------------------------------------------
+   grxphjc — design tokens
+   Palette: grayscale + one accent (red default, orange alt)
+   Type: Inter (variable, opsz axis) + JetBrains Mono (variable)
+   Voice: brutalist editorial — mono for utility, display for identity
+------------------------------------------------------------------ */
+
+@import '@fontsource-variable/inter';
+@import '@fontsource-variable/jetbrains-mono';
+
 :root {
-  --ink: #111111;
-  --ink-inverse: #ffffff;
-  --paper: #f5f4f0;
-  --hairline: #1111111a;
-  --accent: #d23235;
+  /* ---- Colors (light default) ---- */
+  --ink:            #111111;
+  --ink-inverse:    #f5f4f0;
+  --paper:          #f5f4f0;
+  --paper-2:        #ececde;
+  --muted:          #767676;
+  --hairline:       rgba(17, 17, 17, 0.12);
 
-  --font-sans: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-  --font-mono: ui-monospace, 'SF Mono', Menlo, monospace;
+  /* Persistent (do not flip with theme) */
+  --footer-bg:      #0a0a0a;
+  --footer-ink:     #f5f4f0;
+  --footer-muted:   rgba(245, 244, 240, 0.55);
+  --overlay-bg:     #0a0a0a;
+  --overlay-ink:    #f5f4f0;
+  --overlay-muted:  rgba(245, 244, 240, 0.6);
 
-  --step-1: 14px;
-  --step-2: 18px;
-  --step-3: 24px;
-  --step-4: 32px;
-  --step-5: 48px;
-  --step-6: 72px;
+  /* Accent presets — Signal Red default, Burnt Orange alt */
+  --accent-red:            #e30613;
+  --accent-red-strong:     #ff1a2c;
+  --accent-orange:         #c8501e;
+  --accent-orange-strong:  #e56425;
+  --accent:         var(--accent-red);
+  --accent-strong:  var(--accent-red-strong);
 
-  --gutter: 32px;
-  --page-max: 1440px;
+  /* ---- Type families ---- */
+  --font-sans:    'Inter Variable', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  --font-display: 'Inter Variable', system-ui, sans-serif; /* opsz auto handles display sizes */
+  --font-mono:    'JetBrains Mono Variable', ui-monospace, 'SF Mono', Menlo, monospace;
 
+  /* ---- Type scale ---- */
+  --step-display-xl: 120px; /* hero name only */
+  --step-display-l:  72px;  /* section titles */
+  --step-display-m:  48px;  /* intro paragraph */
+  --step-1:          40px;  /* h1 */
+  --step-2:          32px;  /* h2 */
+  --step-3:          24px;  /* body-l */
+  --step-4:          18px;  /* body */
+  --step-5:          16px;  /* body-s */
+  --step-mono-s:     13px;  /* utility */
+  --step-mono-xs:    11px;  /* micro */
+
+  /* ---- Motion ---- */
   --duration-fast: 200ms;
-  --duration-med: 500ms;
-  --duration-slow: 900ms;
-  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --duration-med:  240ms;
+  --duration-slow: 560ms;
+  --ease-out:      cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-panel:    cubic-bezier(0.32, 0.72, 0, 1);
+
+  /* ---- Layout ---- */
+  --gutter:     32px;
+  --page-max:   1600px;
+  --section-y:  96px;
 }
 
+/* ---- Dark theme ---- */
+:root[data-theme="dark"] {
+  --ink:       #f5f4f0;
+  --ink-inverse: #111111;
+  --paper:     #0a0a0a;
+  --paper-2:   #1a1a1a;
+  --muted:     #8e8e8e;
+  --hairline:  rgba(255, 255, 255, 0.14);
+}
+
+/* ---- Accent switcher ---- */
+:root[data-accent="orange"] {
+  --accent:        var(--accent-orange);
+  --accent-strong: var(--accent-orange-strong);
+}
+
+/* ---- Reset ---- */
 * { box-sizing: border-box; }
 html, body { margin: 0; padding: 0; }
 
+html {
+  background: var(--paper);
+  color: var(--ink);
+  transition:
+    background var(--duration-med) var(--ease-out),
+    color var(--duration-med) var(--ease-out);
+}
+
 body {
   font-family: var(--font-sans);
-  color: var(--ink);
-  background: var(--paper);
-  font-size: var(--step-2);
+  font-size: var(--step-4);
   line-height: 1.4;
+  font-optical-sizing: auto;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 a { color: inherit; text-decoration: none; }
 img, video { display: block; max-width: 100%; }
+
+/* ---- Utility classes ---- */
+.mono {
+  font-family: var(--font-mono);
+  font-size: var(--step-mono-s);
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+.mono-xs {
+  font-family: var(--font-mono);
+  font-size: var(--step-mono-xs);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+/* Bracketed section label: [ Selected Work ] */
+.section-label {
+  font-family: var(--font-mono);
+  font-size: var(--step-mono-s);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: var(--muted);
+}
+.section-label::before { content: '[ '; }
+.section-label::after  { content: ' ]'; }
+
+/* Small square brand-mark bullet */
+.brand-mark::before {
+  content: '';
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background: currentColor;
+  margin-right: 10px;
+  vertical-align: 1px;
+}
+
+/* Corner plus marks — put inside a position:relative parent */
+.plus-corner {
+  position: absolute;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1;
+  user-select: none;
+  pointer-events: none;
+}
+.plus-corner--tl { top: 12px;    left: 12px; }
+.plus-corner--tr { top: 12px;    right: 12px; }
+.plus-corner--bl { bottom: 12px; left: 12px; }
+.plus-corner--br { bottom: 12px; right: 12px; }
 
 @media (prefers-reduced-motion: reduce) {
   * { animation: none !important; transition: none !important; }

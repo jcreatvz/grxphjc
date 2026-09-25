@@ -8,16 +8,8 @@ import { mergeAllowed } from '../blocks/utils.js';
 export interface Props {
   title: string;
   description?: string;
-  /** Per-page header modifier overrides (theme / transparent / sticky). */
-  header?: {
-    theme?: 'light' | 'dark';
-    transparent?: boolean;
-    sticky?: boolean;
-  };
-  /** Per-page footer modifier overrides (theme). */
-  footer?: {
-    theme?: 'light' | 'dark';
-  };
+  header?: { theme?: 'light' | 'dark'; transparent?: boolean; sticky?: boolean };
+  footer?: { theme?: 'light' | 'dark' };
 }
 const {
   title,
@@ -26,7 +18,6 @@ const {
   footer = {},
 } = Astro.props;
 
-// Option A: pages can only tweak modifier fields. Blocks always come from site.json.
 const headerData = mergeAllowed(site.header, header, ['theme', 'transparent', 'sticky']);
 const footerData = mergeAllowed(site.footer, footer, ['theme']);
 ---
@@ -37,12 +28,25 @@ const footerData = mergeAllowed(site.footer, footer, ['theme']);
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     <title>{title}</title>
+
+    <!-- Theme + accent init: runs before render to avoid FOUC -->
+    <script is:inline>
+      (function () {
+        try {
+          var theme  = localStorage.getItem('grxphjc-theme')  || 'light';
+          var accent = localStorage.getItem('grxphjc-accent') || 'red';
+          document.documentElement.setAttribute('data-theme', theme);
+          document.documentElement.setAttribute('data-accent', accent);
+        } catch (e) {
+          document.documentElement.setAttribute('data-theme', 'light');
+          document.documentElement.setAttribute('data-accent', 'red');
+        }
+      })();
+    </script>
   </head>
   <body>
     <Header data={headerData} />
-    <main class="main">
-      <slot />
-    </main>
+    <main class="main"><slot /></main>
     <Footer data={footerData} />
   </body>
 </html>
