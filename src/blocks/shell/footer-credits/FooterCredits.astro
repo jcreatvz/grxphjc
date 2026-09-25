@@ -1,0 +1,21 @@
+---
+export interface Props {
+  line: string;
+}
+const { line = '' } = Astro.props;
+---
+<div class="footer-credits">
+  <p>{line}</p>
+</div>
+
+<style>
+  .footer-credits {
+    max-width: var(--page-max);
+    margin: 0 auto;
+    padding: 24px var(--gutter) 40px;
+    border-top: 1px solid currentColor;
+    opacity: 0.55;
+    font-size: 13px;
+  }
+  .footer-credits p { margin: 0; }
+</style>

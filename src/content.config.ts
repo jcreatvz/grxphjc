@@ -13,6 +13,17 @@ const projects = defineCollection({
     year: z.number().optional(),
     cover: z.string().optional(),
     tags: z.array(z.string()).default([]),
+
+    // Optional per-page shell overrides (Option A: modifier fields only).
+    header: z.object({
+      theme: z.enum(['light', 'dark']).optional(),
+      transparent: z.boolean().optional(),
+      sticky: z.boolean().optional(),
+    }).optional(),
+    footer: z.object({
+      theme: z.enum(['light', 'dark']).optional(),
+    }).optional(),
+
     blocks: z.array(
       z.object({
         type: z.string(),

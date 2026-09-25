@@ -1,0 +1,38 @@
+---
+import Base from '../layout/Base.astro';
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+<Base title="Not found — JC Lutao">
+  <article class="page">
+    <h1 class="page__title">404</h1>
+    <div class="page__body">
+      <p>That page doesn't exist.</p>
+      <p><a href={`${base}/`}>Back to work →</a></p>
+    </div>
+  </article>
+</Base>
+
+<style>
+  .page {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 128px var(--gutter);
+    text-align: center;
+  }
+  .page__title {
+    font-size: clamp(96px, 20vw, 240px);
+    letter-spacing: -0.04em;
+    line-height: 0.9;
+    margin: 0 0 32px;
+    font-weight: 500;
+  }
+  .page__body {
+    font-size: var(--step-3);
+  }
+  .page__body p { margin: 0 0 16px; }
+  .page__body a {
+    color: inherit;
+    border-bottom: 1px solid currentColor;
+    text-decoration: none;
+  }
+</style>

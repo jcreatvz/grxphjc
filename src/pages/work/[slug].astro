@@ -1,7 +1,8 @@
 ---
 import { getCollection } from 'astro:content';
 import Base from '../../layout/Base.astro';
-import { blockRegistry, applyDefaults } from '../../blocks/registry.js';
+import { blockRegistry } from '../../blocks/registry.js';
+import { applyDefaults } from '../../blocks/utils.js';
 
 export async function getStaticPaths() {
   const projects = await getCollection('projects');
@@ -12,17 +13,12 @@ export async function getStaticPaths() {
 }
 
 const { project } = Astro.props;
-const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
-<Base title={`${project.title} — JC Lutao`}>
-  <nav class="project-nav">
-    <a href={`${base}/`}>← Index</a>
-    <span class="project-nav__meta">
-      {project.client && <span>{project.client}</span>}
-      {project.year && <span>{project.year}</span>}
-    </span>
-  </nav>
-
+<Base
+  title={`${project.title} — JC Lutao`}
+  header={project.header}
+  footer={project.footer}
+>
   {project.blocks.map((block) => {
     const entry = blockRegistry[block.type];
     if (!entry) {
@@ -33,22 +29,12 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
       );
     }
     const Block = entry.component;
-    const settings = applyDefaults(block.type, block.settings);
+    const settings = applyDefaults(blockRegistry, block.type, block.settings);
     return <Block {...settings} />;
   })}
 </Base>
 
 <style>
-  .project-nav {
-    position: sticky; top: 0; z-index: 10;
-    display: flex; justify-content: space-between; align-items: baseline;
-    padding: 20px var(--gutter);
-    background: color-mix(in srgb, var(--paper) 92%, transparent);
-    backdrop-filter: blur(8px);
-    font-size: var(--step-1);
-  }
-  .project-nav__meta { display: flex; gap: 16px; opacity: 0.6; }
-
   .unknown-block {
     padding: 32px;
     color: var(--accent);

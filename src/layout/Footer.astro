@@ -1,0 +1,35 @@
+---
+import { shellRegistry } from '../blocks/shell-registry.js';
+import { applyDefaults } from '../blocks/utils.js';
+
+export interface Props {
+  data: {
+    theme?: 'light' | 'dark';
+    blocks: Array<{ type: string; settings: Record<string, any> }>;
+  };
+}
+const { data } = Astro.props;
+const { theme = 'light', blocks = [] } = data;
+---
+<footer class="site-footer" data-theme={theme}>
+  {blocks.map((block) => {
+    const entry = shellRegistry[block.type];
+    if (!entry) return null;
+    const Block = entry.component;
+    const settings = applyDefaults(shellRegistry, block.type, block.settings);
+    return <Block {...settings} />;
+  })}
+</footer>
+
+<style>
+  .site-footer {
+    background: var(--paper);
+    color: var(--ink);
+    padding: 96px 0 0;
+    margin-top: 128px;
+  }
+  .site-footer[data-theme="dark"] {
+    background: var(--ink);
+    color: var(--ink-inverse);
+  }
+</style>

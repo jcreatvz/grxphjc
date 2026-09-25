@@ -1,11 +1,34 @@
 ---
 import '../styles/tokens.css';
+import site from '../site.json';
+import Header from './Header.astro';
+import Footer from './Footer.astro';
+import { mergeAllowed } from '../blocks/utils.js';
 
 export interface Props {
   title: string;
   description?: string;
+  /** Per-page header modifier overrides (theme / transparent / sticky). */
+  header?: {
+    theme?: 'light' | 'dark';
+    transparent?: boolean;
+    sticky?: boolean;
+  };
+  /** Per-page footer modifier overrides (theme). */
+  footer?: {
+    theme?: 'light' | 'dark';
+  };
 }
-const { title, description = 'Motion & design' } = Astro.props;
+const {
+  title,
+  description = site.brand.tagline,
+  header = {},
+  footer = {},
+} = Astro.props;
+
+// Option A: pages can only tweak modifier fields. Blocks always come from site.json.
+const headerData = mergeAllowed(site.header, header, ['theme', 'transparent', 'sticky']);
+const footerData = mergeAllowed(site.footer, footer, ['theme']);
 ---
 <!doctype html>
 <html lang="en">
@@ -16,6 +39,14 @@ const { title, description = 'Motion & design' } = Astro.props;
     <title>{title}</title>
   </head>
   <body>
-    <slot />
+    <Header data={headerData} />
+    <main class="main">
+      <slot />
+    </main>
+    <Footer data={footerData} />
   </body>
 </html>
+
+<style>
+  .main { min-height: 60svh; }
+</style>

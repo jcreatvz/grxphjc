@@ -5,6 +5,10 @@
   "year": 2026,
   "cover": "https://picsum.photos/seed/nike-cover/1600/1000",
   "tags": ["campaign", "motion", "3d"],
+  "header": {
+    "theme": "dark",
+    "transparent": true
+  },
   "blocks": [
     {
       "type": "hero",

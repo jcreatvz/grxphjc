@@ -1,0 +1,68 @@
+{
+  "brand": {
+    "name": "JC Lutao",
+    "tagline": "Motion & design, based in Edmonton."
+  },
+  "header": {
+    "theme": "light",
+    "transparent": false,
+    "sticky": true,
+    "blocks": [
+      {
+        "type": "logo",
+        "settings": {
+          "text": "JC Lutao",
+          "href": "/"
+        }
+      },
+      {
+        "type": "nav-primary",
+        "settings": {
+          "items": [
+            { "label": "Work",    "href": "/" },
+            { "label": "About",   "href": "/about" },
+            { "label": "Contact", "href": "/contact" }
+          ]
+        }
+      }
+    ]
+  },
+  "footer": {
+    "theme": "dark",
+    "blocks": [
+      {
+        "type": "footer-columns",
+        "settings": {
+          "columns": [
+            {
+              "heading": "Work",
+              "links": [
+                { "label": "Selected projects", "href": "/" },
+                { "label": "Studies",           "href": "/" }
+              ]
+            },
+            {
+              "heading": "Info",
+              "links": [
+                { "label": "About",   "href": "/about" },
+                { "label": "Contact", "href": "/contact" }
+              ]
+            },
+            {
+              "heading": "Elsewhere",
+              "links": [
+                { "label": "GitHub", "href": "https://github.com/jcreatvz" }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "type": "footer-credits",
+        "settings": {
+          "line": "© 2026 JC Lutao. Work belongs to its respective clients."
+        }
+      }
+    ]
+  }
+}
