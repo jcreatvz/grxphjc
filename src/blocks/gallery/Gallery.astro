@@ -1,0 +1,123 @@
+---
+export interface Props {
+  images: string[];
+  layout?: 'grid' | 'horizontal-scroll' | 'masonry' | 'sticky';
+  behavior?: 'none' | 'parallax' | 'drag' | 'magnetic-cursor';
+  speed?: number;
+}
+const {
+  images = [],
+  layout = 'grid',
+  behavior = 'none',
+  speed = 0.8,
+} = Astro.props;
+---
+<section
+  class="gallery"
+  data-layout={layout}
+  data-behavior={behavior}
+  style={`--gallery-speed:${speed}`}
+>
+  <div class="gallery__track">
+    {images.map((src) => (
+      <figure class="gallery__item">
+        <img src={src} alt="" loading="lazy" decoding="async" />
+      </figure>
+    ))}
+  </div>
+</section>
+
+<style>
+  .gallery { padding: var(--gutter); }
+
+  .gallery__track {
+    display: grid;
+    gap: 24px;
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .gallery__item { margin: 0; }
+  .gallery__item img { width: 100%; height: auto; }
+
+  /* horizontal-scroll */
+  .gallery[data-layout="horizontal-scroll"] .gallery__track {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    cursor: grab;
+  }
+  .gallery[data-layout="horizontal-scroll"] .gallery__track::-webkit-scrollbar { display: none; }
+  .gallery[data-layout="horizontal-scroll"] .gallery__item {
+    flex: 0 0 clamp(280px, 55vw, 720px);
+    scroll-snap-align: start;
+  }
+  .gallery[data-layout="horizontal-scroll"][data-behavior="drag"] .gallery__track.is-dragging {
+    cursor: grabbing;
+    scroll-snap-type: none;
+  }
+
+  /* masonry (CSS columns) */
+  .gallery[data-layout="masonry"] .gallery__track {
+    display: block;
+    column-count: 3;
+    column-gap: 24px;
+  }
+  .gallery[data-layout="masonry"] .gallery__item {
+    break-inside: avoid;
+    margin-bottom: 24px;
+  }
+
+  /* sticky */
+  .gallery[data-layout="sticky"] .gallery__track {
+    display: block;
+  }
+  .gallery[data-layout="sticky"] .gallery__item {
+    position: sticky;
+    top: 10svh;
+    margin-bottom: 20svh;
+  }
+
+  @media (max-width: 720px) {
+    .gallery__track { grid-template-columns: 1fr; }
+    .gallery[data-layout="masonry"] .gallery__track { column-count: 2; }
+  }
+</style>
+
+<script>
+  // Behavior: 'drag' → pointer drag on horizontal-scroll layout.
+  // Extend with more behaviors (parallax, magnetic-cursor) as separate
+  // modules in src/motion/ later.
+  const galleries = document.querySelectorAll(
+    '.gallery[data-behavior="drag"][data-layout="horizontal-scroll"]'
+  );
+  galleries.forEach((gallery) => {
+    const track = gallery.querySelector('.gallery__track') as HTMLElement | null;
+    if (!track) return;
+    let isDown = false;
+    let startX = 0;
+    let scrollStart = 0;
+
+    const onDown = (e: PointerEvent) => {
+      isDown = true;
+      track.classList.add('is-dragging');
+      startX = e.pageX - track.offsetLeft;
+      scrollStart = track.scrollLeft;
+      track.setPointerCapture(e.pointerId);
+    };
+    const onMove = (e: PointerEvent) => {
+      if (!isDown) return;
+      const x = e.pageX - track.offsetLeft;
+      track.scrollLeft = scrollStart - (x - startX);
+    };
+    const onUp = (e: PointerEvent) => {
+      isDown = false;
+      track.classList.remove('is-dragging');
+      try { track.releasePointerCapture(e.pointerId); } catch {}
+    };
+
+    track.addEventListener('pointerdown', onDown);
+    track.addEventListener('pointermove', onMove);
+    track.addEventListener('pointerup', onUp);
+    track.addEventListener('pointercancel', onUp);
+  });
+</script>

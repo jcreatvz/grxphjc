@@ -1,0 +1,32 @@
+{
+  "title": "Scroll Physics Study",
+  "slug": "obys-study",
+  "client": "Personal",
+  "year": 2025,
+  "tags": ["study", "motion", "scroll"],
+  "blocks": [
+    {
+      "type": "hero",
+      "settings": {
+        "headline": "A study in virtual scroll",
+        "subhead": "Recreating three views of the same content with a shared physics model.",
+        "align": "left",
+        "behavior": "fade"
+      }
+    },
+    {
+      "type": "gallery",
+      "settings": {
+        "layout": "masonry",
+        "images": [
+          "https://picsum.photos/seed/obys1/800/1000",
+          "https://picsum.photos/seed/obys2/800/1400",
+          "https://picsum.photos/seed/obys3/800/800",
+          "https://picsum.photos/seed/obys4/800/1200",
+          "https://picsum.photos/seed/obys5/800/900",
+          "https://picsum.photos/seed/obys6/800/1100"
+        ]
+      }
+    }
+  ]
+}

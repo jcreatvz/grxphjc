@@ -1,0 +1,34 @@
+{
+  "title": "Nike Air Max, Reimagined",
+  "slug": "nike-air-max",
+  "client": "Nike",
+  "year": 2026,
+  "cover": "https://picsum.photos/seed/nike-cover/1600/1000",
+  "tags": ["campaign", "motion", "3d"],
+  "blocks": [
+    {
+      "type": "hero",
+      "settings": {
+        "media": "https://picsum.photos/seed/nike-hero/1920/1080",
+        "headline": "Air Max, reimagined",
+        "subhead": "A cross-format campaign spanning film, print, and interactive OOH.",
+        "align": "center",
+        "behavior": "reveal"
+      }
+    },
+    {
+      "type": "gallery",
+      "settings": {
+        "layout": "horizontal-scroll",
+        "behavior": "drag",
+        "speed": 1.2,
+        "images": [
+          "https://picsum.photos/seed/nike1/1400/900",
+          "https://picsum.photos/seed/nike2/1400/900",
+          "https://picsum.photos/seed/nike3/1400/900",
+          "https://picsum.photos/seed/nike4/1400/900"
+        ]
+      }
+    }
+  ]
+}
