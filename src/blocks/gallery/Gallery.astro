@@ -1,31 +1,44 @@
 ---
 import { href } from '../../lib/url';
 type Img = string | { src: string; title?: string; note?: string };
-export interface Props { label?: string; images: Img[]; layout?: string; behavior?: string; lightbox?: boolean; }
-const { label = '', images = [], layout = 'grid', behavior = 'none', lightbox = true } = Astro.props;
+export interface Props { label?: string; images: Img[]; layout?: string; behavior?: string; lightbox?: boolean; pinDistance?: number; }
+const { label = '', images = [], layout = 'grid', behavior = 'none', lightbox = true, pinDistance = 1 } = Astro.props;
+const pinned = layout === 'pinned-scroll';
 const list = images.map((im, i) => typeof im === 'string' ? { src: href(im), title: `Frame ${i + 1}` } : { ...im, src: href(im.src), title: im.title ?? `Frame ${i + 1}` });
 const pad = (n: number) => String(n).padStart(2, '0');
 ---
-<section class="gallery" data-layout={layout} data-behavior={behavior}>
-  {label && <div class="gallery__label section-label" data-reveal>{label}</div>}
-  <span class="plus-corner plus-corner--tl">+</span><span class="plus-corner plus-corner--tr">+</span>
-  <span class="plus-corner plus-corner--bl">+</span><span class="plus-corner plus-corner--br">+</span>
-  <div class="gallery__track" data-lb-group>
-    {list.map((im, i) => {
-      const Tag = lightbox ? 'button' : 'figure';
-      return (
-        <Tag class="gallery__item" data-reveal style={`--reveal-i:${i % 3}`}
-             {...(lightbox ? { type: 'button', 'data-lb': '', 'data-lb-src': im.src, 'data-lb-title': im.title, 'data-lb-note': (im as any).note, 'aria-label': `Open ${im.title}` } : {})}>
-          <img src={im.src} alt="" loading="lazy" decoding="async" draggable="false" />
-          <span class="gallery__index mono-xs">{pad(i + 1)} <span>/</span> {pad(list.length)}</span>
-        </Tag>
-      );
-    })}
+<section class="gallery" data-layout={layout} data-behavior={behavior} data-pin-ratio={pinned ? pinDistance : undefined}>
+  <div class="gallery__stage">
+    {label && <div class="gallery__label section-label" data-reveal>{label}</div>}
+    {!pinned && (<>
+      <span class="plus-corner plus-corner--tl">+</span><span class="plus-corner plus-corner--tr">+</span>
+      <span class="plus-corner plus-corner--bl">+</span><span class="plus-corner plus-corner--br">+</span>
+    </>)}
+    <div class="gallery__track" data-lb-group>
+      {list.map((im, i) => {
+        const Tag = lightbox ? 'button' : 'figure';
+        return (
+          <Tag class="gallery__item" {...(pinned ? {} : { 'data-reveal': '', style: `--reveal-i:${i % 3}` })}
+               {...(lightbox ? { type: 'button', 'data-lb': '', 'data-lb-src': im.src, 'data-lb-title': im.title, 'data-lb-note': (im as any).note, 'aria-label': `Open ${im.title}` } : {})}>
+            <img src={im.src} alt="" loading={pinned ? 'eager' : 'lazy'} decoding="async" draggable="false" />
+            <span class="gallery__index mono-xs">{pad(i + 1)} <span>/</span> {pad(list.length)}</span>
+          </Tag>
+        );
+      })}
+    </div>
+    {pinned && (
+      <div class="gallery__hud mono-xs" aria-hidden="true">
+        <span class="gallery__count"><b data-pin-current>01</b> / {pad(list.length)}</span>
+        <span class="gallery__bar"><i data-pin-bar></i></span>
+        <span class="gallery__hint">Scroll</span>
+      </div>
+    )}
   </div>
 </section>
 
 <style>
   .gallery { position: relative; padding: var(--section-y) var(--gutter); }
+  .gallery__stage { position: relative; }
   .gallery__label { display: inline-block; margin-bottom: 32px; }
   .gallery__track { display: grid; gap: clamp(12px, 1.6vw, 24px); grid-template-columns: repeat(3, 1fr); }
   .gallery__item { position: relative; display: block; margin: 0; padding: 0; width: 100%; background: var(--paper-2); overflow: hidden; }
@@ -33,15 +46,51 @@ const pad = (n: number) => String(n).padStart(2, '0');
   button.gallery__item:hover img { transform: scale(1.03); }
   .gallery__index { position: absolute; right: 10px; bottom: 10px; padding: 4px 8px; color: var(--on-media); background: rgba(10, 10, 10, 0.62); }
   .gallery__index span { opacity: 0.55; }
-  .gallery[data-layout="horizontal-scroll"] .gallery__track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; overscroll-behavior-x: contain; }
-  .gallery[data-layout="horizontal-scroll"] .gallery__track::-webkit-scrollbar { display: none; }
-  .gallery[data-layout="horizontal-scroll"] .gallery__item { flex: 0 0 clamp(260px, 58vw, 760px); scroll-snap-align: start; }
+  .gallery__hud { display: none; }
+
+  /* Native horizontal scroller. Used by horizontal-scroll, and as the fallback for
+     pinned-scroll when JS is off or the visitor prefers reduced motion. */
+  .gallery[data-layout="horizontal-scroll"] .gallery__track,
+  .gallery[data-layout="pinned-scroll"] .gallery__track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; overscroll-behavior-x: contain; }
+  .gallery[data-layout="horizontal-scroll"] .gallery__track::-webkit-scrollbar,
+  .gallery[data-layout="pinned-scroll"] .gallery__track::-webkit-scrollbar { display: none; }
+  .gallery[data-layout="horizontal-scroll"] .gallery__item,
+  .gallery[data-layout="pinned-scroll"] .gallery__item { flex: 0 0 clamp(260px, 58vw, 760px); scroll-snap-align: start; }
   .gallery[data-behavior="drag"] .gallery__track { cursor: grab; }
   .gallery[data-behavior="drag"] .gallery__track.is-dragging { cursor: grabbing; scroll-snap-type: none; }
+
   .gallery[data-layout="masonry"] .gallery__track { display: block; column-count: 3; column-gap: 24px; }
   .gallery[data-layout="masonry"] .gallery__item { break-inside: avoid; margin-bottom: 24px; }
   .gallery[data-layout="sticky"] .gallery__track { display: block; }
   .gallery[data-layout="sticky"] .gallery__item { position: sticky; top: calc(var(--frame-top) + 16px); margin-bottom: 20svh; }
+
+  /* ---- pinned-scroll: the section is a tall runway; the stage sticks to the viewport
+         and vertical scroll slides the track sideways (src/scripts/pinned.ts) ---- */
+  @media (prefers-reduced-motion: no-preference) {
+    :global(html.js) .gallery[data-layout="pinned-scroll"] { padding: 0; height: var(--pin-h, 300svh); }
+    :global(html.js) .gallery[data-layout="pinned-scroll"] .gallery__stage {
+      position: sticky; top: 0; height: 100svh;
+      display: flex; flex-direction: column; gap: clamp(12px, 2svh, 24px);
+      padding: calc(var(--frame-top) + var(--safe-top) + 16px) 0 calc(var(--bar-h) + var(--safe-bottom) + 16px);
+      overflow: hidden; overflow: clip;
+    }
+    :global(html.js) .gallery[data-layout="pinned-scroll"] .gallery__label { flex: none; margin: 0; padding-inline: var(--gutter); }
+    :global(html.js) .gallery[data-layout="pinned-scroll"] .gallery__track {
+      flex: 1 1 auto; min-height: 0; width: max-content; display: flex; overflow: visible; scroll-snap-type: none;
+      gap: clamp(12px, 1.6vw, 24px); padding-inline: var(--gutter); will-change: transform;
+    }
+    :global(html.js) .gallery[data-layout="pinned-scroll"] .gallery__item { flex: none; width: auto; height: 100%; scroll-snap-align: none; }
+    :global(html.js) .gallery[data-layout="pinned-scroll"] .gallery__item img { width: auto; height: 100%; max-width: none; }
+    :global(html.js) .gallery[data-layout="pinned-scroll"].is-static { height: auto; }
+    :global(html.js) .gallery[data-layout="pinned-scroll"] .gallery__hud {
+      flex: none; display: flex; align-items: center; gap: 16px; padding-inline: var(--gutter); color: var(--muted);
+    }
+    .gallery__count b { color: var(--accent); font-weight: 500; }
+    .gallery__bar { position: relative; flex: 1; height: 1px; background: var(--hairline); overflow: hidden; }
+    .gallery__bar i { position: absolute; inset: 0; background: var(--accent); transform: scaleX(0); transform-origin: left; }
+    .gallery__hint { opacity: 0.8; }
+  }
+
   @media (max-width: 1024px) {
     .gallery__track { grid-template-columns: repeat(2, 1fr); }
     .gallery[data-layout="masonry"] .gallery__track { column-count: 2; }
@@ -61,7 +110,6 @@ const pad = (n: number) => String(n).padStart(2, '0');
       if (moved > 4) { track.classList.add('is-dragging'); track.scrollLeft = s0 - dx; }
     });
     addEventListener('pointerup', () => { down = false; track.classList.remove('is-dragging'); });
-    // swallow the click that ends a drag so the lightbox doesn't open
     track.addEventListener('click', (e) => { if (moved > 4) { e.preventDefault(); e.stopPropagation(); moved = 0; } }, true);
   });
 </script>

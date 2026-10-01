@@ -8,6 +8,7 @@ import { initCursor } from './cursor';
 import { initLightbox } from './lightbox';
 import { initLoader } from './loader';
 import { initOrbits } from './orbit';
+import { initPinnedGalleries } from './pinned';
 import { initMarquees } from './marquee';
 
 initPrefs();
@@ -18,4 +19,5 @@ initCursor();
 initLightbox();
 initMarquees();
 initOrbits();
+initPinnedGalleries();
 initLoader(() => initReveal()); // reveal runs once the intro has cleared

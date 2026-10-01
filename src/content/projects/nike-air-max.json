@@ -17,7 +17,7 @@
       "type": "hero",
       "settings": {
         "media": "/images/placeholder/ph-01.jpg",
-        "label": "Case Study — Sample Client",
+        "label": "Case Study \u2014 Sample Client",
         "headline": "Air Max, Reimagined",
         "variant": "split-wordmark",
         "subhead": "A cross-format campaign spanning film, print and interactive OOH."
@@ -28,15 +28,14 @@
       "settings": {
         "label": "Overview",
         "heading": "The brief",
-        "body": "<p>A cross-format campaign spanning film, print and interactive OOH. Placeholder case-study copy — replace in src/content/projects/nike-air-max.json.</p>"
+        "body": "<p>A cross-format campaign spanning film, print and interactive OOH. Placeholder case-study copy \u2014 replace in src/content/projects/nike-air-max.json.</p>"
       }
     },
     {
       "type": "gallery",
       "settings": {
-        "label": "Frames — Selected",
-        "layout": "horizontal-scroll",
-        "behavior": "drag",
+        "label": "Frames \u2014 Scroll to travel",
+        "layout": "pinned-scroll",
         "images": [
           "/images/placeholder/ph-03.jpg",
           "/images/placeholder/ph-04.jpg",

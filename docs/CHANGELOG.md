@@ -2,6 +2,13 @@
 
 Dated entry per release. Newest first. See [`ROADMAP.md`](ROADMAP.md) for what's next.
 
+## v0.6 — 2026-10-01 · Type tweaks + pinned gallery
+- **H1s** (orbit headline, hero headlines, split wordmark): `line-height: normal`, `letter-spacing: 0.5rem`. Tokens `--h1-leading` / `--h1-tracking`. Below 561px the tracking becomes `0.075em` — at a flat 0.5rem, "Experienced" and "Reimagined" ran off 320–414px screens.
+- **No opacity on echo words:** the second word of split headlines is now a solid grey (`--ghost`, `--ghost-on-media`) instead of a translucent white. Entrance fade-ins still animate opacity but finish fully solid.
+- **Footer watermark** uses the GW fill (solid `#1f1f1f`) instead of the outline cut. The outline font stays in the repo, unused and not downloaded.
+- **Gallery `pinned-scroll` layout:** the section pins while vertical scroll slides the images sideways (eased). 01 / 05 counter + progress bar. Keyboard focus scrolls the page to the focused frame. Falls back to the native horizontal scroller with no JS or reduced motion. New setting `pinDistance` (scroll per horizontal pixel). The Nike case study now uses it; `/styleguide` shows both gallery styles.
+- Parking lot: GSAP, Spline, Lottie, video/embeds, plus Claude's additions.
+
 ## v0.5 — 2026-09-30 · Brand font + docs foundation
 - **Brand face:** GGGGG SpecialG (GW fill) on the bar logo and every page-level H1 (orbit headline, hero headlines, orbit grid title). GWOL outline cut on the footer watermark.
 - Fonts converted OTF → WOFF2 and trimmed to Latin: 277 KB → 9 KB and 520 KB → 16 KB.

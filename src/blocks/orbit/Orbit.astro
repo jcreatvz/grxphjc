@@ -131,7 +131,7 @@ const plainHeadline = headline.replace(/\*/g, '');
   .orbit__headline {
     position: absolute; left: 50%; top: 50%; z-index: 2; width: min(70vw, 900px);
     margin: 0; transform: translate(-50%, -50%); text-align: center; pointer-events: none; user-select: none;
-    line-height: 1.02;
+    padding-left: var(--h1-tracking); /* trailing letter-space would pull centred text left */
     font-size: clamp(44px, 7.4vw, 124px); color: var(--ink);
     text-shadow: 0 0 6px var(--paper), 0 0 28px var(--paper), 0 0 56px color-mix(in srgb, var(--paper) 60%, transparent);
   }

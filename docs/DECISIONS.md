@@ -4,6 +4,11 @@ Why things are the way they are. Newest first.
 
 | Date | Decision | Why |
 |---|---|---|
+| 2026-10-01 | Pinned gallery as a new layout, not a replacement | The drag-to-scroll gallery still has uses; pinned is opt-in per gallery. |
+| 2026-10-01 | Pinned effect hand-written, not GSAP | ~100 lines, no dependency. Revisit when scroll-stories need timelines. |
+| 2026-10-01 | H1 tracking drops to 0.075em on phones | A flat 0.5rem pushed long graffiti words off 320–414px screens. |
+| 2026-10-01 | Echo words use solid shades, not opacity | Opacity washes out over photos and dark mode; a chosen shade stays predictable. |
+| 2026-10-01 | Watermark in GW fill, solid dark shade | John's call; solid fill is bolder than the outline at the same size. |
 | 2026-09-30 | Brand font on logo + H1s; outline cut on watermark | Logo delivered as a typeface, so the identity can carry into headlines. Outline reads better at low opacity. |
 | 2026-09-30 | Exclude digits from the brand font | Font maps only `0` and draws it blank; fallback keeps numbers visible. |
 | 2026-09-30 | Display hello@grxphjc.com, send to Gmail | No email hosting yet; one switch in `site.json` when it's live. |

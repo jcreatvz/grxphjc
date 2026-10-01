@@ -2,7 +2,7 @@
 
 > Single source of truth for where the project is and what's next.
 > Updated at the end of every step. Dates are when work shipped (pushed to `main`).
-> Last updated: **2026-09-30** · Current version: **v0.5**
+> Last updated: **2026-10-01** · Current version: **v0.6**
 
 **Live:** https://jcreatvz.github.io/grxphjc/ · **Repo:** https://github.com/jcreatvz/grxphjc
 
@@ -11,7 +11,7 @@
 ## Where we are
 
 ```
-DONE  ██████████████████░░░░░░░░░░░░  Phases 0 · 1 · 3 · 2 + brand font + docs
+DONE  ██████████████████░░░░░░░░░░░░  Phases 0 · 1 · 3 · 2 + brand font + docs + pinned gallery
 NEXT  → Step 2: real-device QA (needs John's MacBook + iPhone)
 ```
 
@@ -26,6 +26,7 @@ NEXT  → Step 2: real-device QA (needs John's MacBook + iPhone)
 | v0.3 | 2026-09-25 | **3 · Visual identity** | Grayscale + Signal Red / Burnt Orange, Inter + JetBrains Mono, tokens, plus-marks, bracketed labels, numeric indexing, theme + accent toggles |
 | v0.4 | 2026-09-30 | **2 · Block library + nav rebuild** | Pages-as-blocks · orbit 3D hero · statement, project-grid, metrics, list-rows, steps, marquee, cta, text · lightbox · scroll reveal · scramble · crosshair cursor · Webflow-recreated frame, bottom bar, menu and red-square loader · audit fixes |
 | v0.5 | 2026-09-30 | **Brand font + docs foundation** | GGGGG SpecialG on logo, page H1s and footer watermark (outline cut) · 18+ years · email shows hello@grxphjc.com, sends to Gmail · `docs/` folder · auto-generated block reference · `/styleguide` page |
+| v0.6 | 2026-10-01 | **Type tweaks + pinned gallery** | H1s: line-height normal, 0.5rem tracking (scales down on phones), solid-shade echo words instead of opacity · footer watermark in GW fill · gallery `pinned-scroll` layout: vertical scroll slides the images sideways, eased, with counter + progress bar |
 
 Full detail per release: [`CHANGELOG.md`](CHANGELOG.md)
 
@@ -42,6 +43,8 @@ So far everything was tested in headless Chromium only. John tests on real hardw
 - [ ] iPhone Safari — bar + safe areas, menu, orbit swipe vs. page scroll, popup
 - [ ] Chrome or Firefox on desktop — quick pass
 - [ ] Brand font renders on all three (logo, H1s, watermark)
+- [ ] Pinned gallery on iPhone: scroll feel, and whether frames should fill the height (current) or fit the screen width
+- [ ] H1 letter-spacing on a real phone (0.5rem ≥561px, scaled below)
 - [ ] Send screenshots or a screen recording of anything off
 
 **Owner:** John (testing) → Claude (fixes) · **Blocked on:** nothing
@@ -103,11 +106,25 @@ Form-based editor (`tools/editor.html`) generated from each block's `schema.js`,
 ---
 
 ## Parking lot
-Ideas noted but not scheduled.
+Ideas noted but not scheduled. **Added 2026-10-01** items include Claude's take.
 
+### Motion & embeds (John's ideas, 2026-10-01)
+- **GSAP** — *Take: yes, selectively.* Free including every plugin (SplitText, ScrollTrigger, Flip…), commercial use included — verified 2026-10-01. Best for scroll-pinned storytelling sections, headline reveals and timelines. Load it per block (dynamic import) so pages that don't need it stay light. Natural pair: Lenis smooth scroll + ScrollTrigger. The orbit and pinned gallery are hand-written and can stay that way.
+- **Spline `scene` block** — *Take: great fit, with a budget.* Embed with Spline's runtime/viewer; drive objects from scroll progress, pointer or visibility via Spline variables/events (to confirm in John's Spline file which events exist). Rules: lazy-load when near the viewport, poster image fallback for phones / reduced motion / data-saver, one scene per page.
+- **Lottie `lottie` block** — *Take: easy win.* dotLottie player, autoplay-loop or scroll-linked; reduced motion shows the first frame.
+- **Video everywhere** — `video` + `embed` are already Step 3. Extras: muted looping video as section backgrounds, hover-to-play previews on project cards and orbit items. Host reels on Vimeo / Cloudflare Stream / R2, not in the repo — GitHub Pages has site-size and bandwidth limits.
+
+### Claude's additions
+- **View Transitions** (built into Astro) for page-to-page transitions — Phase 4 candidate.
+- **Motion presets** per block (`reveal: fade | rise | mask | none`) with reduced-motion fallbacks built in.
+- **Performance budget:** heavy libraries (GSAP, Spline, Lottie) only load on pages that use them. Homepage JS is ~5 KB today; keep it lean.
+- **Scroll-story block:** pinned sections with steps — where GSAP ScrollTrigger earns its place.
+- When Lenis lands, set `EASE = 1` in `src/scripts/pinned.ts` so the two smoothings don't stack.
+
+### Older
 - Barcode-style ornament per project (from Brokerwise inspo)
-- Original pixel icon set (deferred — using `+ × →` glyphs for now)
-- Numeric 0–9 roll loading intro (current red-square loader may cover this)
+- Original pixel icon set (using `+ × →` glyphs for now)
+- Numeric 0–9 roll loading intro (the red-square loader may cover this)
 
 ---
 

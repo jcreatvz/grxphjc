@@ -28,7 +28,8 @@
   --paper:       #f5f4f0;
   --paper-2:     #e9e7e1;
   --muted:       #6f6f6f;
-  --ghost:       #9a9a9a;              /* split-wordmark echo — readable, not near-paper */
+  --ghost:       #9a9a9a;
+  --ghost-on-media: #8d8d89;           /* solid shade for echo words over photography — never opacity */              /* split-wordmark echo — readable, not near-paper */
   --hairline:    rgba(17, 17, 17, 0.12);
 
   /* Fixed-darkness surfaces (never flip with theme) */
@@ -55,6 +56,8 @@
   --font-brand-outline: 'Grxphjc Brand Outline', 'Grxphjc Brand', 'Inter Variable', sans-serif;
   /* Page-level H1s use the brand face. To revert H1s to Inter, set this to var(--font-display). */
   --font-h1: var(--font-brand);
+  --h1-tracking: 0.5rem;               /* page-level H1 letter-spacing */
+  --h1-leading: normal;                /* page-level H1 line-height */
 
   --step-display-xl: clamp(64px, 12vw, 200px);
   --step-display-l:  clamp(44px, 6.4vw, 96px);
@@ -207,7 +210,12 @@ html.is-loading body { overflow: hidden; }
   font-family: var(--font-h1);
   font-weight: 400;
   font-synthesis: none;
-  letter-spacing: 0;
+  line-height: var(--h1-leading);
+  letter-spacing: var(--h1-tracking);
   text-transform: none;
   padding-inline: 0.06em; /* graffiti swashes overhang the glyph origin */
 }
+
+/* H1 tracking is exactly 0.5rem from 561px up. On small phones long graffiti words
+   ("Experienced", "Reimagined") would run off-screen, so it scales with the type instead. */
+@media (max-width: 560px) { :root { --h1-tracking: 0.075em; } }

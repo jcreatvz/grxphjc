@@ -37,7 +37,7 @@ Configured in `src/site.json`. Pages may only tweak modifiers — `header: { "th
 | Footer | `layout/Footer.astro` | watermark + footer shell blocks |
 
 ## Client JavaScript
-One entry, `src/scripts/main.ts`, ~5 KB gzipped. Each module no-ops if its markup is absent: prefs, menu, scramble, reveal, progress, cursor, lightbox, marquee, orbit, loader. `focus.ts` holds the shared focus trap and scroll lock.
+One entry, `src/scripts/main.ts`, ~5 KB gzipped. Each module no-ops if its markup is absent: prefs, menu, scramble, reveal, progress, cursor, lightbox, marquee, orbit, pinned (scroll-driven gallery), loader. `focus.ts` holds the shared focus trap and scroll lock.
 
 `src/layout/Base.astro` has an inline `<head>` script that sets theme, accent, cursor and the loader flag **before first paint** — keep it inline.
 

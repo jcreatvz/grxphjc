@@ -28,8 +28,9 @@ Source: `src/blocks/gallery/schema.js`
 |---|---|---|---|
 | `label` | text | `""` | Bracketed label |
 | `images` | image_list | — | Images (string URLs or { src, title, note }) |
-| `layout` | select: `grid` · `horizontal-scroll` · `masonry` · `sticky` | `"grid"` | Layout |
-| `behavior` | select: `none` · `drag` | `"none"` | Motion |
+| `layout` | select: `grid` · `horizontal-scroll` · `pinned-scroll` · `masonry` · `sticky` | `"grid"` | Layout |
+| `pinDistance` | range 0.5–2.5 | `1` | pinned-scroll: vertical scroll per horizontal pixel (higher = slower) |
+| `behavior` | select: `none` · `drag` | `"none"` | Motion (horizontal-scroll only) |
 | `lightbox` | toggle | `true` | Open images in popup |
 
 ### `hero` — Hero

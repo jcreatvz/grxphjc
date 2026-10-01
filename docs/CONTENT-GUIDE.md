@@ -34,6 +34,9 @@ In `src/content/pages/home.json`, the orbit's `items` list takes:
 - `page` navigates to an internal page. `url` opens an external link in a new tab.
 - Projects with a `cover` are added automatically (`"source": "both"`).
 
+## Gallery that scrolls sideways as you scroll down
+In any `gallery` block set `"layout": "pinned-scroll"`. The section pins to the screen and the images slide sideways as the visitor scrolls down, with a counter and progress bar. `"pinDistance"` sets how much scrolling it takes (1 = one pixel of scroll per pixel of travel; 1.5 = slower, longer). Use 4–10 images; with only one or two it won't pin. `"horizontal-scroll"` (with `"behavior": "drag"`) is the older drag-to-scroll version.
+
 ## Accent a word
 In `statement` text and the orbit headline, wrap a word in asterisks: `Experienced *n* Experimental`.
 

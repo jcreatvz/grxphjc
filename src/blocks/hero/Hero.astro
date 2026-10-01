@@ -45,13 +45,13 @@ const [w1, ...rest] = headline.split(/\s+/);
   .hero__inner { position: relative; margin-top: auto; width: 100%; max-width: 1200px; }
   .hero__label { display: inline-block; margin-bottom: 24px; }
   .hero__headline {
-    margin: 0; line-height: 0.98;
+    margin: 0;
     font-size: clamp(54px, 8.8vw, 148px);
   }
-  .hero__wordmark { margin: 0; display: flex; flex-direction: column; line-height: 0.92; }
-  .hero__word { font-size: clamp(64px, 12.4vw, 208px); }
+  .hero__wordmark { margin: 0; display: flex; flex-direction: column; }
+  .hero__word { font-size: clamp(48px, 12.4vw, 208px); }
   .hero__word--ghost { color: var(--ghost); }
-  .hero[data-media="true"] .hero__word--ghost { color: rgba(245, 244, 240, 0.42); }
+  .hero[data-media="true"] .hero__word--ghost { color: var(--ghost-on-media); }
   .hero__subhead { margin-top: 24px; max-width: 58ch; font-size: var(--step-3); line-height: 1.4; letter-spacing: -0.01em; }
   .hero[data-align="center"] { text-align: center; }
   .hero[data-align="center"] .hero__inner { margin: auto auto 0; }

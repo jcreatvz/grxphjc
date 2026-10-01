@@ -27,6 +27,8 @@ Brutalist editorial: grayscale + one accent, a graffiti brand face, monospace ut
 - It's single-weight: use the `.brand-type` class (no faux bold, no tracking).
 - To revert H1s to Inter: `--font-h1: var(--font-display);` in `tokens.css`.
 - Case: display text in Title Case; mono utility text UPPERCASE.
+- **Page H1s** (`.brand-type`): `line-height: normal`, `letter-spacing: 0.5rem` (tokens `--h1-leading`, `--h1-tracking`); on screens ≤560px the tracking scales as `0.075em` so long words fit. The logo and watermark are not tracked.
+- **No opacity for emphasis.** Echo/secondary words use solid shades (`--ghost`, `--ghost-on-media`), and the footer watermark is a solid `#1f1f1f`. Entrance animations may fade, but end fully opaque.
 
 ## Structural devices
 | Device | How |
@@ -37,7 +39,7 @@ Brutalist editorial: grayscale + one accent, a graffiti brand face, monospace ut
 | Brand-mark bullet | `.brand-mark` → `▪ TEXT` |
 | Red flood | hover fill rising from the baseline (bar cells, steps, CTA button) |
 | Scramble | `data-scramble` on any link text |
-| Watermark | outline brand wordmark cut off at the top of the footer |
+| Watermark | solid-fill brand wordmark cut off at the top of the footer |
 
 ## Spacing & layout
 `--gutter clamp(16px, 3.2vw, 32px)` · `--section-y clamp(64px, 9vw, 128px)` · `--frame-top` 64 / 52px · `--bar-h` 64 / 56px · safe-area insets on all fixed chrome.

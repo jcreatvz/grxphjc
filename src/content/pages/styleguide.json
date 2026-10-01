@@ -80,6 +80,21 @@
     {
       "type": "gallery",
       "settings": {
+        "label": "gallery \u2014 pinned-scroll (keep scrolling down)",
+        "layout": "pinned-scroll",
+        "images": [
+          "/images/placeholder/ph-02.jpg",
+          "/images/placeholder/ph-03.jpg",
+          "/images/placeholder/ph-06.jpg",
+          "/images/placeholder/ph-07.jpg",
+          "/images/placeholder/ph-08.jpg",
+          "/images/placeholder/ph-11.jpg"
+        ]
+      }
+    },
+    {
+      "type": "gallery",
+      "settings": {
         "label": "gallery \u2014 masonry",
         "layout": "masonry",
         "images": [
