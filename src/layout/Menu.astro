@@ -1,0 +1,163 @@
+---
+// Full-screen menu overlay. Rendered at <body> level (NOT inside the bar) so
+// position:fixed resolves against the viewport — this was the Phase 3 header bug.
+import site from '../site.json';
+import { href, isExternal } from '../lib/url';
+const m = site.menu;
+const prefs = [
+  { key: 'theme',  label: 'Theme',  options: [['light', 'Light'], ['dark', 'Dark']] },
+  { key: 'accent', label: 'Accent', options: [['red', 'Red'], ['orange', 'Orange']] },
+  { key: 'cursor', label: 'Cursor', options: [['custom', 'Custom'], ['regular', 'Regular']] },
+];
+---
+<div id="site-menu" class="menu" role="dialog" aria-modal="true" aria-label="Menu" inert>
+  <div class="menu__scrim" data-menu-close></div>
+
+  <span class="menu__mark" style="top:12px;left:12px">+</span>
+  <span class="menu__mark" style="top:12px;left:50%">+</span>
+  <span class="menu__mark" style="top:12px;right:12px">+</span>
+  <span class="menu__mark" style="bottom:12px;left:12px">+</span>
+  <span class="menu__mark" style="bottom:12px;left:50%">+</span>
+  <span class="menu__mark" style="bottom:12px;right:12px">+</span>
+
+  <button class="menu__close" type="button" aria-label="Close menu" data-menu-close>
+    <i></i><i></i>
+  </button>
+
+  <nav class="menu__nav" aria-label="Site">
+    <ul class="menu__list">
+      {m.items.map((it: any, i: number) => (
+        <li class={it.mobileOnly ? 'is-mobile-only' : ''} style={`--i:${i}`}>
+          <a href={href(it.href)} data-scramble data-menu-link
+             target={isExternal(it.href) ? '_blank' : undefined}
+             rel={isExternal(it.href) ? 'noopener noreferrer' : undefined}>{it.label}</a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+
+  <div class="menu__foot">
+    <p class="menu__signature">{m.signature}</p>
+    {m.appearance && (
+      <div class="menu__prefs" aria-label="Appearance">
+        {prefs.map((p) => (
+          <div class="menu__pref" role="group" aria-label={p.label} data-pref-row={p.key}>
+            <span class="menu__pref-label">{p.label}</span>
+            <span class="menu__pref-opts" data-pref={p.key}>
+              {p.options.map(([v, l]) => (
+                <button type="button" data-value={v} aria-pressed="false">{l}</button>
+              ))}
+            </span>
+          </div>
+        ))}
+      </div>
+    )}
+  </div>
+</div>
+
+<style>
+  .menu {
+    position: fixed; inset: 0; z-index: 200;
+    color: var(--accent-strong);
+    visibility: hidden; opacity: 0;
+    transition: opacity var(--duration-slow) var(--ease-out), visibility 0s linear var(--duration-slow);
+  }
+  .menu.is-open { visibility: visible; opacity: 1; transition: opacity var(--duration-slow) var(--ease-out), visibility 0s; }
+  .menu__scrim {
+    position: absolute; inset: 0;
+    background: rgba(4, 4, 4, 0.9);
+    backdrop-filter: blur(22px) saturate(0.6);
+    -webkit-backdrop-filter: blur(22px) saturate(0.6);
+  }
+  .menu__mark {
+    position: absolute; font-family: var(--font-mono); font-size: 11px; line-height: 1;
+    color: rgba(245, 244, 240, 0.45); pointer-events: none;
+  }
+
+  /* asymmetric thin X (Webflow) → squares up on hover */
+  .menu__close {
+    position: absolute; z-index: 2;
+    top: calc(var(--safe-top) + 20px); right: calc(var(--gutter) + 20px);
+    width: 64px; height: 44px;
+  }
+  .menu__close i {
+    position: absolute; left: 6px; right: 6px; top: 50%; height: 2px; background: var(--night-ink);
+    transition: transform var(--duration-slow) var(--ease-out), background var(--duration-fast);
+  }
+  .menu__close i:nth-child(1) { transform: rotate(22deg); }
+  .menu__close i:nth-child(2) { transform: rotate(-38deg); }
+  .menu__close:hover i:nth-child(1), .menu__close:focus-visible i:nth-child(1) { transform: rotate(45deg); background: var(--accent-strong); }
+  .menu__close:hover i:nth-child(2), .menu__close:focus-visible i:nth-child(2) { transform: rotate(-45deg); background: var(--accent-strong); }
+
+  .menu__nav {
+    position: absolute; z-index: 1;
+    top: 50%; left: 50%; right: 0; transform: translateY(-50%);
+  }
+  .menu__list { list-style: none; margin: 0; padding: 0; }
+  .menu__list li {
+    opacity: 0; transform: translateY(24px);
+    transition: opacity var(--duration-slow) var(--ease-out), transform var(--duration-slow) var(--ease-out);
+  }
+  .menu.is-open .menu__list li {
+    opacity: 1; transform: none;
+    transition-delay: calc(120ms + var(--i) * 60ms);
+  }
+  .menu__list a {
+    position: relative; display: inline-block;
+    font-family: var(--font-mono); font-weight: 500;
+    font-size: clamp(44px, 6.6vw, 104px); line-height: 1.12; letter-spacing: 0.04em;
+    color: var(--accent-strong);
+    transition: opacity var(--duration-med) var(--ease-out);
+  }
+  /* hairline running from the hovered link to the right edge */
+  .menu__list a::after {
+    content: ''; position: absolute; left: 0; top: 100%;
+    width: 50vw; height: 1px; background: rgba(245, 244, 240, 0.4);
+    transform: scaleX(0); transform-origin: left;
+    transition: transform var(--duration-slow) var(--ease-out);
+  }
+  .menu__list:hover a, .menu__list:has(a:focus-visible) a { opacity: 0.22; }
+  .menu__list a:hover, .menu__list a:focus-visible { opacity: 1; outline: none; }
+  .menu__list a:hover::after, .menu__list a:focus-visible::after { transform: scaleX(1); }
+  .is-mobile-only { display: none; }
+  @media (hover: none), (pointer: coarse) { .menu__pref[data-pref-row="cursor"] { display: none; } }
+
+  .menu__foot {
+    position: absolute; z-index: 1; left: var(--gutter); right: var(--gutter);
+    bottom: calc(var(--safe-bottom) + 28px);
+    display: flex; justify-content: space-between; align-items: flex-end; gap: 24px;
+  }
+  .menu__signature {
+    margin: 0; font-family: var(--font-mono); font-size: var(--step-mono-s); font-weight: 600;
+    color: var(--accent-strong);
+  }
+  .menu__prefs { display: grid; gap: 8px; }
+  .menu__pref { display: flex; align-items: center; justify-content: flex-end; gap: 16px; }
+  .menu__pref-label, .menu__pref-opts button {
+    font-family: var(--font-mono); font-size: var(--step-mono-xs); font-weight: 500;
+    text-transform: uppercase; letter-spacing: 0.06em;
+  }
+  .menu__pref-label { color: var(--night-muted); }
+  .menu__pref-opts { display: flex; gap: 4px; }
+  .menu__pref-opts button {
+    min-width: 76px; padding: 7px 10px; color: var(--night-muted);
+    border: 1px solid var(--night-line);
+    transition: color var(--duration-fast), border-color var(--duration-fast);
+  }
+  .menu__pref-opts button:hover { color: var(--night-ink); border-color: rgba(245, 244, 240, 0.4); }
+  .menu__pref-opts button[aria-pressed="true"] { color: var(--accent-strong); border-color: var(--accent-strong); }
+
+  @media (max-width: 720px) {
+    .menu__nav { left: var(--gutter); top: 44%; }
+    .menu__list a { font-size: clamp(40px, 12.5vw, 64px); }
+    .menu__list a::after { width: calc(100vw - var(--gutter) * 2); }
+    .is-mobile-only { display: block; }
+    .menu__foot { flex-direction: column-reverse; align-items: stretch; }
+    .menu__pref { justify-content: space-between; }
+    .menu__close { right: 8px; }
+  }
+  @media (max-height: 560px) and (orientation: landscape) {
+    .menu__list a { font-size: clamp(28px, 8vh, 48px); }
+    .menu__nav { top: 42%; }
+  }
+</style>

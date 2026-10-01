@@ -1,56 +1,75 @@
 ---
 import '../styles/tokens.css';
 import site from '../site.json';
-import Header from './Header.astro';
+import Frame from './Frame.astro';
+import Bar from './Bar.astro';
+import Menu from './Menu.astro';
 import Footer from './Footer.astro';
-import { mergeAllowed } from '../blocks/utils.js';
+import Loader from './Loader.astro';
+import Cursor from './Cursor.astro';
+import Lightbox from './Lightbox.astro';
 
 export interface Props {
   title: string;
   description?: string;
-  header?: { theme?: 'light' | 'dark'; transparent?: boolean; sticky?: boolean };
-  footer?: { theme?: 'light' | 'dark' };
+  /** Per-page chrome modifiers (Option A whitelist): theme + transparent only. */
+  header?: { theme?: 'auto' | 'light' | 'dark'; transparent?: boolean };
+  /** First block is full-bleed media → let it run under the top frame. */
+  bleed?: boolean;
 }
-const {
-  title,
-  description = site.brand.tagline,
-  header = {},
-  footer = {},
-} = Astro.props;
-
-const headerData = mergeAllowed(site.header, header, ['theme', 'transparent', 'sticky']);
-const footerData = mergeAllowed(site.footer, footer, ['theme']);
+const { title, description = site.brand.tagline, header = {}, bleed = false } = Astro.props;
+const chrome = header.theme ?? site.header.theme ?? 'auto';
+const transparent = header.transparent ?? site.header.transparent ?? false;
+const initCfg = {
+  cursorDefault: site.cursor?.default ?? 'custom',
+  loaderOn: !!site.loader?.enabled,
+  loaderOnce: site.loader?.once ?? 'session',
+};
 ---
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="description" content={description} />
+    <meta name="theme-color" content="#0a0a0a" />
     <title>{title}</title>
-
-    <!-- Theme + accent init: runs before render to avoid FOUC -->
-    <script is:inline>
+    <script is:inline define:vars={{ initCfg }}>
       (function () {
-        try {
-          var theme  = localStorage.getItem('grxphjc-theme')  || 'light';
-          var accent = localStorage.getItem('grxphjc-accent') || 'red';
-          document.documentElement.setAttribute('data-theme', theme);
-          document.documentElement.setAttribute('data-accent', accent);
-        } catch (e) {
-          document.documentElement.setAttribute('data-theme', 'light');
-          document.documentElement.setAttribute('data-accent', 'red');
-        }
+        var d = document.documentElement, ls = null;
+        try { ls = window.localStorage; } catch (e) {}
+        var get = function (k, f) { try { return (ls && ls.getItem(k)) || f; } catch (e) { return f; } };
+        d.classList.add('js');
+        d.setAttribute('data-theme',  get('grxphjc-theme', 'light'));
+        d.setAttribute('data-accent', get('grxphjc-accent', 'red'));
+        d.setAttribute('data-cursor', get('grxphjc-cursor', initCfg.cursorDefault));
+        var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+        var seen = false;
+        try { seen = initCfg.loaderOnce === 'session' && sessionStorage.getItem('grxphjc-loader') === '1'; } catch (e) {}
+        if (initCfg.loaderOn && !seen && !reduce) d.classList.add('is-loading');
       })();
     </script>
   </head>
   <body>
-    <Header data={headerData} />
-    <main class="main"><slot /></main>
-    <Footer data={footerData} />
+    <a class="skip-link mono" href="#main">Skip to content</a>
+    <Frame chrome={chrome} />
+    <main id="main" class="main" data-bleed={bleed}><slot /></main>
+    <Footer />
+    <Bar chrome={chrome} transparent={transparent} blocks={site.header.blocks} />
+    <Menu />
+    <Lightbox />
+    <Cursor />
+    {site.loader?.enabled && <Loader />}
+    <script>import '../scripts/main.ts';</script>
   </body>
 </html>
 
 <style>
-  .main { min-height: 60svh; }
+  .main { padding-top: calc(var(--frame-top) + var(--safe-top)); min-height: 60svh; }
+  .main[data-bleed="true"] { padding-top: 0; }
+  .skip-link {
+    position: fixed; top: 8px; left: 8px; z-index: 600; padding: 10px 14px;
+    background: var(--accent); color: var(--on-accent); transform: translateY(-200%);
+  }
+  .skip-link:focus { transform: none; }
 </style>

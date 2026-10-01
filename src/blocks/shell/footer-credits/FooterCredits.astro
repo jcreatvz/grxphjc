@@ -1,28 +1,17 @@
 ---
-export interface Props {
-  line: string;
-}
+export interface Props { line: string; }
 const { line = '' } = Astro.props;
 ---
-<div class="footer-credits">
-  <p>{line}</p>
-</div>
+<div class="footer-credits"><p>{line}</p></div>
 
 <style>
   .footer-credits {
-    max-width: var(--page-max);
-    margin: 0 auto;
-    padding: 20px var(--gutter) 32px;
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
-    position: relative;
-    z-index: 1;
+    max-width: var(--page-max); margin: 0 auto;
+    padding: 20px var(--gutter) calc(var(--bar-h) + var(--safe-bottom) + 24px);
+    border-top: 1px solid var(--night-line);
   }
   .footer-credits p {
-    margin: 0;
-    font-family: var(--font-mono);
-    font-size: var(--step-mono-xs);
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--footer-muted);
+    margin: 0; font-family: var(--font-mono); font-size: var(--step-mono-xs);
+    text-transform: uppercase; letter-spacing: 0.06em; color: var(--night-muted);
   }
 </style>

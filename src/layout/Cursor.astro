@@ -1,0 +1,28 @@
+---
+// Crosshair cursor (matches the plus-mark system). Only visible with a fine
+// pointer and data-cursor="custom". Driven by src/scripts/cursor.ts.
+---
+<div class="cursor" aria-hidden="true"><span class="cursor__ring"></span><span class="cursor__cross"></span></div>
+
+<style>
+  .cursor { display: none; }
+  @media (hover: hover) and (pointer: fine) {
+    :global(:root[data-cursor="custom"].js) .cursor {
+      display: block; position: fixed; top: 0; left: 0; z-index: 500; pointer-events: none;
+      mix-blend-mode: difference; opacity: 0; transition: opacity 200ms;
+    }
+    :global(:root[data-cursor="custom"].js) .cursor.is-on { opacity: 1; }
+  }
+  .cursor__cross, .cursor__ring { position: absolute; left: 0; top: 0; }
+  .cursor__cross::before, .cursor__cross::after {
+    content: ''; position: absolute; background: #fff;
+  }
+  .cursor__cross::before { width: 17px; height: 1.5px; left: -8.5px; top: -0.75px; }
+  .cursor__cross::after  { width: 1.5px; height: 17px; left: -0.75px; top: -8.5px; }
+  .cursor__ring {
+    width: 8px; height: 8px; margin: -4px 0 0 -4px; border: 1px solid transparent; border-radius: 50%;
+    transition: width 320ms var(--ease-out), height 320ms var(--ease-out), margin 320ms var(--ease-out), border-color 200ms;
+  }
+  .cursor.is-hover .cursor__ring { width: 48px; height: 48px; margin: -24px 0 0 -24px; border-color: #fff; }
+  .cursor.is-down .cursor__ring { width: 30px; height: 30px; margin: -15px 0 0 -15px; }
+</style>

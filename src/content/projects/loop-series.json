@@ -1,0 +1,66 @@
+{
+  "title": "Loop Series 01",
+  "slug": "loop-series",
+  "client": "Personal",
+  "year": 2025,
+  "cover": "/images/placeholder/ph-07.jpg",
+  "summary": "Twelve seamless loops, one rule: nothing repeats the same way twice.",
+  "tags": [
+    "motion"
+  ],
+  "blocks": [
+    {
+      "type": "hero",
+      "settings": {
+        "media": "",
+        "label": "Case Study — Personal",
+        "headline": "Loop Series 01",
+        "variant": "standard",
+        "subhead": "Twelve seamless loops, one rule: nothing repeats the same way twice."
+      }
+    },
+    {
+      "type": "text",
+      "settings": {
+        "label": "Overview",
+        "heading": "The brief",
+        "body": "<p>Twelve seamless loops, one rule: nothing repeats the same way twice. Placeholder case-study copy — replace in src/content/projects/loop-series.json.</p>"
+      }
+    },
+    {
+      "type": "gallery",
+      "settings": {
+        "label": "Frames — Selected",
+        "layout": "grid",
+        "behavior": "none",
+        "images": [
+          "/images/placeholder/ph-09.jpg",
+          "/images/placeholder/ph-10.jpg",
+          "/images/placeholder/ph-11.jpg",
+          "/images/placeholder/ph-12.jpg",
+          "/images/placeholder/ph-13.jpg",
+          "/images/placeholder/ph-14.jpg"
+        ]
+      }
+    },
+    {
+      "type": "metrics",
+      "settings": {
+        "items": [
+          {
+            "value": "06",
+            "label": "Weeks"
+          },
+          {
+            "value": "24",
+            "label": "Deliverables"
+          },
+          {
+            "value": "03",
+            "label": "Formats"
+          }
+        ]
+      }
+    }
+  ]
+}

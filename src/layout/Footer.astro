@@ -2,64 +2,31 @@
 import { shellRegistry } from '../blocks/shell-registry.js';
 import { applyDefaults } from '../blocks/utils.js';
 import site from '../site.json';
-
-export interface Props {
-  data: {
-    theme?: 'light' | 'dark';
-    blocks: Array<{ type: string; settings: Record<string, any> }>;
-  };
-}
-const { data } = Astro.props;
-const { blocks = [] } = data;
-
-// Watermark is always the brand name (Brokerwise pattern — huge cut-off wordmark at top of footer)
-const watermark = site.brand.name.toUpperCase();
+const blocks = site.footer.blocks;
 ---
 <footer class="site-footer">
-  <div class="site-footer__watermark" aria-hidden="true">{watermark}</div>
-
+  <div class="site-footer__watermark" aria-hidden="true">{site.brand.name.toUpperCase()}</div>
   <div class="site-footer__body">
-    {blocks.map((block) => {
-      const entry = shellRegistry[block.type];
-      if (!entry) return null;
-      const Block = entry.component;
-      const settings = applyDefaults(shellRegistry, block.type, block.settings);
-      return <Block {...settings} />;
+    {blocks.map((b: any) => {
+      const e = shellRegistry[b.type];
+      if (!e) return null;
+      const C = e.component;
+      return <C {...applyDefaults(shellRegistry, b.type, b.settings)} />;
     })}
   </div>
 </footer>
 
 <style>
   .site-footer {
-    background: var(--footer-bg);
-    color: var(--footer-ink);
-    margin-top: 128px;
-    padding-top: 180px;
-    position: relative;
-    overflow: hidden;
+    position: relative; overflow: hidden;
+    background: var(--night); color: var(--night-ink);
+    padding-top: clamp(120px, 16vw, 200px);
   }
-
-  /* Huge cut-off brand watermark at top edge — Brokerwise pattern */
   .site-footer__watermark {
-    position: absolute;
-    top: -0.35em;
-    left: 50%;
-    transform: translateX(-50%);
-    font-family: var(--font-display);
-    font-size: clamp(120px, 20vw, 320px);
-    font-weight: 600;
-    letter-spacing: -0.04em;
-    line-height: 1;
-    color: rgba(255, 255, 255, 0.05);
-    white-space: nowrap;
-    pointer-events: none;
-    user-select: none;
-    z-index: 0;
+    position: absolute; top: -0.32em; left: 50%; transform: translateX(-50%);
+    font-family: var(--font-display); font-weight: 600; letter-spacing: -0.05em; line-height: 1;
+    font-size: clamp(96px, 21vw, 340px); white-space: nowrap;
+    color: rgba(255, 255, 255, 0.06); pointer-events: none; user-select: none;
   }
-
-  .site-footer__body {
-    position: relative;
-    z-index: 1;
-    padding-top: 32px;
-  }
+  .site-footer__body { position: relative; z-index: 1; }
 </style>

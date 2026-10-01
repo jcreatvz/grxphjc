@@ -1,10 +1,13 @@
 {
-  "title": "Nike Air Max, Reimagined",
+  "title": "Air Max, Reimagined",
   "slug": "nike-air-max",
-  "client": "Nike",
+  "client": "Sample Client",
   "year": 2026,
-  "cover": "https://picsum.photos/seed/nike-cover/1600/1000",
-  "tags": ["campaign", "motion", "3d"],
+  "cover": "/images/placeholder/ph-01.jpg",
+  "summary": "A cross-format campaign spanning film, print and interactive OOH.",
+  "tags": [
+    "motion"
+  ],
   "header": {
     "theme": "dark",
     "transparent": true
@@ -13,13 +16,19 @@
     {
       "type": "hero",
       "settings": {
-        "media": "https://picsum.photos/seed/nike-hero/1920/1080",
-        "label": "Case Study — 001",
-        "headline": "Air Max",
-        "subhead": "A cross-format campaign spanning film, print, and interactive OOH.",
+        "media": "/images/placeholder/ph-01.jpg",
+        "label": "Case Study — Sample Client",
+        "headline": "Air Max, Reimagined",
         "variant": "split-wordmark",
-        "align": "left",
-        "behavior": "reveal"
+        "subhead": "A cross-format campaign spanning film, print and interactive OOH."
+      }
+    },
+    {
+      "type": "text",
+      "settings": {
+        "label": "Overview",
+        "heading": "The brief",
+        "body": "<p>A cross-format campaign spanning film, print and interactive OOH. Placeholder case-study copy — replace in src/content/projects/nike-air-max.json.</p>"
       }
     },
     {
@@ -28,12 +37,31 @@
         "label": "Frames — Selected",
         "layout": "horizontal-scroll",
         "behavior": "drag",
-        "speed": 1.2,
         "images": [
-          "https://picsum.photos/seed/nike1/1400/900",
-          "https://picsum.photos/seed/nike2/1400/900",
-          "https://picsum.photos/seed/nike3/1400/900",
-          "https://picsum.photos/seed/nike4/1400/900"
+          "/images/placeholder/ph-03.jpg",
+          "/images/placeholder/ph-04.jpg",
+          "/images/placeholder/ph-05.jpg",
+          "/images/placeholder/ph-06.jpg",
+          "/images/placeholder/ph-07.jpg"
+        ]
+      }
+    },
+    {
+      "type": "metrics",
+      "settings": {
+        "items": [
+          {
+            "value": "06",
+            "label": "Weeks"
+          },
+          {
+            "value": "24",
+            "label": "Deliverables"
+          },
+          {
+            "value": "03",
+            "label": "Formats"
+          }
         ]
       }
     }

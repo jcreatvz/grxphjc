@@ -1,0 +1,51 @@
+---
+// Intro loader recreated from the Webflow site: black field, red square grows
+// with real load progress, coordinates left, tagline, % counter right, then the
+// square floods the screen and wipes away. Shown once per session; skipped on
+// reduced motion; hidden entirely if JS never runs (no stuck screens).
+import site from '../site.json';
+const l = site.loader;
+---
+<div class="loader" aria-hidden="true">
+  <div class="loader__square"></div>
+  <div class="loader__coords">{l.coords.map((c: string) => <span>{c}</span>)}</div>
+  <div class="loader__lines">{l.lines.map((t: string) => <span>{t}</span>)}</div>
+  <div class="loader__count"><span data-loader-count>0</span></div>
+  <button class="loader__skip" type="button" data-loader-skip tabindex="-1">Skip</button>
+</div>
+
+<style>
+  .loader { display: none; }
+  :global(html.is-loading) .loader {
+    display: block; position: fixed; inset: 0; z-index: 400;
+    background: #000; color: #f5f4f0; overflow: hidden;
+    font-family: var(--font-mono); font-size: 11px; font-weight: 500;
+    text-transform: uppercase; letter-spacing: 0.02em; line-height: 1.35;
+    transition: opacity 500ms var(--ease-out);
+  }
+  :global(html.is-loading) .loader.is-out { opacity: 0; }
+  .loader__square {
+    --s: min(86svh, 62vw);
+    position: absolute; left: 50%; top: 50%;
+    width: var(--s); height: var(--s); margin: calc(var(--s) / -2) 0 0 calc(var(--s) / -2);
+    background: var(--accent);
+    transform: scale(calc(0.08 + var(--p, 0) * 0.92));
+    transition: transform 420ms var(--ease-out);
+  }
+  .loader.is-flood .loader__square { transform: scale(3.2); transition: transform 760ms cubic-bezier(0.7, 0, 0.2, 1); }
+  .loader__coords, .loader__lines, .loader__count { position: absolute; top: 50%; transform: translateY(-50%); z-index: 1; }
+  .loader__coords { left: var(--gutter); display: grid; }
+  .loader__lines  { left: calc(50% - min(86svh, 62vw) / 2); display: grid; }
+  .loader__count  { right: var(--gutter); }
+  .loader__skip {
+    position: absolute; right: var(--gutter); bottom: calc(var(--safe-bottom) + 24px); z-index: 1;
+    font: inherit; color: rgba(245, 244, 240, 0.6);
+    padding: 10px 14px; border: 1px solid rgba(245, 244, 240, 0.25);
+  }
+  .loader__skip:hover { color: #fff; border-color: #fff; }
+  @media (max-width: 720px) {
+    .loader__coords { top: auto; bottom: calc(var(--safe-bottom) + 28px); transform: none; }
+    .loader__lines  { left: var(--gutter); top: 18%; }
+    .loader__count  { top: auto; bottom: calc(var(--safe-bottom) + 76px); transform: none; }
+  }
+</style>

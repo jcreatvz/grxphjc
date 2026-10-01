@@ -1,0 +1,32 @@
+---
+export interface Props { label?: string; }
+const { label = 'Menu' } = Astro.props;
+---
+<button class="bar-cell menu-toggle" type="button"
+        aria-expanded="false" aria-controls="site-menu" data-menu-open>
+  <span class="bar-cell__label" data-scramble>{label}</span>
+  <span class="menu-toggle__icon" aria-hidden="true"><i></i><i></i></span>
+</button>
+
+<style>
+  .menu-toggle { justify-content: space-between; gap: 24px; }
+  /* idle: one flat bar · hover: two parallel slashes (Webflow pattern) */
+  .menu-toggle__icon {
+    position: relative; display: block;
+    width: clamp(44px, 5.4vw, 96px); height: 22px; flex: none;
+  }
+  .menu-toggle__icon i {
+    position: absolute; left: 0; right: 0; top: 50%;
+    height: 3px; margin-top: -1.5px; background: currentColor;
+    transition: transform var(--duration-slow) var(--ease-out), left var(--duration-slow) var(--ease-out), right var(--duration-slow) var(--ease-out), height var(--duration-med) var(--ease-out);
+  }
+  .menu-toggle:hover .menu-toggle__icon i,
+  .menu-toggle:focus-visible .menu-toggle__icon i { height: 2px; left: 22%; right: 22%; }
+  .menu-toggle:hover .menu-toggle__icon i:nth-child(1),
+  .menu-toggle:focus-visible .menu-toggle__icon i:nth-child(1) { transform: translate(-7px, 0) rotate(-35deg); }
+  .menu-toggle:hover .menu-toggle__icon i:nth-child(2),
+  .menu-toggle:focus-visible .menu-toggle__icon i:nth-child(2) { transform: translate(7px, 0) rotate(-35deg); }
+  @media (max-width: 720px) {
+    .menu-toggle { flex: 1 1 auto; max-width: 60%; margin-left: auto; }
+  }
+</style>

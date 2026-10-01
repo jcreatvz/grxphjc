@@ -1,22 +1,10 @@
 export default {
-  type: 'gallery',
-  name: 'Image Gallery',
+  type: 'gallery', name: 'Image Gallery',
   settings: [
-    { id: 'label',    type: 'text', label: 'Bracketed section label', default: '' },
-    { id: 'images',   type: 'image_list', label: 'Images' },
-    {
-      id: 'layout', type: 'select', label: 'Layout',
-      options: ['grid', 'horizontal-scroll', 'masonry', 'sticky'],
-      default: 'grid',
-    },
-    {
-      id: 'behavior', type: 'select', label: 'Motion',
-      options: ['none', 'parallax', 'drag', 'magnetic-cursor'],
-      default: 'none',
-    },
-    {
-      id: 'speed', type: 'range', label: 'Motion speed',
-      min: 0, max: 2, step: 0.1, default: 0.8,
-    },
+    { id: 'label', type: 'text', label: 'Bracketed label', default: '' },
+    { id: 'images', type: 'image_list', label: 'Images (string URLs or { src, title, note })' },
+    { id: 'layout', type: 'select', label: 'Layout', options: ['grid', 'horizontal-scroll', 'masonry', 'sticky'], default: 'grid' },
+    { id: 'behavior', type: 'select', label: 'Motion', options: ['none', 'drag'], default: 'none' },
+    { id: 'lightbox', type: 'toggle', label: 'Open images in popup', default: true },
   ],
 };

@@ -1,0 +1,53 @@
+{
+  "title": "Story",
+  "slug": "story",
+  "blocks": [
+    {
+      "type": "hero",
+      "settings": {
+        "label": "Story",
+        "headline": "Experienced n Experimental",
+        "variant": "split-wordmark",
+        "scrollCue": false
+      }
+    },
+    {
+      "type": "statement",
+      "settings": {
+        "text": "From Manila to *Edmonton* — a designer's story in frames, placeholders for now.",
+        "size": "l"
+      }
+    },
+    {
+      "type": "text",
+      "settings": {
+        "label": "Chapter 01",
+        "heading": "Where it started",
+        "body": "<p>Placeholder chapter. Replace in src/content/pages/story.json.</p>"
+      }
+    },
+    {
+      "type": "gallery",
+      "settings": {
+        "label": "Frames",
+        "layout": "masonry",
+        "images": [
+          "/images/placeholder/ph-03.jpg",
+          "/images/placeholder/ph-05.jpg",
+          "/images/placeholder/ph-08.jpg",
+          "/images/placeholder/ph-10.jpg",
+          "/images/placeholder/ph-12.jpg",
+          "/images/placeholder/ph-15.jpg"
+        ]
+      }
+    },
+    {
+      "type": "text",
+      "settings": {
+        "label": "Chapter 02",
+        "heading": "Brand-new dad",
+        "body": "<p>Placeholder chapter.</p>"
+      }
+    }
+  ]
+}

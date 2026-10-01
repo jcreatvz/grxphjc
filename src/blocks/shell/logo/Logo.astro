@@ -1,38 +1,37 @@
 ---
-export interface Props {
-  text?: string;
-  svg?: string;
-  href?: string;
-}
+import { href as resolve } from '../../../lib/url';
+export interface Props { text?: string; svg?: string; href?: string; }
 const { text = '', svg = '', href = '/' } = Astro.props;
-
-const base = import.meta.env.BASE_URL.replace(/\/$/, '');
-const resolvedHref = href.startsWith('http') ? href : `${base}${href}`;
 ---
-<a class="logo" href={resolvedHref} aria-label={text || 'Home'}>
+<a class="logo" href={resolve(href)} aria-label={`${text || 'Home'} — home`}>
   {svg
     ? <span class="logo__svg" set:html={svg} />
-    : <span class="logo__text brand-mark">{text.toUpperCase()}</span>
-  }
+    : <span class="logo__text" data-scramble>{text.toUpperCase()}</span>}
+  <span class="logo__line" aria-hidden="true"></span>
 </a>
 
 <style>
   .logo {
-    display: inline-flex;
-    align-items: center;
-    color: inherit;
-    text-decoration: none;
+    position: relative;
+    display: inline-flex; align-items: center;
+    height: 100%;
+    padding: 0 4px;
+    color: var(--chrome-accent);
   }
   .logo__text {
     font-family: var(--font-mono);
-    font-size: var(--step-mono-s);
-    font-weight: 500;
+    font-size: clamp(15px, 1.4vw, 20px);
+    font-weight: 700;
     letter-spacing: 0.02em;
     line-height: 1;
+    white-space: nowrap;
   }
-  .logo__svg :global(svg) {
-    display: block;
-    height: 20px;
-    width: auto;
+  .logo__svg :global(svg) { display: block; height: clamp(26px, 2.6vw, 40px); width: auto; }
+  /* baseline grows on hover (Webflow pattern) */
+  .logo__line {
+    position: absolute; left: 4px; right: 4px; bottom: 10px; height: 3px;
+    background: var(--chrome-ink); transform: scaleX(0); transform-origin: left;
+    transition: transform var(--duration-slow) var(--ease-out);
   }
+  .logo:hover .logo__line, .logo:focus-visible .logo__line { transform: scaleX(1); }
 </style>

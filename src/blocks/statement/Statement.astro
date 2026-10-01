@@ -1,0 +1,27 @@
+---
+export interface Props { label?: string; text: string; size?: 'l' | 'xl'; footnote?: string; }
+const { label = '', text = '', size = 'l', footnote = '' } = Astro.props;
+// *word* → accented word. Every word becomes a hoverable span (okay2 pattern).
+const words = text.split(/\s+/).filter(Boolean).map((w) => ({ w: w.replace(/\*/g, ''), accent: /^\*.*\*[.,;:!?]?$/.test(w) }));
+---
+<section class="statement" data-size={size}>
+  <span class="plus-corner plus-corner--tl">+</span><span class="plus-corner plus-corner--br">+</span>
+  {label && <div class="section-label" data-reveal>{label}</div>}
+  <p class="statement__text" data-reveal style="--reveal-i:1">
+    {words.map(({ w, accent }) => <><span class:list={['statement__w', { 'is-accent': accent }]}>{w}</span>{' '}</>)}
+  </p>
+  {footnote && <p class="statement__foot mono-xs" data-reveal style="--reveal-i:2">{footnote}</p>}
+</section>
+
+<style>
+  .statement { position: relative; padding: var(--section-y) var(--gutter); max-width: var(--page-max); margin: 0 auto; display: grid; gap: 32px; }
+  .statement__text {
+    margin: 0; max-width: 24ch; font-family: var(--font-display); font-weight: 500; letter-spacing: -0.03em; line-height: 1.04;
+    font-size: var(--step-display-l);
+  }
+  .statement[data-size="xl"] .statement__text { font-size: clamp(52px, 8.4vw, 144px); max-width: 18ch; }
+  .statement__w { transition: color var(--duration-fast) var(--ease-out); }
+  .statement__w:hover { color: var(--accent); }
+  .statement__w.is-accent { color: var(--accent); }
+  .statement__foot { margin: 0; color: var(--muted); max-width: 48ch; }
+</style>

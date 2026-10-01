@@ -1,0 +1,31 @@
+{
+  "title": "Contact",
+  "slug": "contact",
+  "blocks": [
+    {
+      "type": "cta",
+      "settings": {
+        "label": "Contact",
+        "heading": "Say | hello.",
+        "text": "Freelance, collaborations, or just a good idea. Replace this address in src/content/pages/contact.json.",
+        "email": "hello@grxphjc.com"
+      }
+    },
+    {
+      "type": "list-rows",
+      "settings": {
+        "label": "Elsewhere",
+        "items": [
+          {
+            "title": "GitHub",
+            "detail": "github.com/jcreatvz"
+          },
+          {
+            "title": "Instagram",
+            "detail": "Add your handle"
+          }
+        ]
+      }
+    }
+  ]
+}

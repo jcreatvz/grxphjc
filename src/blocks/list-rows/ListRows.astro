@@ -1,0 +1,57 @@
+---
+export interface Props { label?: string; heading?: string; items: Array<{ title: string; detail?: string; tags?: string[] }>; }
+const { label = '', heading = '', items = [] } = Astro.props;
+const pad = (n: number) => String(n).padStart(2, '0');
+---
+<section class="rows">
+  <header class="rows__head">
+    {label && <div class="section-label" data-reveal>{label}</div>}
+    {heading && <h2 class="rows__heading" data-reveal style="--reveal-i:1">{heading}</h2>}
+  </header>
+  <div class="rows__list">
+    {items.map((it, i) => (
+      <details class="rows__row" data-reveal style={`--reveal-i:${i % 3}`}>
+        <summary class="rows__summary">
+          <span class="rows__idx mono-xs">{pad(i + 1)}</span>
+          <span class="rows__title">{it.title}</span>
+          <span class="rows__plus" aria-hidden="true"></span>
+        </summary>
+        <div class="rows__body">
+          <div>
+            {it.detail && <p>{it.detail}</p>}
+            {it.tags?.length ? <ul class="rows__tags">{it.tags.map((t) => <li class="mono-xs">{t}</li>)}</ul> : null}
+          </div>
+        </div>
+      </details>
+    ))}
+  </div>
+</section>
+
+<style>
+  .rows { padding: var(--section-y) var(--gutter); max-width: var(--page-max); margin: 0 auto; }
+  .rows__head { display: grid; gap: 20px; margin-bottom: 40px; }
+  .rows__heading { margin: 0; font-family: var(--font-display); font-weight: 600; letter-spacing: -0.03em; line-height: 1; font-size: var(--step-display-l); }
+  .rows__list { border-top: 1px solid var(--hairline); }
+  .rows__row { border-bottom: 1px solid var(--hairline); }
+  .rows__summary {
+    list-style: none; display: grid; grid-template-columns: 56px 1fr 28px; align-items: center; gap: 12px;
+    padding: clamp(18px, 2.4vw, 30px) 0; cursor: pointer;
+    transition: color var(--duration-fast), padding var(--duration-med) var(--ease-out);
+  }
+  .rows__summary::-webkit-details-marker { display: none; }
+  .rows__idx { color: var(--accent); }
+  .rows__title { font-family: var(--font-display); font-weight: 500; letter-spacing: -0.025em; line-height: 1.05; font-size: var(--step-display-m); }
+  .rows__summary:hover { color: var(--accent); padding-left: 12px; }
+  .rows__plus { position: relative; width: 20px; height: 20px; justify-self: end; }
+  .rows__plus::before, .rows__plus::after { content: ''; position: absolute; left: 0; right: 0; top: 50%; height: 2px; margin-top: -1px; background: currentColor; transition: transform var(--duration-med) var(--ease-out); }
+  .rows__plus::after { transform: rotate(90deg); }
+  .rows__row[open] .rows__plus::after { transform: rotate(0deg); }
+  .rows__body { display: grid; grid-template-rows: 1fr; padding: 0 0 28px 68px; }
+  .rows__body p { margin: 0 0 16px; max-width: 56ch; font-size: var(--step-3); line-height: 1.45; color: var(--muted); }
+  .rows__tags { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+  .rows__tags li { padding: 6px 10px; border: 1px solid var(--hairline); }
+  @media (max-width: 720px) {
+    .rows__summary { grid-template-columns: 40px 1fr 24px; }
+    .rows__body { padding-left: 52px; }
+  }
+</style>

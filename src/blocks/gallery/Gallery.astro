@@ -1,159 +1,67 @@
 ---
-export interface Props {
-  label?: string;
-  images: string[];
-  layout?: 'grid' | 'horizontal-scroll' | 'masonry' | 'sticky';
-  behavior?: 'none' | 'parallax' | 'drag' | 'magnetic-cursor';
-  speed?: number;
-}
-const {
-  label = '',
-  images = [],
-  layout = 'grid',
-  behavior = 'none',
-  speed = 0.8,
-} = Astro.props;
-
-const total = images.length;
+import { href } from '../../lib/url';
+type Img = string | { src: string; title?: string; note?: string };
+export interface Props { label?: string; images: Img[]; layout?: string; behavior?: string; lightbox?: boolean; }
+const { label = '', images = [], layout = 'grid', behavior = 'none', lightbox = true } = Astro.props;
+const list = images.map((im, i) => typeof im === 'string' ? { src: href(im), title: `Frame ${i + 1}` } : { ...im, src: href(im.src), title: im.title ?? `Frame ${i + 1}` });
 const pad = (n: number) => String(n).padStart(2, '0');
 ---
-<section
-  class="gallery"
-  data-layout={layout}
-  data-behavior={behavior}
-  style={`--gallery-speed:${speed}`}
->
-  {label && <div class="gallery__label section-label">{label}</div>}
-
-  <span class="plus-corner plus-corner--tl">+</span>
-  <span class="plus-corner plus-corner--tr">+</span>
-  <span class="plus-corner plus-corner--bl">+</span>
-  <span class="plus-corner plus-corner--br">+</span>
-
-  <div class="gallery__track">
-    {images.map((src, i) => (
-      <figure class="gallery__item">
-        <img src={src} alt="" loading="lazy" decoding="async" />
-        <figcaption class="gallery__index">
-          <span>{pad(i + 1)}</span>
-          <span class="gallery__index-sep">/</span>
-          <span>{pad(total)}</span>
-        </figcaption>
-      </figure>
-    ))}
+<section class="gallery" data-layout={layout} data-behavior={behavior}>
+  {label && <div class="gallery__label section-label" data-reveal>{label}</div>}
+  <span class="plus-corner plus-corner--tl">+</span><span class="plus-corner plus-corner--tr">+</span>
+  <span class="plus-corner plus-corner--bl">+</span><span class="plus-corner plus-corner--br">+</span>
+  <div class="gallery__track" data-lb-group>
+    {list.map((im, i) => {
+      const Tag = lightbox ? 'button' : 'figure';
+      return (
+        <Tag class="gallery__item" data-reveal style={`--reveal-i:${i % 3}`}
+             {...(lightbox ? { type: 'button', 'data-lb': '', 'data-lb-src': im.src, 'data-lb-title': im.title, 'data-lb-note': (im as any).note, 'aria-label': `Open ${im.title}` } : {})}>
+          <img src={im.src} alt="" loading="lazy" decoding="async" draggable="false" />
+          <span class="gallery__index mono-xs">{pad(i + 1)} <span>/</span> {pad(list.length)}</span>
+        </Tag>
+      );
+    })}
   </div>
 </section>
 
 <style>
-  .gallery {
-    position: relative;
-    padding: var(--section-y) var(--gutter);
-    isolation: isolate;
-  }
-  .gallery__label { display: inline-block; margin-bottom: 40px; }
-
-  .gallery__track {
-    display: grid;
-    gap: 24px;
-    grid-template-columns: repeat(3, 1fr);
-  }
-  .gallery__item {
-    margin: 0;
-    position: relative;
-  }
-  .gallery__item img {
-    width: 100%;
-    height: auto;
-    background: var(--paper-2);
-  }
-  .gallery__index {
-    position: absolute;
-    bottom: 12px;
-    right: 12px;
-    font-family: var(--font-mono);
-    font-size: var(--step-mono-xs);
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--ink-inverse);
-    background: rgba(10, 10, 10, 0.6);
-    padding: 4px 8px;
-    display: flex;
-    gap: 4px;
-  }
-  .gallery__index-sep { opacity: 0.55; }
-
-  /* horizontal-scroll */
-  .gallery[data-layout="horizontal-scroll"] .gallery__track {
-    display: flex;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    scrollbar-width: none;
-    cursor: grab;
-  }
+  .gallery { position: relative; padding: var(--section-y) var(--gutter); }
+  .gallery__label { display: inline-block; margin-bottom: 32px; }
+  .gallery__track { display: grid; gap: clamp(12px, 1.6vw, 24px); grid-template-columns: repeat(3, 1fr); }
+  .gallery__item { position: relative; display: block; margin: 0; padding: 0; width: 100%; background: var(--paper-2); overflow: hidden; }
+  .gallery__item img { width: 100%; height: auto; transition: transform 800ms var(--ease-out); }
+  button.gallery__item:hover img { transform: scale(1.03); }
+  .gallery__index { position: absolute; right: 10px; bottom: 10px; padding: 4px 8px; color: var(--on-media); background: rgba(10, 10, 10, 0.62); }
+  .gallery__index span { opacity: 0.55; }
+  .gallery[data-layout="horizontal-scroll"] .gallery__track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; overscroll-behavior-x: contain; }
   .gallery[data-layout="horizontal-scroll"] .gallery__track::-webkit-scrollbar { display: none; }
-  .gallery[data-layout="horizontal-scroll"] .gallery__item {
-    flex: 0 0 clamp(280px, 55vw, 720px);
-    scroll-snap-align: start;
-  }
-  .gallery[data-layout="horizontal-scroll"][data-behavior="drag"] .gallery__track.is-dragging {
-    cursor: grabbing;
-    scroll-snap-type: none;
-  }
-
-  /* masonry */
-  .gallery[data-layout="masonry"] .gallery__track {
-    display: block;
-    column-count: 3;
-    column-gap: 24px;
-  }
-  .gallery[data-layout="masonry"] .gallery__item {
-    break-inside: avoid;
-    margin-bottom: 24px;
-  }
-
-  /* sticky */
+  .gallery[data-layout="horizontal-scroll"] .gallery__item { flex: 0 0 clamp(260px, 58vw, 760px); scroll-snap-align: start; }
+  .gallery[data-behavior="drag"] .gallery__track { cursor: grab; }
+  .gallery[data-behavior="drag"] .gallery__track.is-dragging { cursor: grabbing; scroll-snap-type: none; }
+  .gallery[data-layout="masonry"] .gallery__track { display: block; column-count: 3; column-gap: 24px; }
+  .gallery[data-layout="masonry"] .gallery__item { break-inside: avoid; margin-bottom: 24px; }
   .gallery[data-layout="sticky"] .gallery__track { display: block; }
-  .gallery[data-layout="sticky"] .gallery__item {
-    position: sticky;
-    top: 10svh;
-    margin-bottom: 20svh;
-  }
-
-  @media (max-width: 720px) {
-    .gallery__track { grid-template-columns: 1fr; }
+  .gallery[data-layout="sticky"] .gallery__item { position: sticky; top: calc(var(--frame-top) + 16px); margin-bottom: 20svh; }
+  @media (max-width: 1024px) {
+    .gallery__track { grid-template-columns: repeat(2, 1fr); }
     .gallery[data-layout="masonry"] .gallery__track { column-count: 2; }
+  }
+  @media (max-width: 560px) {
+    .gallery__track { grid-template-columns: 1fr; }
+    .gallery[data-layout="masonry"] .gallery__track { column-count: 1; }
   }
 </style>
 
 <script>
-  const galleries = document.querySelectorAll(
-    '.gallery[data-behavior="drag"][data-layout="horizontal-scroll"]'
-  );
-  galleries.forEach((gallery) => {
-    const track = gallery.querySelector('.gallery__track') as HTMLElement | null;
-    if (!track) return;
-    let isDown = false, startX = 0, scrollStart = 0;
-    const onDown = (e: PointerEvent) => {
-      isDown = true;
-      track.classList.add('is-dragging');
-      startX = e.pageX - track.offsetLeft;
-      scrollStart = track.scrollLeft;
-      track.setPointerCapture(e.pointerId);
-    };
-    const onMove = (e: PointerEvent) => {
-      if (!isDown) return;
-      const x = e.pageX - track.offsetLeft;
-      track.scrollLeft = scrollStart - (x - startX);
-    };
-    const onUp = (e: PointerEvent) => {
-      isDown = false;
-      track.classList.remove('is-dragging');
-      try { track.releasePointerCapture(e.pointerId); } catch {}
-    };
-    track.addEventListener('pointerdown', onDown);
-    track.addEventListener('pointermove', onMove);
-    track.addEventListener('pointerup', onUp);
-    track.addEventListener('pointercancel', onUp);
+  document.querySelectorAll<HTMLElement>('.gallery[data-behavior="drag"][data-layout="horizontal-scroll"] .gallery__track').forEach((track) => {
+    let down = false, x0 = 0, s0 = 0, moved = 0;
+    track.addEventListener('pointerdown', (e) => { if (e.pointerType !== 'mouse') return; down = true; moved = 0; x0 = e.clientX; s0 = track.scrollLeft; });
+    addEventListener('pointermove', (e) => {
+      if (!down) return; const dx = e.clientX - x0; moved = Math.max(moved, Math.abs(dx));
+      if (moved > 4) { track.classList.add('is-dragging'); track.scrollLeft = s0 - dx; }
+    });
+    addEventListener('pointerup', () => { down = false; track.classList.remove('is-dragging'); });
+    // swallow the click that ends a drag so the lightbox doesn't open
+    track.addEventListener('click', (e) => { if (moved > 4) { e.preventDefault(); e.stopPropagation(); moved = 0; } }, true);
   });
 </script>

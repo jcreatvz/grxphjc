@@ -3,30 +3,62 @@
   "slug": "obys-study",
   "client": "Personal",
   "year": 2025,
-  "tags": ["study", "motion", "scroll"],
+  "cover": "/images/placeholder/ph-09.jpg",
+  "summary": "Three views of the same content driven by a shared physics model.",
+  "tags": [
+    "motion"
+  ],
   "blocks": [
     {
       "type": "hero",
       "settings": {
-        "label": "Study — 002",
-        "headline": "A study in virtual scroll",
-        "subhead": "Recreating three views of the same content with a shared physics model.",
-        "align": "left",
-        "behavior": "fade"
+        "media": "",
+        "label": "Case Study — Personal",
+        "headline": "Scroll Physics Study",
+        "variant": "standard",
+        "subhead": "Three views of the same content driven by a shared physics model."
+      }
+    },
+    {
+      "type": "text",
+      "settings": {
+        "label": "Overview",
+        "heading": "The brief",
+        "body": "<p>Three views of the same content driven by a shared physics model. Placeholder case-study copy — replace in src/content/projects/obys-study.json.</p>"
       }
     },
     {
       "type": "gallery",
       "settings": {
-        "label": "Selected Frames",
-        "layout": "masonry",
+        "label": "Frames — Selected",
+        "layout": "grid",
+        "behavior": "none",
         "images": [
-          "https://picsum.photos/seed/obys1/800/1000",
-          "https://picsum.photos/seed/obys2/800/1400",
-          "https://picsum.photos/seed/obys3/800/800",
-          "https://picsum.photos/seed/obys4/800/1200",
-          "https://picsum.photos/seed/obys5/800/900",
-          "https://picsum.photos/seed/obys6/800/1100"
+          "/images/placeholder/ph-11.jpg",
+          "/images/placeholder/ph-12.jpg",
+          "/images/placeholder/ph-13.jpg",
+          "/images/placeholder/ph-14.jpg",
+          "/images/placeholder/ph-15.jpg",
+          "/images/placeholder/ph-16.jpg"
+        ]
+      }
+    },
+    {
+      "type": "metrics",
+      "settings": {
+        "items": [
+          {
+            "value": "06",
+            "label": "Weeks"
+          },
+          {
+            "value": "24",
+            "label": "Deliverables"
+          },
+          {
+            "value": "03",
+            "label": "Formats"
+          }
         ]
       }
     }

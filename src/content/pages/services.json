@@ -1,0 +1,86 @@
+{
+  "title": "Services",
+  "slug": "services",
+  "blocks": [
+    {
+      "type": "hero",
+      "settings": {
+        "label": "Services",
+        "headline": "What I Do",
+        "variant": "split-wordmark",
+        "scrollCue": false
+      }
+    },
+    {
+      "type": "list-rows",
+      "settings": {
+        "label": "Capabilities",
+        "items": [
+          {
+            "title": "Motion design",
+            "detail": "Title sequences, product loops, social cutdowns and kinetic type.",
+            "tags": [
+              "After Effects",
+              "Cinema 4D"
+            ]
+          },
+          {
+            "title": "Brand identity",
+            "detail": "Marks, typography, colour and guidelines.",
+            "tags": [
+              "Logo",
+              "Systems"
+            ]
+          },
+          {
+            "title": "Campaign & art direction",
+            "detail": "Key visuals, OOH, print and motion.",
+            "tags": [
+              "KV",
+              "OOH"
+            ]
+          },
+          {
+            "title": "Web & interactive",
+            "detail": "Portfolio-grade sites and interactive pieces.",
+            "tags": [
+              "Web",
+              "Prototype"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "type": "steps",
+      "settings": {
+        "label": "Process",
+        "items": [
+          {
+            "title": "Listen",
+            "text": "Understand the problem."
+          },
+          {
+            "title": "Frame",
+            "text": "Direction and plan."
+          },
+          {
+            "title": "Make",
+            "text": "Design in tight rounds."
+          },
+          {
+            "title": "Ship",
+            "text": "Files, systems, handover."
+          }
+        ]
+      }
+    },
+    {
+      "type": "cta",
+      "settings": {
+        "heading": "Let's make | something.",
+        "email": "hello@grxphjc.com"
+      }
+    }
+  ]
+}

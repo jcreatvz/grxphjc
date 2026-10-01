@@ -1,0 +1,16 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layout/Base.astro';
+import BlockRenderer from '../blocks/BlockRenderer.astro';
+import { isBleed } from '../lib/bleed';
+import site from '../site.json';
+
+export async function getStaticPaths() {
+  const pages = await getCollection('pages');
+  return pages.filter((p) => p.data.slug !== 'home').map((p) => ({ params: { page: p.data.slug }, props: { page: p.data } }));
+}
+const { page } = Astro.props;
+---
+<Base title={`${page.title} — ${site.brand.name}`} description={page.description} header={page.header} bleed={isBleed(page.blocks)}>
+  <BlockRenderer blocks={page.blocks} />
+</Base>

@@ -1,0 +1,81 @@
+---
+// Bottom bar: first shell block (logo) on the left, the rest as equal cells
+// across the right half. Fixed to the viewport bottom with safe-area padding.
+import { shellRegistry } from '../blocks/shell-registry.js';
+import { applyDefaults } from '../blocks/utils.js';
+export interface Props {
+  chrome?: string;
+  transparent?: boolean;
+  blocks: Array<{ type: string; settings: Record<string, any> }>;
+}
+const { chrome = 'auto', transparent = false, blocks = [] } = Astro.props;
+const render = (b: { type: string; settings: Record<string, any> }) => {
+  const e = shellRegistry[b.type];
+  return e ? { C: e.component, s: applyDefaults(shellRegistry, b.type, b.settings) } : null;
+};
+const [first, ...rest] = blocks.map(render).filter(Boolean) as Array<{ C: any; s: any }>;
+---
+<header class="site-bar" data-chrome={chrome} data-transparent={transparent}>
+  <nav class="site-bar__inner" aria-label="Primary">
+    <div class="site-bar__left">{first && <first.C {...first.s} />}</div>
+    <div class="site-bar__right">{rest.map(({ C, s }) => <C {...s} />)}</div>
+    <span class="site-bar__mark site-bar__mark--l" aria-hidden="true">+</span>
+    <span class="site-bar__mark site-bar__mark--m" aria-hidden="true">+</span>
+    <span class="site-bar__mark site-bar__mark--r" aria-hidden="true">+</span>
+  </nav>
+</header>
+
+<style>
+  .site-bar {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 90;
+    padding-bottom: var(--safe-bottom);
+    background: color-mix(in srgb, var(--chrome-bg) 92%, transparent);
+    color: var(--chrome-accent);
+    border-top: 1px solid var(--chrome-line);
+  }
+  .site-bar[data-transparent="true"] { background: transparent; border-top-color: transparent; }
+  .site-bar__inner {
+    position: relative;
+    display: grid; grid-template-columns: 1fr 1fr;
+    height: var(--bar-h);
+    padding: 0 var(--gutter);
+    max-width: none;
+  }
+  .site-bar__left { display: flex; align-items: stretch; }
+  .site-bar__right { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; }
+  .site-bar__mark {
+    position: absolute; top: -6px; font-family: var(--font-mono); font-size: 11px; line-height: 1;
+    color: var(--chrome-muted); pointer-events: none;
+  }
+  .site-bar__mark--l { left: calc(var(--gutter) - 4px); }
+  .site-bar__mark--m { left: calc(50% - 4px); }
+  .site-bar__mark--r { right: calc(var(--gutter) - 4px); }
+
+  /* ---- Shared cell style for every link/button in the bar ---- */
+  .site-bar :global(.bar-cell) {
+    position: relative; isolation: isolate;
+    display: flex; align-items: center; gap: 16px;
+    height: 100%; padding: 0 16px;
+    font-family: var(--font-mono); font-size: var(--step-mono-s); font-weight: 500; letter-spacing: 0.02em;
+    color: var(--chrome-accent);
+    transition: color var(--duration-fast) var(--ease-out);
+  }
+  /* red flood from the baseline; on leave it collapses back into a line */
+  .site-bar :global(.bar-cell)::before {
+    content: ''; position: absolute; inset: 0; z-index: -1;
+    background: var(--accent);
+    transform: scaleY(0); transform-origin: bottom;
+    transition: transform var(--duration-slow) var(--ease-out);
+  }
+  .site-bar :global(.bar-cell:hover),
+  .site-bar :global(.bar-cell:focus-visible) { color: var(--on-accent); }
+  .site-bar :global(.bar-cell:hover)::before,
+  .site-bar :global(.bar-cell:focus-visible)::before { transform: scaleY(1); }
+  .site-bar :global(.bar-cell:focus-visible) { outline-offset: -3px; }
+
+  @media (max-width: 720px) {
+    .site-bar__inner { grid-template-columns: auto 1fr; }
+    .site-bar__right { display: flex; justify-content: flex-end; }
+    .site-bar__mark--m { display: none; }
+  }
+</style>

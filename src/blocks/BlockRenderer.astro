@@ -1,0 +1,20 @@
+---
+// One renderer for projects AND pages. Any block may set `anchor` to get an id.
+import { blockRegistry } from './registry.js';
+import { applyDefaults } from './utils.js';
+export interface Props { blocks: Array<{ type: string; settings: Record<string, any> }>; }
+const { blocks = [] } = Astro.props;
+---
+{blocks.map((block) => {
+  const entry = (blockRegistry as any)[block.type];
+  if (!entry) return <div class="unknown-block mono">Unknown block type: {block.type}</div>;
+  const Block = entry.component;
+  const settings = applyDefaults(blockRegistry, block.type, block.settings);
+  return settings.anchor
+    ? <div id={settings.anchor} class="block-anchor"><Block {...settings} /></div>
+    : <Block {...settings} />;
+})}
+
+<style>
+  .unknown-block { margin: var(--gutter); padding: 24px; color: var(--accent); border: 1px dashed var(--accent); }
+</style>

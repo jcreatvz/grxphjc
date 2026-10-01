@@ -1,0 +1,24 @@
+---
+export interface Props { items: string[]; separator?: string; speed?: number; tone?: 'accent' | 'ink' | 'paper'; }
+const { items = [], separator = '+', speed = 32, tone = 'accent' } = Astro.props;
+---
+<section class="marquee" data-tone={tone} style={`--speed:${speed}s`} aria-label={items.join(', ')}>
+  <div class="marquee__track" data-marquee>
+    <div class="marquee__seq" data-marquee-seq aria-hidden="true">
+      {items.map((t) => <><span class="marquee__item">{t}</span><span class="marquee__sep">{separator}</span></>)}
+    </div>
+  </div>
+</section>
+
+<style>
+  .marquee { overflow: hidden; border-block: 1px solid var(--hairline); padding: 18px 0; }
+  .marquee[data-tone="accent"] { background: var(--accent); color: var(--on-accent); border-color: transparent; }
+  .marquee[data-tone="ink"] { background: var(--night); color: var(--night-ink); border-color: transparent; }
+  .marquee__track { display: flex; width: max-content; animation: marquee-x var(--speed) linear infinite; }
+  .marquee:hover .marquee__track { animation-play-state: paused; }
+  .marquee__seq { display: flex; align-items: center; flex: none; }
+  .marquee__item { font-family: var(--font-mono); font-weight: 600; text-transform: uppercase; letter-spacing: 0.02em; font-size: clamp(22px, 3vw, 44px); white-space: nowrap; }
+  .marquee__sep { font-family: var(--font-mono); font-size: clamp(18px, 2.2vw, 32px); padding: 0 clamp(18px, 2.4vw, 36px); opacity: 0.7; }
+  @keyframes marquee-x { to { transform: translateX(calc(var(--seq-w, 50%) * -1)); } }
+  @media (prefers-reduced-motion: reduce) { .marquee__track { animation: none; } }
+</style>

@@ -1,142 +1,68 @@
 ---
+import { href } from '../../lib/url';
 export interface Props {
-  media?: string;
-  label?: string;
-  headline: string;
-  subhead?: string;
-  variant?: 'standard' | 'split-wordmark';
-  align?: 'left' | 'center' | 'right';
-  behavior?: 'none' | 'fade' | 'reveal' | 'parallax';
+  media?: string; label?: string; headline: string; subhead?: string;
+  variant?: 'standard' | 'split-wordmark'; align?: 'left' | 'center' | 'right'; scrollCue?: boolean;
 }
-const {
-  media = '',
-  label = '',
-  headline,
-  subhead = '',
-  variant = 'standard',
-  align = 'left',
-  behavior = 'fade',
-} = Astro.props;
-
-const isVideo = !!media && /\.(mp4|webm|mov)(\?.*)?$/i.test(media);
-
-// Split-wordmark variant: first word solid, remainder ghosted
-let word1 = headline, word2 = '';
-if (variant === 'split-wordmark') {
-  const parts = headline.split(/\s+/);
-  word1 = parts[0] ?? headline;
-  word2 = parts.slice(1).join(' ');
-}
+const { media = '', label = '', headline, subhead = '', variant = 'standard', align = 'left', scrollCue = true } = Astro.props;
+const src = media ? href(media) : '';
+const isVideo = /\.(mp4|webm|mov)(\?.*)?$/i.test(media);
+const [w1, ...rest] = headline.split(/\s+/);
 ---
-<section class="hero" data-align={align} data-behavior={behavior} data-variant={variant}>
-  {media && (isVideo
-    ? (<video class="hero__media" src={media} autoplay muted loop playsinline></video>)
-    : (<img class="hero__media" src={media} alt="" />)
-  )}
-
-  <!-- Restrained plus-mark corners -->
-  <span class="plus-corner plus-corner--tl">+</span>
-  <span class="plus-corner plus-corner--tr">+</span>
-  <span class="plus-corner plus-corner--bl">+</span>
-  <span class="plus-corner plus-corner--br">+</span>
-
+<section class="hero" data-align={align} data-media={!!media}>
+  {src && (isVideo
+    ? <video class="hero__media" src={src} autoplay muted loop playsinline></video>
+    : <img class="hero__media" src={src} alt="" fetchpriority="high" />)}
+  <span class="plus-corner plus-corner--tl">+</span><span class="plus-corner plus-corner--tr">+</span>
+  <span class="plus-corner plus-corner--bl">+</span><span class="plus-corner plus-corner--br">+</span>
   <div class="hero__inner">
-    {label && <div class="hero__label section-label">{label}</div>}
-
+    {label && <div class="hero__label section-label" data-reveal>{label}</div>}
     {variant === 'split-wordmark'
-      ? (
-        <div class="hero__wordmark">
-          <div class="hero__word hero__word--primary">{word1}</div>
-          {word2 && <div class="hero__word hero__word--ghost">{word2}</div>}
-        </div>
-      )
-      : <h1 class="hero__headline">{headline}</h1>
-    }
-
-    {subhead && <div class="hero__subhead" set:html={subhead} />}
+      ? <h1 class="hero__wordmark" data-reveal style="--reveal-i:1">
+          <span class="hero__word">{w1}</span>{rest.length > 0 && <span class="hero__word hero__word--ghost">{rest.join(' ')}</span>}
+        </h1>
+      : <h1 class="hero__headline" data-reveal style="--reveal-i:1">{headline}</h1>}
+    {subhead && <div class="hero__subhead" data-reveal style="--reveal-i:2" set:html={subhead} />}
   </div>
+  {scrollCue && <span class="hero__cue mono-xs" aria-hidden="true">Scroll<s></s></span>}
 </section>
 
 <style>
   .hero {
-    position: relative;
-    min-height: 90svh;
-    display: flex;
-    padding: var(--section-y) var(--gutter);
-    overflow: hidden;
-    color: var(--ink);
-    background: var(--paper);
-    isolation: isolate;
+    position: relative; isolation: isolate; overflow: hidden;
+    min-height: calc(100svh - var(--frame-top) - var(--bar-h));
+    display: flex; padding: var(--section-y) var(--gutter) calc(var(--section-y) * 0.75);
+    color: var(--ink); background: var(--paper);
   }
-  .hero__media {
-    position: absolute; inset: 0;
-    width: 100%; height: 100%;
-    object-fit: cover;
-    z-index: -1;
+  .hero[data-media="true"] { min-height: 100svh; color: var(--on-media); background: var(--night); padding-bottom: calc(var(--bar-h) + var(--section-y) * 0.6); }
+  .hero[data-media="true"]::before {
+    content: ''; position: absolute; inset: 0; z-index: -1;
+    background: linear-gradient(180deg, rgba(0,0,0,.25) 0%, rgba(0,0,0,.1) 40%, rgba(0,0,0,.62) 100%);
   }
-  .hero:has(.hero__media) { color: var(--ink-inverse); }
-  .hero:has(.hero__media)::before {
-    content: '';
-    position: absolute; inset: 0;
-    background: linear-gradient(180deg, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.55) 100%);
-    z-index: -1;
-  }
-
-  .hero__inner {
-    position: relative;
-    max-width: 1100px;
-    margin-top: auto;
-    width: 100%;
-  }
-
-  .hero__label { margin-bottom: 24px; display: inline-block; }
-
-  /* Standard headline */
+  .hero[data-media="true"] .plus-corner, .hero[data-media="true"] .section-label { color: rgba(245, 244, 240, 0.7); }
+  .hero[data-media="true"] .plus-corner--tl, .hero[data-media="true"] .plus-corner--tr { display: none; } /* frame owns the top edge */
+  .hero__media { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; }
+  .hero__inner { position: relative; margin-top: auto; width: 100%; max-width: 1200px; }
+  .hero__label { display: inline-block; margin-bottom: 24px; }
   .hero__headline {
-    font-family: var(--font-display);
-    font-size: clamp(56px, 9vw, 128px);
-    line-height: 1.05;
-    letter-spacing: -0.03em;
-    margin: 0;
-    font-weight: 600;
-    font-optical-sizing: auto;
+    margin: 0; font-family: var(--font-display); font-weight: 600; letter-spacing: -0.035em; line-height: 1.02;
+    font-size: clamp(48px, 8.6vw, 136px);
   }
-
-  /* Split-wordmark variant: two big stacked words, second ghosted */
-  .hero__wordmark {
-    display: flex;
-    flex-direction: column;
-    line-height: 0.9;
-  }
-  .hero__word {
-    font-family: var(--font-display);
-    font-size: clamp(72px, 14vw, 220px);
-    letter-spacing: -0.04em;
-    font-weight: 600;
-    font-optical-sizing: auto;
-  }
-  .hero__word--primary { color: currentColor; }
-  .hero__word--ghost {
-    color: var(--paper-2);
-    /* On dark hero, ghost sits against dark bg — flip to muted white */
-  }
-  .hero:has(.hero__media) .hero__word--ghost {
-    color: rgba(255, 255, 255, 0.28);
-  }
-
-  .hero__subhead {
-    margin-top: 24px;
-    font-size: var(--step-3);
-    max-width: 60ch;
-    line-height: 1.35;
-    letter-spacing: -0.01em;
-  }
-  .hero:has(.hero__media) .hero__subhead { opacity: 0.9; }
-
-  /* Alignment */
-  .hero[data-align="center"] { justify-content: center; text-align: center; align-items: center; }
-  .hero[data-align="center"] .hero__inner { margin: auto; }
+  .hero__wordmark { margin: 0; display: flex; flex-direction: column; line-height: 0.88; font-weight: 600; }
+  .hero__word { font-family: var(--font-display); font-size: var(--step-display-xl); letter-spacing: -0.045em; }
+  .hero__word--ghost { color: var(--ghost); }
+  .hero[data-media="true"] .hero__word--ghost { color: rgba(245, 244, 240, 0.42); }
+  .hero__subhead { margin-top: 24px; max-width: 58ch; font-size: var(--step-3); line-height: 1.4; letter-spacing: -0.01em; }
+  .hero[data-align="center"] { text-align: center; }
+  .hero[data-align="center"] .hero__inner { margin: auto auto 0; }
   .hero[data-align="center"] .hero__wordmark { align-items: center; }
-  .hero[data-align="right"]  { justify-content: flex-end; text-align: right; }
+  .hero[data-align="center"] .hero__subhead { margin-inline: auto; }
+  .hero[data-align="right"] { text-align: right; justify-content: flex-end; }
   .hero[data-align="right"] .hero__wordmark { align-items: flex-end; }
+  .hero[data-align="right"] .hero__subhead { margin-left: auto; }
+  .hero__cue { position: absolute; right: var(--gutter); bottom: calc(var(--section-y) * 0.4); display: flex; align-items: center; gap: 10px; opacity: 0.7; }
+  .hero[data-media="true"] .hero__cue { bottom: calc(var(--bar-h) + 24px); }
+  .hero__cue s { display: block; width: 1px; height: 40px; background: currentColor; transform-origin: top; animation: hero-cue 2.2s var(--ease-out) infinite; }
+  @keyframes hero-cue { 0% { transform: scaleY(0); } 50% { transform: scaleY(1); transform-origin: top; } 51% { transform-origin: bottom; } 100% { transform: scaleY(0); transform-origin: bottom; } }
+  @media (max-width: 720px) { .hero__cue { display: none; } }
 </style>

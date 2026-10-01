@@ -1,29 +1,20 @@
 ---
+import { href, isExternal } from '../../../lib/url';
 export interface Props {
-  columns: Array<{
-    heading: string;
-    links: Array<{ label: string; href: string }>;
-  }>;
+  columns: Array<{ heading: string; links: Array<{ label: string; href: string }> }>;
 }
 const { columns = [] } = Astro.props;
-
-const base = import.meta.env.BASE_URL.replace(/\/$/, '');
-const resolve = (h: string) => (h.startsWith('http') ? h : `${base}${h}`);
 ---
 <div class="footer-columns">
   {columns.map((col) => (
-    <div class="footer-columns__col">
-      <h3 class="footer-columns__heading">{col.heading.toUpperCase()}</h3>
+    <div>
+      <h3 class="footer-columns__heading">{col.heading}</h3>
       <ul>
         {col.links.map((l) => (
           <li>
-            <a
-              href={resolve(l.href)}
-              target={l.href.startsWith('http') ? '_blank' : undefined}
-              rel={l.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-            >
-              {l.label}
-            </a>
+            <a href={href(l.href)} data-scramble
+               target={isExternal(l.href) ? '_blank' : undefined}
+               rel={isExternal(l.href) ? 'noopener noreferrer' : undefined}>{l.label}</a>
           </li>
         ))}
       </ul>
@@ -33,39 +24,19 @@ const resolve = (h: string) => (h.startsWith('http') ? h : `${base}${h}`);
 
 <style>
   .footer-columns {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 48px;
-    max-width: var(--page-max);
-    margin: 0 auto;
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: clamp(28px, 4vw, 48px);
+    max-width: var(--page-max); margin: 0 auto;
     padding: 0 var(--gutter) 64px;
-    position: relative;
-    z-index: 1;
   }
   .footer-columns__heading {
-    font-family: var(--font-mono);
-    font-size: var(--step-mono-xs);
-    font-weight: 500;
-    letter-spacing: 0.06em;
-    color: var(--footer-muted);
-    margin: 0 0 20px;
+    font-family: var(--font-mono); font-size: var(--step-mono-xs); font-weight: 500;
+    letter-spacing: 0.06em; text-transform: uppercase; color: var(--night-muted); margin: 0 0 18px;
   }
-  .footer-columns ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
+  .footer-columns ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
   .footer-columns a {
-    font-family: var(--font-mono);
-    font-size: var(--step-mono-s);
-    text-transform: uppercase;
-    letter-spacing: 0.02em;
-    color: var(--footer-ink);
-    text-decoration: none;
-    transition: color var(--duration-fast) var(--ease-out);
+    font-family: var(--font-mono); font-size: var(--step-mono-s); text-transform: uppercase;
+    letter-spacing: 0.02em; color: var(--night-ink); transition: color var(--duration-fast) var(--ease-out);
   }
   .footer-columns a:hover { color: var(--accent-strong); }
 </style>

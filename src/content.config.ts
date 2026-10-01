@@ -1,9 +1,13 @@
 import { defineCollection, z } from 'astro:content';
 import { glob } from 'astro/loaders';
 
-// Projects live as JSON files in src/content/projects/*.json
-// The `blocks` array is intentionally open-ended — each block's `settings`
-// object is validated at render time against its own schema in src/blocks/*.
+const block = z.object({ type: z.string(), settings: z.record(z.any()).default({}) });
+// Option A whitelist: pages may tweak chrome modifiers, never replace chrome blocks.
+const chrome = z.object({
+  theme: z.enum(['auto', 'light', 'dark']).optional(),
+  transparent: z.boolean().optional(),
+}).optional();
+
 const projects = defineCollection({
   loader: glob({ pattern: '**/*.json', base: './src/content/projects' }),
   schema: z.object({
@@ -12,25 +16,23 @@ const projects = defineCollection({
     client: z.string().optional(),
     year: z.number().optional(),
     cover: z.string().optional(),
+    summary: z.string().optional(),
     tags: z.array(z.string()).default([]),
-
-    // Optional per-page shell overrides (Option A: modifier fields only).
-    header: z.object({
-      theme: z.enum(['light', 'dark']).optional(),
-      transparent: z.boolean().optional(),
-      sticky: z.boolean().optional(),
-    }).optional(),
-    footer: z.object({
-      theme: z.enum(['light', 'dark']).optional(),
-    }).optional(),
-
-    blocks: z.array(
-      z.object({
-        type: z.string(),
-        settings: z.record(z.any()),
-      })
-    ),
+    header: chrome,
+    blocks: z.array(block),
   }),
 });
 
-export const collections = { projects };
+// Pages are block-built too: home.json → "/", about.json → "/about", etc.
+const pages = defineCollection({
+  loader: glob({ pattern: '**/*.json', base: './src/content/pages' }),
+  schema: z.object({
+    title: z.string(),
+    slug: z.string(),
+    description: z.string().optional(),
+    header: chrome,
+    blocks: z.array(block),
+  }),
+});
+
+export const collections = { projects, pages };

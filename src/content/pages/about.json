@@ -1,0 +1,50 @@
+{
+  "title": "About",
+  "slug": "about",
+  "blocks": [
+    {
+      "type": "hero",
+      "settings": {
+        "label": "About",
+        "headline": "Graphic Designer",
+        "variant": "split-wordmark",
+        "subhead": "Motion, identity and type — self-initiated, alt, unapologetic. Based in Edmonton.",
+        "scrollCue": false
+      }
+    },
+    {
+      "type": "text",
+      "settings": {
+        "label": "Bio",
+        "heading": "Placeholder bio",
+        "body": "<p>Write a short, honest paragraph about who you are and what you make. This page is built from blocks in <em>src/content/pages/about.json</em>.</p><p>Second paragraph: how you work, who you've worked with, what you're looking for next.</p>"
+      }
+    },
+    {
+      "type": "metrics",
+      "settings": {
+        "items": [
+          {
+            "value": "12+",
+            "label": "Years"
+          },
+          {
+            "value": "140",
+            "label": "Projects"
+          },
+          {
+            "value": "38",
+            "label": "Clients"
+          }
+        ]
+      }
+    },
+    {
+      "type": "cta",
+      "settings": {
+        "heading": "Say hello.",
+        "email": "hello@grxphjc.com"
+      }
+    }
+  ]
+}

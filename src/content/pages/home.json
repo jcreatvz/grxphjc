@@ -1,0 +1,304 @@
+{
+  "title": "Grxphjc — Motion & Design",
+  "slug": "home",
+  "description": "Grxphjc — graphic and motion designer based in Edmonton. Self-initiated, alt, unapologetic.",
+  "blocks": [
+    {
+      "type": "orbit",
+      "settings": {
+        "label": "Archive — Frames & Studies",
+        "headline": "Experienced *n* Experimental",
+        "source": "both",
+        "projectAction": "popup",
+        "startView": "sphere",
+        "maxItems": 26,
+        "cue": "Drag to rotate · Scroll to dive",
+        "items": [
+          {
+            "image": "/images/placeholder/ph-01.jpg",
+            "title": "Night Shift",
+            "meta": "Study — 2024",
+            "note": "Placeholder frame. Swap the image, title and note in src/content/pages/home.json.",
+            "action": "popup"
+          },
+          {
+            "image": "/images/placeholder/ph-02.jpg",
+            "title": "Static Bloom",
+            "meta": "Study — 2025",
+            "note": "Placeholder frame. Swap the image, title and note in src/content/pages/home.json.",
+            "action": "popup"
+          },
+          {
+            "image": "/images/placeholder/ph-03.jpg",
+            "title": "Signal Loss",
+            "meta": "Study — 2026",
+            "note": "Placeholder frame. Swap the image, title and note in src/content/pages/home.json.",
+            "action": "popup"
+          },
+          {
+            "image": "/images/placeholder/ph-04.jpg",
+            "title": "Soft Machine",
+            "meta": "Study — 2024",
+            "note": "Placeholder frame. Swap the image, title and note in src/content/pages/home.json.",
+            "action": "popup"
+          },
+          {
+            "image": "/images/placeholder/ph-05.jpg",
+            "title": "Paper Weather",
+            "meta": "Study — 2025",
+            "note": "Placeholder frame. Swap the image, title and note in src/content/pages/home.json.",
+            "action": "popup",
+            "tall": true
+          },
+          {
+            "image": "/images/placeholder/ph-06.jpg",
+            "title": "Low Orbit",
+            "meta": "Study — 2026",
+            "note": "Placeholder frame. Swap the image, title and note in src/content/pages/home.json.",
+            "action": "popup"
+          },
+          {
+            "image": "/images/placeholder/ph-07.jpg",
+            "title": "Afterimage",
+            "meta": "Study — 2024",
+            "note": "Placeholder frame. Swap the image, title and note in src/content/pages/home.json.",
+            "action": "popup"
+          },
+          {
+            "image": "/images/placeholder/ph-08.jpg",
+            "title": "Field Test",
+            "meta": "Study — 2025",
+            "note": "Placeholder frame. Swap the image, title and note in src/content/pages/home.json.",
+            "action": "popup"
+          },
+          {
+            "image": "/images/placeholder/ph-09.jpg",
+            "title": "Quiet Loud",
+            "meta": "Study — 2026",
+            "note": "Placeholder frame. Swap the image, title and note in src/content/pages/home.json.",
+            "action": "popup"
+          },
+          {
+            "image": "/images/placeholder/ph-10.jpg",
+            "title": "Rerun",
+            "meta": "Study — 2024",
+            "note": "Placeholder frame. Swap the image, title and note in src/content/pages/home.json.",
+            "action": "popup",
+            "tall": true
+          },
+          {
+            "image": "/images/placeholder/ph-11.jpg",
+            "title": "Grain Study",
+            "meta": "Study — 2025",
+            "note": "Placeholder frame. Swap the image, title and note in src/content/pages/home.json.",
+            "action": "popup"
+          },
+          {
+            "image": "/images/placeholder/ph-12.jpg",
+            "title": "Northbound",
+            "meta": "Study — 2026",
+            "note": "Placeholder frame. Swap the image, title and note in src/content/pages/home.json.",
+            "action": "popup"
+          },
+          {
+            "image": "/images/placeholder/ph-13.jpg",
+            "title": "Hand Held",
+            "meta": "Study — 2024",
+            "note": "Placeholder frame. Swap the image, title and note in src/content/pages/home.json.",
+            "action": "popup"
+          },
+          {
+            "image": "/images/placeholder/ph-14.jpg",
+            "title": "Blackout Poster",
+            "meta": "Study — 2025",
+            "note": "Placeholder frame. Swap the image, title and note in src/content/pages/home.json.",
+            "action": "popup"
+          },
+          {
+            "image": "/images/placeholder/ph-15.jpg",
+            "title": "Slow Cut",
+            "meta": "Study — 2026",
+            "note": "Placeholder frame. Swap the image, title and note in src/content/pages/home.json.",
+            "action": "popup",
+            "tall": true
+          },
+          {
+            "image": "/images/placeholder/ph-16.jpg",
+            "title": "Echo Chamber",
+            "meta": "Study — 2024",
+            "note": "Placeholder frame. Swap the image, title and note in src/content/pages/home.json.",
+            "action": "popup"
+          },
+          {
+            "image": "/images/placeholder/ph-17.jpg",
+            "title": "Frame Rate",
+            "meta": "Study — 2025",
+            "note": "Placeholder frame. Swap the image, title and note in src/content/pages/home.json.",
+            "action": "popup"
+          },
+          {
+            "image": "/images/placeholder/ph-18.jpg",
+            "title": "Off Register",
+            "meta": "Study — 2026",
+            "note": "Placeholder frame. Swap the image, title and note in src/content/pages/home.json.",
+            "action": "popup"
+          },
+          {
+            "image": "/images/placeholder/ph-19.jpg",
+            "title": "Long Exposure",
+            "meta": "Study — 2024",
+            "note": "Placeholder frame. Swap the image, title and note in src/content/pages/home.json.",
+            "action": "popup"
+          },
+          {
+            "image": "/images/placeholder/ph-20.jpg",
+            "title": "Dead Air",
+            "meta": "Study — 2025",
+            "note": "Placeholder frame. Swap the image, title and note in src/content/pages/home.json.",
+            "action": "popup",
+            "tall": true
+          }
+        ]
+      }
+    },
+    {
+      "type": "statement",
+      "settings": {
+        "label": "01 / Intro",
+        "text": "Graphic designer and brand-new dad making *self-initiated,* alt and unapologetic work — motion, identity and type that moves.",
+        "footnote": "Based in Edmonton · Working worldwide"
+      }
+    },
+    {
+      "type": "marquee",
+      "settings": {
+        "items": [
+          "Motion",
+          "Identity",
+          "Type",
+          "Campaign",
+          "Experimental"
+        ],
+        "separator": "+",
+        "tone": "accent"
+      }
+    },
+    {
+      "type": "project-grid",
+      "settings": {
+        "anchor": "work",
+        "label": "Selected Work",
+        "heading": "Recent projects",
+        "limit": 8,
+        "layout": "grid"
+      }
+    },
+    {
+      "type": "metrics",
+      "settings": {
+        "label": "02 / By the numbers",
+        "items": [
+          {
+            "value": "12+",
+            "label": "Years designing"
+          },
+          {
+            "value": "140",
+            "label": "Projects shipped"
+          },
+          {
+            "value": "38",
+            "label": "Brands & clients"
+          },
+          {
+            "value": "01",
+            "label": "Brand-new kid"
+          }
+        ]
+      }
+    },
+    {
+      "type": "list-rows",
+      "settings": {
+        "label": "03 / Services",
+        "heading": "What I do",
+        "items": [
+          {
+            "title": "Motion design",
+            "detail": "Title sequences, product loops, social cutdowns and kinetic type systems.",
+            "tags": [
+              "After Effects",
+              "Cinema 4D",
+              "Loops"
+            ]
+          },
+          {
+            "title": "Brand identity",
+            "detail": "Marks, typography, colour and the rules that hold them together across every surface.",
+            "tags": [
+              "Logo",
+              "Guidelines",
+              "Systems"
+            ]
+          },
+          {
+            "title": "Campaign & art direction",
+            "detail": "Concept to rollout — key visuals, OOH, print and the motion that ties it together.",
+            "tags": [
+              "Key visual",
+              "OOH",
+              "Print"
+            ]
+          },
+          {
+            "title": "Web & interactive",
+            "detail": "Portfolio-grade sites and interactive pieces where the design is the interface.",
+            "tags": [
+              "Web",
+              "Prototype",
+              "Creative dev"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "type": "steps",
+      "settings": {
+        "label": "04 / Process",
+        "heading": "How it runs",
+        "items": [
+          {
+            "title": "Listen",
+            "text": "A short call to understand the problem, the audience and what success looks like."
+          },
+          {
+            "title": "Frame",
+            "text": "Direction boards and a clear plan — options narrowed before anything gets polished."
+          },
+          {
+            "title": "Make",
+            "text": "Design and motion in tight rounds, shared early and often."
+          },
+          {
+            "title": "Ship",
+            "text": "Final files, systems and handover so the work keeps going without me."
+          }
+        ]
+      }
+    },
+    {
+      "type": "cta",
+      "settings": {
+        "label": "05 / Contact",
+        "heading": "Got something | worth making?",
+        "text": "Open for freelance, collaborations and the occasional strange idea.",
+        "email": "hello@grxphjc.com",
+        "button": {
+          "label": "Start a project",
+          "href": "/contact"
+        }
+      }
+    }
+  ]
+}

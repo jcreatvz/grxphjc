@@ -1,162 +1,183 @@
 /* ------------------------------------------------------------------
    grxphjc — design tokens
-   Palette: grayscale + one accent (red default, orange alt)
-   Type: Inter (variable, opsz axis) + JetBrains Mono (variable)
-   Voice: brutalist editorial — mono for utility, display for identity
+   Grayscale + one accent (Signal Red default, Burnt Orange alt)
+   Inter Variable (display/body) + JetBrains Mono Variable (utility)
 ------------------------------------------------------------------ */
-
 @import '@fontsource-variable/inter';
 @import '@fontsource-variable/jetbrains-mono';
 
 :root {
-  /* ---- Colors (light default) ---- */
-  --ink:            #111111;
-  --ink-inverse:    #f5f4f0;
-  --paper:          #f5f4f0;
-  --paper-2:        #ececde;
-  --muted:          #767676;
-  --hairline:       rgba(17, 17, 17, 0.12);
+  /* ---- Colour (light default) ---- */
+  --ink:         #111111;
+  --paper:       #f5f4f0;
+  --paper-2:     #e9e7e1;
+  --muted:       #6f6f6f;
+  --ghost:       #9a9a9a;              /* split-wordmark echo — readable, not near-paper */
+  --hairline:    rgba(17, 17, 17, 0.12);
 
-  /* Persistent (do not flip with theme) */
-  --footer-bg:      #0a0a0a;
-  --footer-ink:     #f5f4f0;
-  --footer-muted:   rgba(245, 244, 240, 0.55);
-  --overlay-bg:     #0a0a0a;
-  --overlay-ink:    #f5f4f0;
-  --overlay-muted:  rgba(245, 244, 240, 0.6);
+  /* Fixed-darkness surfaces (never flip with theme) */
+  --night:       #0a0a0a;
+  --night-ink:   #f5f4f0;
+  --night-muted: rgba(245, 244, 240, 0.58);
+  --night-line:  rgba(245, 244, 240, 0.12);
+  --on-media:    #f5f4f0;              /* text over photography, any theme */
 
-  /* Accent presets — Signal Red default, Burnt Orange alt */
-  --accent-red:            #e30613;
-  --accent-red-strong:     #ff1a2c;
-  --accent-orange:         #c8501e;
-  --accent-orange-strong:  #e56425;
-  --accent:         var(--accent-red);
-  --accent-strong:  var(--accent-red-strong);
+  /* Accent presets */
+  --accent-red:           #e30613;
+  --accent-red-strong:    #ff1a2c;
+  --accent-orange:        #c8501e;
+  --accent-orange-strong: #e56425;
+  --accent:        var(--accent-red);
+  --accent-strong: var(--accent-red-strong);
+  --on-accent:     #111111;            /* text on an accent fill */
 
-  /* ---- Type families ---- */
-  --font-sans:    'Inter Variable', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-  --font-display: 'Inter Variable', system-ui, sans-serif; /* opsz auto handles display sizes */
+  /* ---- Type ---- */
+  --font-sans:    'Inter Variable', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-display: 'Inter Variable', system-ui, sans-serif;
   --font-mono:    'JetBrains Mono Variable', ui-monospace, 'SF Mono', Menlo, monospace;
 
-  /* ---- Type scale ---- */
-  --step-display-xl: 120px; /* hero name only */
-  --step-display-l:  72px;  /* section titles */
-  --step-display-m:  48px;  /* intro paragraph */
-  --step-1:          40px;  /* h1 */
-  --step-2:          32px;  /* h2 */
-  --step-3:          24px;  /* body-l */
-  --step-4:          18px;  /* body */
-  --step-5:          16px;  /* body-s */
-  --step-mono-s:     13px;  /* utility */
-  --step-mono-xs:    11px;  /* micro */
+  --step-display-xl: clamp(64px, 12vw, 200px);
+  --step-display-l:  clamp(44px, 6.4vw, 96px);
+  --step-display-m:  clamp(28px, 3.6vw, 52px);
+  --step-1: clamp(30px, 3vw, 40px);
+  --step-2: clamp(24px, 2.4vw, 32px);
+  --step-3: clamp(19px, 1.7vw, 24px);
+  --step-4: 17px;
+  --step-5: 15px;
+  --step-mono-s:  13px;
+  --step-mono-xs: 11px;
 
   /* ---- Motion ---- */
   --duration-fast: 200ms;
-  --duration-med:  240ms;
-  --duration-slow: 560ms;
-  --ease-out:      cubic-bezier(0.16, 1, 0.3, 1);
-  --ease-panel:    cubic-bezier(0.32, 0.72, 0, 1);
+  --duration-med:  260ms;
+  --duration-slow: 600ms;
+  --ease-out:   cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-panel: cubic-bezier(0.32, 0.72, 0, 1);
 
   /* ---- Layout ---- */
-  --gutter:     32px;
-  --page-max:   1600px;
-  --section-y:  96px;
+  --gutter:    clamp(16px, 3.2vw, 32px);
+  --page-max:  1600px;
+  --section-y: clamp(64px, 9vw, 128px);
+
+  /* Frame chrome (fixed top line + fixed bottom bar) */
+  --frame-top: 64px;
+  --bar-h:     64px;
+  --safe-top:    env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
 }
 
-/* ---- Dark theme ---- */
+@media (max-width: 720px) {
+  :root { --frame-top: 52px; --bar-h: 56px; }
+}
+
 :root[data-theme="dark"] {
-  --ink:       #f5f4f0;
-  --ink-inverse: #111111;
-  --paper:     #0a0a0a;
-  --paper-2:   #1a1a1a;
-  --muted:     #8e8e8e;
-  --hairline:  rgba(255, 255, 255, 0.14);
+  --ink:      #f5f4f0;
+  --paper:    #0a0a0a;
+  --paper-2:  #1a1a1a;
+  --muted:    #929292;
+  --ghost:    #5c5c5c;
+  --hairline: rgba(255, 255, 255, 0.14);
 }
 
-/* ---- Accent switcher ---- */
 :root[data-accent="orange"] {
   --accent:        var(--accent-orange);
   --accent-strong: var(--accent-orange-strong);
 }
 
 /* ---- Reset ---- */
-* { box-sizing: border-box; }
+*, *::before, *::after { box-sizing: border-box; }
 html, body { margin: 0; padding: 0; }
-
 html {
   background: var(--paper);
   color: var(--ink);
-  transition:
-    background var(--duration-med) var(--ease-out),
-    color var(--duration-med) var(--ease-out);
+  scrollbar-gutter: stable;            /* no layout jump when scroll locks */
+  scroll-padding-top: calc(var(--frame-top) + 16px);
+  transition: background var(--duration-med) var(--ease-out), color var(--duration-med) var(--ease-out);
 }
-
 body {
   font-family: var(--font-sans);
   font-size: var(--step-4);
-  line-height: 1.4;
+  line-height: 1.45;
   font-optical-sizing: auto;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
-
+body.is-locked { overflow: hidden; }
+html:has(body.is-locked) { background: #040404; }
 a { color: inherit; text-decoration: none; }
 img, video { display: block; max-width: 100%; }
-
-/* ---- Utility classes ---- */
-.mono {
-  font-family: var(--font-mono);
-  font-size: var(--step-mono-s);
-  font-weight: 500;
-  letter-spacing: 0;
-  text-transform: uppercase;
-}
-.mono-xs {
-  font-family: var(--font-mono);
-  font-size: var(--step-mono-xs);
-  font-weight: 500;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
+button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
 }
 
-/* Bracketed section label: [ Selected Work ] */
-.section-label {
+/* ---- Utility voice ---- */
+.mono, .mono-xs, .section-label {
   font-family: var(--font-mono);
-  font-size: var(--step-mono-s);
   font-weight: 500;
   text-transform: uppercase;
-  letter-spacing: 0.02em;
-  color: var(--muted);
 }
+.mono    { font-size: var(--step-mono-s);  letter-spacing: 0.02em; }
+.mono-xs { font-size: var(--step-mono-xs); letter-spacing: 0.06em; }
+.section-label { font-size: var(--step-mono-s); letter-spacing: 0.02em; color: var(--muted); }
 .section-label::before { content: '[ '; }
 .section-label::after  { content: ' ]'; }
 
-/* Small square brand-mark bullet */
 .brand-mark::before {
-  content: '';
-  display: inline-block;
-  width: 8px;
-  height: 8px;
-  background: currentColor;
-  margin-right: 10px;
-  vertical-align: 1px;
+  content: ''; display: inline-block; width: 8px; height: 8px;
+  background: currentColor; margin-right: 10px; vertical-align: 1px;
 }
 
-/* Corner plus marks — put inside a position:relative parent */
+/* Section plus-marks — parent must be position:relative */
 .plus-corner {
-  position: absolute;
-  font-family: var(--font-mono);
-  font-size: 12px;
-  color: var(--muted);
-  line-height: 1;
-  user-select: none;
-  pointer-events: none;
+  position: absolute; font-family: var(--font-mono); font-size: 12px; line-height: 1;
+  color: var(--muted); opacity: 0.7; pointer-events: none; user-select: none;
 }
-.plus-corner--tl { top: 12px;    left: 12px; }
-.plus-corner--tr { top: 12px;    right: 12px; }
+.plus-corner--tl { top: 12px; left: 12px; }
+.plus-corner--tr { top: 12px; right: 12px; }
 .plus-corner--bl { bottom: 12px; left: 12px; }
 .plus-corner--br { bottom: 12px; right: 12px; }
 
-@media (prefers-reduced-motion: reduce) {
-  * { animation: none !important; transition: none !important; }
+/* ---- Reveal on scroll (driven by src/scripts/reveal.ts) ---- */
+.js [data-reveal] {
+  opacity: 0; transform: translateY(18px);
+  transition: opacity var(--duration-slow) var(--ease-out), transform var(--duration-slow) var(--ease-out);
+  transition-delay: calc(var(--reveal-i, 0) * 70ms);
 }
+.js [data-reveal].is-in { opacity: 1; transform: none; }
+
+/* ---- Custom cursor: hide native pointer only when enabled + fine pointer ---- */
+@media (hover: hover) and (pointer: fine) {
+  :root[data-cursor="custom"].js,
+  :root[data-cursor="custom"].js a,
+  :root[data-cursor="custom"].js button { cursor: none; }
+  :root[data-cursor="custom"].js input,
+  :root[data-cursor="custom"].js textarea { cursor: text; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important; animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important; scroll-behavior: auto !important;
+  }
+  .js [data-reveal] { opacity: 1; transform: none; }
+}
+
+/* ---- Chrome palettes (frame + bar). auto follows the site theme ---- */
+[data-chrome="auto"] {
+  --chrome-bg: var(--paper); --chrome-ink: var(--ink); --chrome-accent: var(--accent);
+  --chrome-muted: var(--muted); --chrome-line: var(--hairline);
+}
+[data-chrome="light"] {
+  --chrome-bg: #f5f4f0; --chrome-ink: #111111; --chrome-accent: var(--accent);
+  --chrome-muted: #6f6f6f; --chrome-line: rgba(17, 17, 17, 0.12);
+}
+[data-chrome="dark"] {
+  --chrome-bg: #0a0a0a; --chrome-ink: #f5f4f0; --chrome-accent: var(--accent-strong);
+  --chrome-muted: rgba(245, 244, 240, 0.5); --chrome-line: rgba(255, 255, 255, 0.12);
+}
+
+html.is-loading body { overflow: hidden; }

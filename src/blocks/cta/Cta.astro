@@ -1,0 +1,30 @@
+---
+import { href as resolve } from '../../lib/url';
+export interface Props { label?: string; heading: string; text?: string; email?: string; button?: { label: string; href: string }; }
+const { label = 'Contact', heading = '', text = '', email = '', button } = Astro.props;
+const lines = heading.split('|').map((s) => s.trim());
+---
+<section class="cta">
+  <span class="plus-corner plus-corner--tl">+</span><span class="plus-corner plus-corner--tr">+</span>
+  <span class="plus-corner plus-corner--bl">+</span><span class="plus-corner plus-corner--br">+</span>
+  <div class="section-label" data-reveal>{label}</div>
+  <h2 class="cta__heading" data-reveal style="--reveal-i:1">{lines.map((l, i) => <span class:list={{ 'is-ghost': i > 0 }}>{l}</span>)}</h2>
+  {text && <p class="cta__text" data-reveal style="--reveal-i:2">{text}</p>}
+  <div class="cta__actions" data-reveal style="--reveal-i:3">
+    {email && <a class="cta__email" href={`mailto:${email}`} data-scramble>{email}</a>}
+    {button && <a class="cta__btn mono" href={resolve(button.href)}><span data-scramble>{button.label}</span><span aria-hidden="true">→</span></a>}
+  </div>
+</section>
+
+<style>
+  .cta { position: relative; padding: calc(var(--section-y) * 1.2) var(--gutter); max-width: var(--page-max); margin: 0 auto; display: grid; gap: 28px; }
+  .cta__heading { margin: 0; display: flex; flex-direction: column; font-family: var(--font-display); font-weight: 600; letter-spacing: -0.045em; line-height: 0.92; font-size: var(--step-display-xl); }
+  .cta__heading .is-ghost { color: var(--ghost); }
+  .cta__text { margin: 0; max-width: 48ch; font-size: var(--step-3); color: var(--muted); }
+  .cta__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 16px 32px; }
+  .cta__email { font-family: var(--font-mono); font-weight: 500; font-size: clamp(18px, 2.4vw, 34px); color: var(--accent); border-bottom: 2px solid currentColor; word-break: break-all; }
+  .cta__btn { position: relative; isolation: isolate; display: inline-flex; gap: 24px; align-items: center; min-height: 52px; padding: 0 20px; background: var(--night); color: var(--night-ink); }
+  .cta__btn::before { content: ''; position: absolute; inset: 0; z-index: -1; background: var(--accent); transform: scaleY(0); transform-origin: bottom; transition: transform var(--duration-slow) var(--ease-out); }
+  .cta__btn:hover { color: var(--on-accent); }
+  .cta__btn:hover::before { transform: scaleY(1); }
+</style>

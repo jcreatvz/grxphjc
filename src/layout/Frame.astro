@@ -1,0 +1,62 @@
+---
+// Top frame: scroll-progress line with square end-nubs + corner labels.
+// Fixed, pointer-events off except labels. Mirrors the Webflow grxphjc frame.
+import site from '../site.json';
+export interface Props { chrome?: string; }
+const { chrome = 'auto' } = Astro.props;
+const f = site.frame;
+---
+<div class="site-frame" data-chrome={chrome} aria-hidden="true">
+  {f.progress && (
+    <div class="site-frame__progress">
+      <span class="site-frame__nub site-frame__nub--start"></span>
+      <span class="site-frame__fill"><span class="site-frame__nub site-frame__nub--end"></span></span>
+    </div>
+  )}
+  {f.marks && (<>
+    <span class="site-frame__mark" style="left:var(--gutter)">+</span>
+    <span class="site-frame__mark" style="left:50%">+</span>
+    <span class="site-frame__mark" style="right:var(--gutter)">+</span>
+  </>)}
+  <span class="site-frame__label site-frame__label--left">{f.left}</span>
+  <span class="site-frame__label site-frame__label--right">{f.right}</span>
+</div>
+
+<style>
+  .site-frame {
+    position: fixed; top: 0; left: 0; right: 0;
+    height: calc(var(--frame-top) + var(--safe-top));
+    padding-top: var(--safe-top);
+    z-index: 80; pointer-events: none;
+    color: var(--chrome-accent);
+  }
+  .site-frame__progress {
+    position: absolute; top: calc(var(--safe-top) + 12px);
+    left: calc(var(--gutter) - 4px); right: calc(var(--gutter) - 4px); height: 8px;
+  }
+  .site-frame__fill {
+    position: absolute; left: 0; top: 3px; height: 2px;
+    width: calc(var(--progress, 0) * 100%);
+    min-width: 8px; background: currentColor;
+  }
+  .site-frame__nub { position: absolute; width: 8px; height: 8px; background: currentColor; top: -3px; }
+  .site-frame__nub--start { left: 0; top: 0; }
+  .site-frame__nub--end { right: -4px; }
+  .site-frame__mark {
+    position: absolute; top: calc(var(--safe-top) + 8px); margin-left: -4px;
+    font-family: var(--font-mono); font-size: 11px; line-height: 1;
+    color: var(--chrome-muted);
+  }
+  .site-frame__mark[style*="right"] { margin-left: 0; margin-right: -4px; }
+  .site-frame__label {
+    position: absolute; top: calc(var(--safe-top) + 32px);
+    font-family: var(--font-mono); font-weight: 600; text-transform: uppercase; line-height: 1;
+  }
+  .site-frame__label--left  { left: var(--gutter); font-size: clamp(18px, 1.8vw, 26px); letter-spacing: 0.02em; }
+  .site-frame__label--right { right: var(--gutter); font-size: var(--step-mono-s); letter-spacing: 0.04em; top: calc(var(--safe-top) + 34px); }
+  @media (max-width: 720px) {
+    .site-frame__label { top: calc(var(--safe-top) + 26px); }
+    .site-frame__label--right { font-size: var(--step-mono-xs); top: calc(var(--safe-top) + 28px); }
+    .site-frame__mark[style*="50%"] { display: none; }
+  }
+</style>

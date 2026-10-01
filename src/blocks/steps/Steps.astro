@@ -1,0 +1,35 @@
+---
+export interface Props { label?: string; heading?: string; items: Array<{ title: string; text?: string }>; }
+const { label = '', heading = '', items = [] } = Astro.props;
+const pad = (n: number) => String(n).padStart(2, '0');
+---
+<section class="steps">
+  <header class="steps__head">
+    {label && <div class="section-label" data-reveal>{label}</div>}
+    {heading && <h2 class="steps__heading" data-reveal style="--reveal-i:1">{heading}</h2>}
+  </header>
+  <ol class="steps__list">
+    {items.map((it, i) => (
+      <li class="steps__card" data-reveal style={`--reveal-i:${i}`}>
+        <span class="steps__num">{pad(i + 1)}</span>
+        <h3 class="steps__title">{it.title}</h3>
+        {it.text && <p class="steps__text">{it.text}</p>}
+      </li>
+    ))}
+  </ol>
+</section>
+
+<style>
+  .steps { padding: var(--section-y) var(--gutter); max-width: var(--page-max); margin: 0 auto; }
+  .steps__head { display: grid; gap: 20px; margin-bottom: 40px; }
+  .steps__heading { margin: 0; font-family: var(--font-display); font-weight: 600; letter-spacing: -0.03em; line-height: 1; font-size: var(--step-display-l); }
+  .steps__list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--hairline); border: 1px solid var(--hairline); }
+  .steps__card { position: relative; background: var(--paper); padding: 28px 22px 36px; min-height: 280px; display: flex; flex-direction: column; transition: background var(--duration-med) var(--ease-out), color var(--duration-med); }
+  .steps__card:hover { background: var(--accent); color: var(--on-accent); }
+  .steps__num { font-family: var(--font-mono); font-weight: 600; font-size: clamp(40px, 4vw, 64px); line-height: 1; color: var(--accent); margin-bottom: auto; padding-bottom: 40px; transition: color var(--duration-med); }
+  .steps__card:hover .steps__num { color: var(--on-accent); }
+  .steps__title { margin: 0 0 10px; font-family: var(--font-display); font-weight: 600; letter-spacing: -0.02em; font-size: var(--step-2); line-height: 1.1; }
+  .steps__text { margin: 0; font-size: var(--step-5); line-height: 1.5; opacity: 0.8; }
+  @media (max-width: 1024px) { .steps__list { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 560px) { .steps__list { grid-template-columns: 1fr; } .steps__card { min-height: 0; } }
+</style>

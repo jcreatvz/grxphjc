@@ -1,0 +1,22 @@
+---
+import { href, isExternal } from '../../../lib/url';
+export interface Props { items: Array<{ label: string; href: string }>; }
+const { items = [] } = Astro.props;
+---
+<ul class="nav-links">
+  {items.map((it) => (
+    <li>
+      <a class="bar-cell" href={href(it.href)}
+         target={isExternal(it.href) ? '_blank' : undefined}
+         rel={isExternal(it.href) ? 'noopener noreferrer' : undefined}>
+        <span class="bar-cell__label" data-scramble>{it.label}</span>
+      </a>
+    </li>
+  ))}
+</ul>
+
+<style>
+  .nav-links { display: contents; list-style: none; margin: 0; padding: 0; }
+  .nav-links li { display: contents; }
+  @media (max-width: 720px) { .nav-links li { display: none; } }
+</style>

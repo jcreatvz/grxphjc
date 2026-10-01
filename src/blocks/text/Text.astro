@@ -1,0 +1,23 @@
+---
+export interface Props { label?: string; heading?: string; body?: string; layout?: 'stack' | 'split'; }
+const { label = '', heading = '', body = '', layout = 'split' } = Astro.props;
+---
+<section class="text" data-layout={layout}>
+  <header class="text__head">
+    {label && <div class="section-label" data-reveal>{label}</div>}
+    {heading && <h2 class="text__heading" data-reveal style="--reveal-i:1">{heading}</h2>}
+  </header>
+  {body && <div class="text__body" data-reveal style="--reveal-i:2" set:html={body} />}
+</section>
+
+<style>
+  .text { padding: var(--section-y) var(--gutter); max-width: var(--page-max); margin: 0 auto; display: grid; gap: 32px; }
+  .text[data-layout="split"] { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); align-items: start; gap: clamp(24px, 5vw, 96px); }
+  .text__head { display: grid; gap: 20px; }
+  .text__heading { margin: 0; font-family: var(--font-display); font-weight: 600; letter-spacing: -0.03em; line-height: 1.02; font-size: var(--step-display-m); }
+  .text__body { font-size: var(--step-3); line-height: 1.5; max-width: 62ch; }
+  .text__body :global(p) { margin: 0 0 1em; }
+  .text__body :global(a) { color: var(--accent); border-bottom: 1px solid currentColor; }
+  .text__body :global(em) { color: var(--muted); }
+  @media (max-width: 860px) { .text[data-layout="split"] { grid-template-columns: 1fr; } }
+</style>

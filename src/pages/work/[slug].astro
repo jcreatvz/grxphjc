@@ -1,46 +1,39 @@
 ---
 import { getCollection } from 'astro:content';
 import Base from '../../layout/Base.astro';
-import { blockRegistry } from '../../blocks/registry.js';
-import { applyDefaults } from '../../blocks/utils.js';
+import BlockRenderer from '../../blocks/BlockRenderer.astro';
+import { isBleed } from '../../lib/bleed';
+import { href } from '../../lib/url';
+import site from '../../site.json';
 
 export async function getStaticPaths() {
-  const projects = await getCollection('projects');
-  return projects.map((p) => ({
+  const all = (await getCollection('projects')).sort((a, b) => (b.data.year ?? 0) - (a.data.year ?? 0));
+  return all.map((p, i) => ({
     params: { slug: p.data.slug },
-    props:  { project: p.data },
+    props: { project: p.data, next: all[(i + 1) % all.length].data },
   }));
 }
-
-const { project } = Astro.props;
+const { project, next } = Astro.props;
 ---
-<Base
-  title={`${project.title} — JC Lutao`}
-  header={project.header}
-  footer={project.footer}
->
-  {project.blocks.map((block) => {
-    const entry = blockRegistry[block.type];
-    if (!entry) {
-      return (
-        <div class="unknown-block">
-          Unknown block type: <code>{block.type}</code>
-        </div>
-      );
-    }
-    const Block = entry.component;
-    const settings = applyDefaults(blockRegistry, block.type, block.settings);
-    return <Block {...settings} />;
-  })}
+<Base title={`${project.title} — ${site.brand.name}`} description={project.summary} header={project.header} bleed={isBleed(project.blocks)}>
+  <BlockRenderer blocks={project.blocks} />
+  {next.slug !== project.slug && (
+    <a class="next" href={href(`/work/${next.slug}`)}>
+      <span class="section-label">Next project</span>
+      <span class="next__title">{next.title}</span>
+      <span class="next__arrow mono" aria-hidden="true">→</span>
+    </a>
+  )}
 </Base>
 
 <style>
-  .unknown-block {
-    padding: 32px;
-    color: var(--accent);
-    font-family: var(--font-mono);
-    font-size: var(--step-1);
-    border: 1px dashed var(--accent);
-    margin: var(--gutter);
+  .next {
+    display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 16px 24px;
+    margin: var(--section-y) var(--gutter) 0; padding: 32px 0; border-top: 1px solid var(--hairline);
   }
+  .next .section-label { grid-column: 1 / -1; }
+  .next__title { font-family: var(--font-display); font-weight: 600; letter-spacing: -0.035em; line-height: 1; font-size: var(--step-display-l); transition: color var(--duration-fast); }
+  .next__arrow { font-size: 28px; transition: transform var(--duration-med) var(--ease-out); }
+  .next:hover .next__title { color: var(--accent); }
+  .next:hover .next__arrow { transform: translateX(8px); color: var(--accent); }
 </style>
