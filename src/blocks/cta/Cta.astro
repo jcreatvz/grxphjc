@@ -1,7 +1,9 @@
 ---
 import { href as resolve } from '../../lib/url';
-export interface Props { label?: string; heading: string; text?: string; email?: string; button?: { label: string; href: string }; }
-const { label = 'Contact', heading = '', text = '', email = '', button } = Astro.props;
+import site from '../../site.json';
+export interface Props { label?: string; heading: string; text?: string; email?: string; emailTo?: string; button?: { label: string; href: string }; }
+const { label = 'Contact', heading = '', text = '', email = '', emailTo = '', button } = Astro.props;
+const sendTo = emailTo || (email === site.contact?.email ? site.contact?.mailto : '') || email;
 const lines = heading.split('|').map((s) => s.trim());
 ---
 <section class="cta">
@@ -11,7 +13,7 @@ const lines = heading.split('|').map((s) => s.trim());
   <h2 class="cta__heading" data-reveal style="--reveal-i:1">{lines.map((l, i) => <span class:list={{ 'is-ghost': i > 0 }}>{l}</span>)}</h2>
   {text && <p class="cta__text" data-reveal style="--reveal-i:2">{text}</p>}
   <div class="cta__actions" data-reveal style="--reveal-i:3">
-    {email && <a class="cta__email" href={`mailto:${email}`} data-scramble>{email}</a>}
+    {email && <a class="cta__email" href={`mailto:${sendTo}`} data-scramble>{email}</a>}
     {button && <a class="cta__btn mono" href={resolve(button.href)}><span data-scramble>{button.label}</span><span aria-hidden="true">→</span></a>}
   </div>
 </section>

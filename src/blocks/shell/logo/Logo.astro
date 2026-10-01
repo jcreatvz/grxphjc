@@ -19,12 +19,13 @@ const { text = '', svg = '', href = '/' } = Astro.props;
     color: var(--chrome-accent);
   }
   .logo__text {
-    font-family: var(--font-mono);
-    font-size: clamp(15px, 1.4vw, 20px);
-    font-weight: 700;
-    letter-spacing: 0.02em;
+    font-family: var(--font-brand);
+    font-size: clamp(32px, 3.6vw, 54px);
+    font-weight: 400; font-synthesis: none;
+    letter-spacing: 0;
     line-height: 1;
     white-space: nowrap;
+    transform: translateY(-1px);
   }
   .logo__svg :global(svg) { display: block; height: clamp(26px, 2.6vw, 40px); width: auto; }
   /* baseline grows on hover (Webflow pattern) */

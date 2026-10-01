@@ -18,10 +18,10 @@ const [w1, ...rest] = headline.split(/\s+/);
   <div class="hero__inner">
     {label && <div class="hero__label section-label" data-reveal>{label}</div>}
     {variant === 'split-wordmark'
-      ? <h1 class="hero__wordmark" data-reveal style="--reveal-i:1">
+      ? <h1 class="hero__wordmark brand-type" data-reveal style="--reveal-i:1">
           <span class="hero__word">{w1}</span>{rest.length > 0 && <span class="hero__word hero__word--ghost">{rest.join(' ')}</span>}
         </h1>
-      : <h1 class="hero__headline" data-reveal style="--reveal-i:1">{headline}</h1>}
+      : <h1 class="hero__headline brand-type" data-reveal style="--reveal-i:1">{headline}</h1>}
     {subhead && <div class="hero__subhead" data-reveal style="--reveal-i:2" set:html={subhead} />}
   </div>
   {scrollCue && <span class="hero__cue mono-xs" aria-hidden="true">Scroll<s></s></span>}
@@ -45,11 +45,11 @@ const [w1, ...rest] = headline.split(/\s+/);
   .hero__inner { position: relative; margin-top: auto; width: 100%; max-width: 1200px; }
   .hero__label { display: inline-block; margin-bottom: 24px; }
   .hero__headline {
-    margin: 0; font-family: var(--font-display); font-weight: 600; letter-spacing: -0.035em; line-height: 1.02;
-    font-size: clamp(48px, 8.6vw, 136px);
+    margin: 0; line-height: 0.98;
+    font-size: clamp(54px, 8.8vw, 148px);
   }
-  .hero__wordmark { margin: 0; display: flex; flex-direction: column; line-height: 0.88; font-weight: 600; }
-  .hero__word { font-family: var(--font-display); font-size: var(--step-display-xl); letter-spacing: -0.045em; }
+  .hero__wordmark { margin: 0; display: flex; flex-direction: column; line-height: 0.92; }
+  .hero__word { font-size: clamp(64px, 12.4vw, 208px); }
   .hero__word--ghost { color: var(--ghost); }
   .hero[data-media="true"] .hero__word--ghost { color: rgba(245, 244, 240, 0.42); }
   .hero__subhead { margin-top: 24px; max-width: 58ch; font-size: var(--step-3); line-height: 1.4; letter-spacing: -0.01em; }

@@ -8,6 +8,14 @@ npm run dev      # http://localhost:4321/grxphjc
 npm run build    # → dist/
 ```
 
+## Docs
+
+- [`docs/ROADMAP.md`](docs/ROADMAP.md) — where we are and what's next
+- [`docs/CONTENT-GUIDE.md`](docs/CONTENT-GUIDE.md) — editing pages, projects, images, email
+- [`docs/BLOCKS.md`](docs/BLOCKS.md) — every block's settings (generated: `npm run docs`)
+- [`docs/DESIGN-SYSTEM.md`](docs/DESIGN-SYSTEM.md) · [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) · [`docs/DECISIONS.md`](docs/DECISIONS.md) · [`docs/CHANGELOG.md`](docs/CHANGELOG.md)
+- Live block preview: `/styleguide`
+
 ## Where things live
 
 ```

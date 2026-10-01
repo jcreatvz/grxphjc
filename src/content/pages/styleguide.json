@@ -1,0 +1,213 @@
+{
+  "title": "Styleguide",
+  "slug": "styleguide",
+  "noindex": true,
+  "blocks": [
+    {
+      "type": "statement",
+      "settings": {
+        "label": "Styleguide",
+        "text": "Every block, rendered with *sample* data. Settings for each: docs/BLOCKS.md",
+        "footnote": "Hidden from the menu and from search engines"
+      }
+    },
+    {
+      "type": "hero",
+      "settings": {
+        "label": "hero \u2014 standard",
+        "headline": "Brand Face Headline",
+        "subhead": "Standard hero. Headline uses the brand font; digits fall back to Inter: 2026.",
+        "scrollCue": false
+      }
+    },
+    {
+      "type": "hero",
+      "settings": {
+        "label": "hero \u2014 split-wordmark",
+        "headline": "Split Wordmark",
+        "variant": "split-wordmark",
+        "align": "right",
+        "scrollCue": false
+      }
+    },
+    {
+      "type": "hero",
+      "settings": {
+        "media": "/images/placeholder/ph-03.jpg",
+        "label": "hero \u2014 media",
+        "headline": "Media Hero",
+        "variant": "split-wordmark",
+        "subhead": "Full-bleed image with gradient and on-media text.",
+        "scrollCue": true
+      }
+    },
+    {
+      "type": "text",
+      "settings": {
+        "label": "text \u2014 split",
+        "heading": "Text block",
+        "body": "<p>Rich text body with a <a href='#'>link</a> and <em>muted emphasis</em>.</p><p>Second paragraph.</p>"
+      }
+    },
+    {
+      "type": "gallery",
+      "settings": {
+        "label": "gallery \u2014 grid",
+        "images": [
+          "/images/placeholder/ph-01.jpg",
+          "/images/placeholder/ph-02.jpg",
+          "/images/placeholder/ph-04.jpg",
+          "/images/placeholder/ph-06.jpg",
+          "/images/placeholder/ph-07.jpg",
+          "/images/placeholder/ph-08.jpg"
+        ]
+      }
+    },
+    {
+      "type": "gallery",
+      "settings": {
+        "label": "gallery \u2014 horizontal + drag",
+        "layout": "horizontal-scroll",
+        "behavior": "drag",
+        "images": [
+          "/images/placeholder/ph-09.jpg",
+          "/images/placeholder/ph-11.jpg",
+          "/images/placeholder/ph-12.jpg",
+          "/images/placeholder/ph-13.jpg"
+        ]
+      }
+    },
+    {
+      "type": "gallery",
+      "settings": {
+        "label": "gallery \u2014 masonry",
+        "layout": "masonry",
+        "images": [
+          "/images/placeholder/ph-05.jpg",
+          "/images/placeholder/ph-10.jpg",
+          "/images/placeholder/ph-14.jpg",
+          "/images/placeholder/ph-15.jpg",
+          "/images/placeholder/ph-16.jpg",
+          "/images/placeholder/ph-20.jpg"
+        ]
+      }
+    },
+    {
+      "type": "marquee",
+      "settings": {
+        "items": [
+          "Accent tone",
+          "Marquee",
+          "Block"
+        ],
+        "tone": "accent"
+      }
+    },
+    {
+      "type": "marquee",
+      "settings": {
+        "items": [
+          "Ink tone",
+          "Marquee",
+          "Block"
+        ],
+        "tone": "ink",
+        "speed": 40
+      }
+    },
+    {
+      "type": "project-grid",
+      "settings": {
+        "label": "project-grid \u2014 grid",
+        "limit": 4
+      }
+    },
+    {
+      "type": "project-grid",
+      "settings": {
+        "label": "project-grid \u2014 list",
+        "layout": "list",
+        "limit": 4
+      }
+    },
+    {
+      "type": "metrics",
+      "settings": {
+        "label": "metrics",
+        "items": [
+          {
+            "value": "18+",
+            "label": "Years designing"
+          },
+          {
+            "value": "140",
+            "label": "Placeholder"
+          },
+          {
+            "value": "38",
+            "label": "Placeholder"
+          }
+        ]
+      }
+    },
+    {
+      "type": "list-rows",
+      "settings": {
+        "label": "list-rows",
+        "heading": "Rows",
+        "items": [
+          {
+            "title": "Row one",
+            "detail": "Expandable detail.",
+            "tags": [
+              "Tag",
+              "Tag"
+            ]
+          },
+          {
+            "title": "Row two",
+            "detail": "More detail."
+          }
+        ]
+      }
+    },
+    {
+      "type": "steps",
+      "settings": {
+        "label": "steps",
+        "heading": "Steps",
+        "items": [
+          {
+            "title": "One",
+            "text": "Step text."
+          },
+          {
+            "title": "Two",
+            "text": "Step text."
+          },
+          {
+            "title": "Three",
+            "text": "Step text."
+          },
+          {
+            "title": "Four",
+            "text": "Step text."
+          }
+        ]
+      }
+    },
+    {
+      "type": "cta",
+      "settings": {
+        "label": "cta",
+        "heading": "Call to | action.",
+        "text": "Shows hello@grxphjc.com, sends to the address in site.json contact.mailto.",
+        "email": "hello@grxphjc.com",
+        "button": {
+          "label": "Button",
+          "href": "/contact"
+        }
+      }
+    }
+  ]
+}

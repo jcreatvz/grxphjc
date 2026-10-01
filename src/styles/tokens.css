@@ -6,6 +6,22 @@
 @import '@fontsource-variable/inter';
 @import '@fontsource-variable/jetbrains-mono';
 
+/* ---- Brand display face (GGGGG SpecialG) — logo, page H1s, footer watermark ----
+   Subset to Latin WITHOUT digits: the font only maps "0" and it draws blank,
+   so numbers deliberately fall back to Inter via the stack below. */
+@font-face {
+  font-family: 'Grxphjc Brand';
+  src: url('../assets/fonts/grxphjc-brand.woff2') format('woff2');
+  font-weight: 400; font-style: normal; font-display: swap;
+  unicode-range: U+0020-002F, U+003A-007E, U+00A0-00FF, U+2010-2027, U+2030-205E, U+20AC;
+}
+@font-face {
+  font-family: 'Grxphjc Brand Outline';
+  src: url('../assets/fonts/grxphjc-brand-outline.woff2') format('woff2');
+  font-weight: 400; font-style: normal; font-display: swap;
+  unicode-range: U+0020-002F, U+003A-007E, U+00A0-00FF, U+2010-2027, U+2030-205E, U+20AC;
+}
+
 :root {
   /* ---- Colour (light default) ---- */
   --ink:         #111111;
@@ -35,6 +51,10 @@
   --font-sans:    'Inter Variable', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   --font-display: 'Inter Variable', system-ui, sans-serif;
   --font-mono:    'JetBrains Mono Variable', ui-monospace, 'SF Mono', Menlo, monospace;
+  --font-brand:         'Grxphjc Brand', 'Inter Variable', system-ui, sans-serif;
+  --font-brand-outline: 'Grxphjc Brand Outline', 'Grxphjc Brand', 'Inter Variable', sans-serif;
+  /* Page-level H1s use the brand face. To revert H1s to Inter, set this to var(--font-display). */
+  --font-h1: var(--font-brand);
 
   --step-display-xl: clamp(64px, 12vw, 200px);
   --step-display-l:  clamp(44px, 6.4vw, 96px);
@@ -181,3 +201,13 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 }
 
 html.is-loading body { overflow: hidden; }
+
+/* Brand face is single-weight: never let the browser fake bold or tighten it */
+.brand-type {
+  font-family: var(--font-h1);
+  font-weight: 400;
+  font-synthesis: none;
+  letter-spacing: 0;
+  text-transform: none;
+  padding-inline: 0.06em; /* graffiti swashes overhang the glyph origin */
+}

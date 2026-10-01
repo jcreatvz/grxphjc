@@ -16,8 +16,10 @@ export interface Props {
   header?: { theme?: 'auto' | 'light' | 'dark'; transparent?: boolean };
   /** First block is full-bleed media → let it run under the top frame. */
   bleed?: boolean;
+  /** Hide from search engines (e.g. /styleguide). */
+  noindex?: boolean;
 }
-const { title, description = site.brand.tagline, header = {}, bleed = false } = Astro.props;
+const { title, description = site.brand.tagline, header = {}, bleed = false, noindex = false } = Astro.props;
 const chrome = header.theme ?? site.header.theme ?? 'auto';
 const transparent = header.transparent ?? site.header.transparent ?? false;
 const initCfg = {
@@ -33,6 +35,7 @@ const initCfg = {
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="description" content={description} />
     <meta name="theme-color" content="#0a0a0a" />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
     <title>{title}</title>
     <script is:inline define:vars={{ initCfg }}>
       (function () {

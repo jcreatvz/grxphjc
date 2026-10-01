@@ -30,6 +30,7 @@ const pages = defineCollection({
     title: z.string(),
     slug: z.string(),
     description: z.string().optional(),
+    noindex: z.boolean().optional(),
     header: chrome,
     blocks: z.array(block),
   }),

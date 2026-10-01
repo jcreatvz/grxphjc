@@ -3,69 +3,148 @@
     "name": "Grxphjc",
     "tagline": "Motion & design, based in Edmonton."
   },
-
   "loader": {
     "enabled": true,
     "once": "session",
-    "coords": ["14.5995° N, 120.9842° E", "53.5462° N, 113.4937° W"],
-    "lines": ["Self-initiated · Alt · Unapologetic", "Graphic designer & brand-new dad", "Experienced · Experimental"]
+    "coords": [
+      "14.5995° N, 120.9842° E",
+      "53.5462° N, 113.4937° W"
+    ],
+    "lines": [
+      "Self-initiated · Alt · Unapologetic",
+      "Graphic designer & brand-new dad",
+      "Experienced · Experimental"
+    ]
   },
-
   "frame": {
     "left": "2026",
     "right": "Dad Designer",
     "progress": true,
     "marks": true
   },
-
   "header": {
     "theme": "auto",
     "transparent": false,
     "blocks": [
-      { "type": "logo", "settings": { "text": "Grxphjc", "href": "/" } },
-      { "type": "nav-links", "settings": {
-        "items": [
-          { "label": "Contact", "href": "/contact" },
-          { "label": "Work",    "href": "/#work" }
-        ]
-      }},
-      { "type": "menu-toggle", "settings": { "label": "Menu" } }
+      {
+        "type": "logo",
+        "settings": {
+          "text": "Grxphjc",
+          "href": "/"
+        }
+      },
+      {
+        "type": "nav-links",
+        "settings": {
+          "items": [
+            {
+              "label": "Contact",
+              "href": "/contact"
+            },
+            {
+              "label": "Work",
+              "href": "/#work"
+            }
+          ]
+        }
+      },
+      {
+        "type": "menu-toggle",
+        "settings": {
+          "label": "Menu"
+        }
+      }
     ]
   },
-
   "menu": {
     "items": [
-      { "label": "About",    "href": "/about" },
-      { "label": "Story",    "href": "/story" },
-      { "label": "Services", "href": "/services" },
-      { "label": "Work",     "href": "/#work" },
-      { "label": "Contact",  "href": "/contact", "mobileOnly": true }
+      {
+        "label": "About",
+        "href": "/about"
+      },
+      {
+        "label": "Story",
+        "href": "/story"
+      },
+      {
+        "label": "Services",
+        "href": "/services"
+      },
+      {
+        "label": "Work",
+        "href": "/#work"
+      },
+      {
+        "label": "Contact",
+        "href": "/contact",
+        "mobileOnly": true
+      }
     ],
     "signature": "JC by design",
     "appearance": true
   },
-
-  "cursor": { "default": "custom" },
-
+  "cursor": {
+    "default": "custom"
+  },
   "footer": {
     "blocks": [
-      { "type": "footer-columns", "settings": {
-        "columns": [
-          { "heading": "Work", "links": [
-            { "label": "Selected projects", "href": "/#work" },
-            { "label": "Services", "href": "/services" }
-          ]},
-          { "heading": "Info", "links": [
-            { "label": "About", "href": "/about" },
-            { "label": "Story", "href": "/story" },
-            { "label": "Contact", "href": "/contact" }
-          ]},
-          { "heading": "Elsewhere", "links": [
-            { "label": "GitHub", "href": "https://github.com/jcreatvz" }
-          ]}
-        ]
-      }},
-      { "type": "footer-credits", "settings": { "line": "© 2026 Grxphjc. Work belongs to its respective clients." } }
+      {
+        "type": "footer-columns",
+        "settings": {
+          "columns": [
+            {
+              "heading": "Work",
+              "links": [
+                {
+                  "label": "Selected projects",
+                  "href": "/#work"
+                },
+                {
+                  "label": "Services",
+                  "href": "/services"
+                }
+              ]
+            },
+            {
+              "heading": "Info",
+              "links": [
+                {
+                  "label": "About",
+                  "href": "/about"
+                },
+                {
+                  "label": "Story",
+                  "href": "/story"
+                },
+                {
+                  "label": "Contact",
+                  "href": "/contact"
+                }
+              ]
+            },
+            {
+              "heading": "Elsewhere",
+              "links": [
+                {
+                  "label": "GitHub",
+                  "href": "https://github.com/jcreatvz"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "type": "footer-credits",
+        "settings": {
+          "line": "© 2026 Grxphjc. Work belongs to its respective clients."
+        }
+      }
     ]
+  },
+  "contact": {
+    "email": "hello@grxphjc.com",
+    "mailto": "jcreatvz@gmail.com",
+    "_note": "email = shown on the site; mailto = where links actually send. Set both to hello@grxphjc.com once email hosting is live."
   }
 }

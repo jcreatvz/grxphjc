@@ -61,7 +61,7 @@ const plainHeadline = headline.replace(/\*/g, '');
     </div>
     <div class="orbit__vig" aria-hidden="true"></div>
     {words.length > 0 && (
-      <h1 class="orbit__headline">
+      <h1 class="orbit__headline brand-type">
         {words.map((w, i) => <><span class:list={['w', { 'is-accent': w.accent }]} style={`--i:${i}`}>{w.t}</span>{' '}</>)}
       </h1>
     )}
@@ -77,7 +77,7 @@ const plainHeadline = headline.replace(/\*/g, '');
   </div>
 
   <div class="orbit__grid" inert>
-    {words.length > 0 && <h2 class="orbit__grid-title">{plainHeadline}</h2>}
+    {words.length > 0 && <h2 class="orbit__grid-title brand-type">{plainHeadline}</h2>}
     <ul class="orbit__rows" data-lb-group>
       {list.map((it, i) => (
         <li>
@@ -131,8 +131,8 @@ const plainHeadline = headline.replace(/\*/g, '');
   .orbit__headline {
     position: absolute; left: 50%; top: 50%; z-index: 2; width: min(70vw, 900px);
     margin: 0; transform: translate(-50%, -50%); text-align: center; pointer-events: none; user-select: none;
-    font-family: var(--font-display); font-weight: 600; letter-spacing: -0.04em; line-height: 0.95;
-    font-size: clamp(38px, 6.4vw, 108px); color: var(--ink);
+    line-height: 1.02;
+    font-size: clamp(44px, 7.4vw, 124px); color: var(--ink);
     text-shadow: 0 0 6px var(--paper), 0 0 28px var(--paper), 0 0 56px color-mix(in srgb, var(--paper) 60%, transparent);
   }
   .orbit__headline .is-accent { color: var(--accent); }
@@ -178,7 +178,7 @@ const plainHeadline = headline.replace(/\*/g, '');
   .orbit.is-grid .orbit__hud { position: static; justify-content: flex-end; padding: calc(var(--frame-top) + var(--safe-top) + 16px) 0 0; }
   .orbit.is-grid .orbit__grid { display: block; padding: 16px var(--gutter) var(--section-y); }
   .orbit__grid-title {
-    margin: 0 0 32px; font-family: var(--font-display); font-weight: 600; letter-spacing: -0.03em; line-height: 1;
+    margin: 0 0 32px; line-height: 1;
     font-size: var(--step-display-l);
   }
   .orbit__rows { list-style: none; margin: 0; padding: 0; display: grid; gap: clamp(8px, 1.4vw, 20px); grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
@@ -194,7 +194,7 @@ const plainHeadline = headline.replace(/\*/g, '');
 
   @media (max-width: 640px) {
     .orbit { height: 130svh; }
-    .orbit__headline { width: 88vw; font-size: clamp(34px, 10.4vw, 52px); }
+    .orbit__headline { width: 90vw; font-size: clamp(40px, 12.6vw, 64px); }
     .orbit__cue { display: none; }
     .orbit__label { bottom: 52px; }
     .orbit__rows { grid-template-columns: repeat(2, minmax(0, 1fr)); }
