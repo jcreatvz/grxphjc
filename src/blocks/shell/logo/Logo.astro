@@ -6,7 +6,7 @@ const { text = '', svg = '', href = '/' } = Astro.props;
 <a class="logo" href={resolve(href)} aria-label={`${text || 'Home'} — home`}>
   {svg
     ? <span class="logo__svg" set:html={svg} />
-    : <span class="logo__text" data-scramble>{text.toUpperCase()}</span>}
+    : <span class="logo__text" data-scramble="swap">{text.toUpperCase()}</span>}
   <span class="logo__line" aria-hidden="true"></span>
 </a>
 

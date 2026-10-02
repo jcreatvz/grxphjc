@@ -1,0 +1,75 @@
+{
+  "title": "Foosh Collab",
+  "slug": "foosh-collab",
+  "order": 1,
+  "category": "Collab",
+  "cover": "/images/placeholder/ph-01.jpg",
+  "summary": "[Template] Collaboration — graphics, apparel and launch visuals.",
+  "tags": [
+    "collab"
+  ],
+  "blocks": [
+    {
+      "type": "hero",
+      "settings": {
+        "label": "Case Study — 01",
+        "headline": "Foosh Collab",
+        "variant": "split-wordmark",
+        "subhead": "[Template] Collaboration — graphics, apparel and launch visuals.",
+        "scrollCue": true,
+        "media": "/images/placeholder/ph-01.jpg"
+      }
+    },
+    {
+      "type": "text",
+      "settings": {
+        "label": "Overview",
+        "heading": "The brief",
+        "body": "<p>[Template] Who it was for, what they needed, and the constraints. Two or three sentences.</p><p>[Template] What you made and why it worked.</p><p><em>Edit in src/content/projects/foosh-collab.json</em></p>"
+      }
+    },
+    {
+      "type": "gallery",
+      "settings": {
+        "label": "Frames — Scroll to travel",
+        "layout": "pinned-scroll",
+        "images": [
+          "/images/placeholder/ph-02.jpg",
+          "/images/placeholder/ph-03.jpg",
+          "/images/placeholder/ph-04.jpg",
+          "/images/placeholder/ph-05.jpg",
+          "/images/placeholder/ph-06.jpg",
+          "/images/placeholder/ph-07.jpg"
+        ]
+      }
+    },
+    {
+      "type": "list-rows",
+      "settings": {
+        "label": "Details",
+        "items": [
+          {
+            "title": "Client",
+            "detail": "[Client / partner]"
+          },
+          {
+            "title": "Role",
+            "detail": "[Your role — e.g. art direction, design, motion]"
+          },
+          {
+            "title": "Year",
+            "detail": "[Year]"
+          },
+          {
+            "title": "Deliverables",
+            "detail": "[What shipped — e.g. graphics, apparel, social, signage]"
+          }
+        ]
+      }
+    }
+  ],
+  "header": {
+    "theme": "dark",
+    "transparent": true
+  }
+}

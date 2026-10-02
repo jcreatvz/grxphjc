@@ -1,0 +1,70 @@
+{
+  "title": "Oak & Earth Creations",
+  "slug": "oak-and-earth-creations",
+  "order": 13,
+  "category": "Brand identity",
+  "cover": "/images/placeholder/ph-13.jpg",
+  "summary": "[Template] Identity system — mark, type, colour and applications.",
+  "tags": [
+    "brand"
+  ],
+  "blocks": [
+    {
+      "type": "hero",
+      "settings": {
+        "label": "Case Study — 13",
+        "headline": "Oak & Earth Creations",
+        "variant": "standard",
+        "subhead": "[Template] Identity system — mark, type, colour and applications.",
+        "scrollCue": false
+      }
+    },
+    {
+      "type": "text",
+      "settings": {
+        "label": "Overview",
+        "heading": "The brief",
+        "body": "<p>[Template] Who it was for, what they needed, and the constraints. Two or three sentences.</p><p>[Template] What you made and why it worked.</p><p><em>Edit in src/content/projects/oak-and-earth-creations.json</em></p>"
+      }
+    },
+    {
+      "type": "gallery",
+      "settings": {
+        "label": "Frames",
+        "layout": "grid",
+        "images": [
+          "/images/placeholder/ph-14.jpg",
+          "/images/placeholder/ph-15.jpg",
+          "/images/placeholder/ph-16.jpg",
+          "/images/placeholder/ph-17.jpg",
+          "/images/placeholder/ph-18.jpg",
+          "/images/placeholder/ph-19.jpg"
+        ]
+      }
+    },
+    {
+      "type": "list-rows",
+      "settings": {
+        "label": "Details",
+        "items": [
+          {
+            "title": "Client",
+            "detail": "[Client / partner]"
+          },
+          {
+            "title": "Role",
+            "detail": "[Your role — e.g. art direction, design, motion]"
+          },
+          {
+            "title": "Year",
+            "detail": "[Year]"
+          },
+          {
+            "title": "Deliverables",
+            "detail": "[What shipped — e.g. graphics, apparel, social, signage]"
+          }
+        ]
+      }
+    }
+  ]
+}

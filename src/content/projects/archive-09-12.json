@@ -1,0 +1,76 @@
+{
+  "title": "'09 — 12",
+  "slug": "archive-09-12",
+  "order": 21,
+  "category": "Archive",
+  "cover": "/images/placeholder/ph-21.jpg",
+  "summary": "[Template] Early work, 2009–2012.",
+  "tags": [
+    "archive"
+  ],
+  "blocks": [
+    {
+      "type": "hero",
+      "settings": {
+        "label": "Case Study — 21",
+        "headline": "'09 — 12",
+        "variant": "split-wordmark",
+        "subhead": "[Template] Early work, 2009–2012.",
+        "scrollCue": false
+      }
+    },
+    {
+      "type": "text",
+      "settings": {
+        "label": "Overview",
+        "heading": "The brief",
+        "body": "<p>[Template] Who it was for, what they needed, and the constraints. Two or three sentences.</p><p>[Template] What you made and why it worked.</p><p><em>Edit in src/content/projects/archive-09-12.json</em></p>"
+      }
+    },
+    {
+      "type": "statement",
+      "settings": {
+        "label": "Then",
+        "text": "[Template] Where it started — *the early years* of the practice.",
+        "footnote": "2009 — 2012"
+      }
+    },
+    {
+      "type": "gallery",
+      "settings": {
+        "label": "Frames",
+        "layout": "masonry",
+        "images": [
+          "/images/placeholder/ph-22.jpg",
+          "/images/placeholder/ph-23.jpg",
+          "/images/placeholder/ph-24.jpg",
+          "/images/placeholder/ph-01.jpg",
+          "/images/placeholder/ph-02.jpg",
+          "/images/placeholder/ph-03.jpg",
+          "/images/placeholder/ph-04.jpg",
+          "/images/placeholder/ph-05.jpg"
+        ]
+      }
+    },
+    {
+      "type": "list-rows",
+      "settings": {
+        "label": "Details",
+        "items": [
+          {
+            "title": "Role",
+            "detail": "[Your role — e.g. art direction, design, motion]"
+          },
+          {
+            "title": "Year",
+            "detail": "[Year]"
+          },
+          {
+            "title": "Deliverables",
+            "detail": "[What shipped — e.g. graphics, apparel, social, signage]"
+          }
+        ]
+      }
+    }
+  ]
+}

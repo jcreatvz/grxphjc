@@ -17,6 +17,8 @@ const projects = defineCollection({
     year: z.number().optional(),
     cover: z.string().optional(),
     summary: z.string().optional(),
+    category: z.string().optional(),
+    order: z.number().optional(),
     tags: z.array(z.string()).default([]),
     header: chrome,
     blocks: z.array(block),

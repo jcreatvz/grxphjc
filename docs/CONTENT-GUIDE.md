@@ -24,7 +24,11 @@ It appears automatically in the homepage orbit and project grid, and gets its ow
 
 For a dark full-bleed photo hero, add `"header": { "theme": "dark", "transparent": true }` and give the hero a `media` image.
 
+## Project order and category
+Each project has `"order"` (1 = first in the grid and orbit) and `"category"` (the small label under the title, e.g. "Collab", "Typeface"). Categories in the template projects are guesses — check them.
+
 ## Images
+Image proportions are read automatically at build time, so galleries size each frame to its real shape. Nothing to set.
 Put files in `public/images/<project-slug>/` and reference them as `/images/<project-slug>/01.jpg`. Placeholders live in `public/images/placeholder/` — delete them once replaced.
 
 ## Homepage orbit items

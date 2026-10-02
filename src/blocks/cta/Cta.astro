@@ -20,7 +20,7 @@ const lines = heading.split('|').map((s) => s.trim());
 
 <style>
   .cta { position: relative; padding: calc(var(--section-y) * 1.2) var(--gutter); max-width: var(--page-max); margin: 0 auto; display: grid; gap: 28px; }
-  .cta__heading { margin: 0; display: flex; flex-direction: column; font-family: var(--font-display); font-weight: 600; letter-spacing: -0.045em; line-height: 0.92; font-size: var(--step-display-xl); }
+  .cta__heading { margin: 0; display: flex; flex-direction: column; font-family: var(--font-display); font-weight: 600; letter-spacing: -0.045em; line-height: 0.92; font-size: clamp(44px, 12vw, 200px); } /* 44px floor: "something." overflowed 320px at 64px */
   .cta__heading .is-ghost { color: var(--ghost); }
   .cta__text { margin: 0; max-width: 48ch; font-size: var(--step-3); color: var(--muted); }
   .cta__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 16px 32px; }

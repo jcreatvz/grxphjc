@@ -1,0 +1,75 @@
+{
+  "title": "Edmonton Oilers",
+  "slug": "edmonton-oilers",
+  "order": 8,
+  "category": "Sports",
+  "cover": "/images/placeholder/ph-08.jpg",
+  "summary": "[Template] Game-day graphics and social content.",
+  "tags": [
+    "sport"
+  ],
+  "blocks": [
+    {
+      "type": "hero",
+      "settings": {
+        "label": "Case Study — 08",
+        "headline": "Edmonton Oilers",
+        "variant": "split-wordmark",
+        "subhead": "[Template] Game-day graphics and social content.",
+        "scrollCue": true,
+        "media": "/images/placeholder/ph-08.jpg"
+      }
+    },
+    {
+      "type": "text",
+      "settings": {
+        "label": "Overview",
+        "heading": "The brief",
+        "body": "<p>[Template] Who it was for, what they needed, and the constraints. Two or three sentences.</p><p>[Template] What you made and why it worked.</p><p><em>Edit in src/content/projects/edmonton-oilers.json</em></p>"
+      }
+    },
+    {
+      "type": "gallery",
+      "settings": {
+        "label": "Frames — Scroll to travel",
+        "layout": "pinned-scroll",
+        "images": [
+          "/images/placeholder/ph-09.jpg",
+          "/images/placeholder/ph-10.jpg",
+          "/images/placeholder/ph-11.jpg",
+          "/images/placeholder/ph-12.jpg",
+          "/images/placeholder/ph-13.jpg",
+          "/images/placeholder/ph-14.jpg"
+        ]
+      }
+    },
+    {
+      "type": "list-rows",
+      "settings": {
+        "label": "Details",
+        "items": [
+          {
+            "title": "Client",
+            "detail": "[Client / partner]"
+          },
+          {
+            "title": "Role",
+            "detail": "[Your role — e.g. art direction, design, motion]"
+          },
+          {
+            "title": "Year",
+            "detail": "[Year]"
+          },
+          {
+            "title": "Deliverables",
+            "detail": "[What shipped — e.g. graphics, apparel, social, signage]"
+          }
+        ]
+      }
+    }
+  ],
+  "header": {
+    "theme": "dark",
+    "transparent": true
+  }
+}

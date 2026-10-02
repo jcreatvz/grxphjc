@@ -5,6 +5,7 @@ export default {
     { id: 'label', type: 'text', label: 'Bracketed label', default: 'Selected Work' },
     { id: 'heading', type: 'text', label: 'Heading', default: '' },
     { id: 'limit', type: 'range', label: 'Max projects', min: 1, max: 24, step: 1, default: 12 },
+    { id: 'columns', type: 'select', label: 'Columns (grid layout, desktop)', options: [2, 3], default: 2 },
     { id: 'layout', type: 'select', label: 'Layout', options: ['grid', 'list'], default: 'grid' },
   ],
 };

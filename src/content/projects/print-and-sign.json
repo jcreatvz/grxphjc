@@ -1,0 +1,95 @@
+{
+  "title": "Print + Sign",
+  "slug": "print-and-sign",
+  "order": 18,
+  "category": "Print & production",
+  "cover": "/images/placeholder/ph-18.jpg",
+  "summary": "[Template] Print, signage and large-format production.",
+  "tags": [
+    "print"
+  ],
+  "blocks": [
+    {
+      "type": "hero",
+      "settings": {
+        "label": "Case Study — 18",
+        "headline": "Print + Sign",
+        "variant": "split-wordmark",
+        "subhead": "[Template] Print, signage and large-format production.",
+        "scrollCue": true,
+        "media": "/images/placeholder/ph-18.jpg"
+      }
+    },
+    {
+      "type": "text",
+      "settings": {
+        "label": "Overview",
+        "heading": "The brief",
+        "body": "<p>[Template] Who it was for, what they needed, and the constraints. Two or three sentences.</p><p>[Template] What you made and why it worked.</p><p><em>Edit in src/content/projects/print-and-sign.json</em></p>"
+      }
+    },
+    {
+      "type": "gallery",
+      "settings": {
+        "label": "Frames",
+        "layout": "grid",
+        "images": [
+          "/images/placeholder/ph-19.jpg",
+          "/images/placeholder/ph-20.jpg",
+          "/images/placeholder/ph-21.jpg",
+          "/images/placeholder/ph-22.jpg",
+          "/images/placeholder/ph-23.jpg",
+          "/images/placeholder/ph-24.jpg"
+        ]
+      }
+    },
+    {
+      "type": "steps",
+      "settings": {
+        "label": "Process",
+        "items": [
+          {
+            "title": "Design",
+            "text": "[Template] Concept and layout."
+          },
+          {
+            "title": "Proof",
+            "text": "[Template] Colour, scale and material checks."
+          },
+          {
+            "title": "Produce",
+            "text": "[Template] Print, cut and finish."
+          },
+          {
+            "title": "Install",
+            "text": "[Template] On site."
+          }
+        ]
+      }
+    },
+    {
+      "type": "list-rows",
+      "settings": {
+        "label": "Details",
+        "items": [
+          {
+            "title": "Role",
+            "detail": "[Your role — e.g. art direction, design, motion]"
+          },
+          {
+            "title": "Year",
+            "detail": "[Year]"
+          },
+          {
+            "title": "Deliverables",
+            "detail": "[What shipped — e.g. graphics, apparel, social, signage]"
+          }
+        ]
+      }
+    }
+  ],
+  "header": {
+    "theme": "dark",
+    "transparent": true
+  }
+}

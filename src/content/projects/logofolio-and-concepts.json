@@ -1,0 +1,69 @@
+{
+  "title": "Logofolio — + Concepts",
+  "slug": "logofolio-and-concepts",
+  "order": 20,
+  "category": "Logos",
+  "cover": "/images/placeholder/ph-20.jpg",
+  "summary": "[Template] Marks, logotypes and unused concepts.",
+  "tags": [
+    "logo"
+  ],
+  "blocks": [
+    {
+      "type": "hero",
+      "settings": {
+        "label": "Case Study — 20",
+        "headline": "Logofolio — + Concepts",
+        "variant": "standard",
+        "subhead": "[Template] Marks, logotypes and unused concepts.",
+        "scrollCue": false
+      }
+    },
+    {
+      "type": "text",
+      "settings": {
+        "label": "Overview",
+        "heading": "The brief",
+        "body": "<p>[Template] Who it was for, what they needed, and the constraints. Two or three sentences.</p><p>[Template] What you made and why it worked.</p><p><em>Edit in src/content/projects/logofolio-and-concepts.json</em></p>"
+      }
+    },
+    {
+      "type": "gallery",
+      "settings": {
+        "label": "Frames",
+        "layout": "grid",
+        "images": [
+          "/images/placeholder/ph-21.jpg",
+          "/images/placeholder/ph-22.jpg",
+          "/images/placeholder/ph-23.jpg",
+          "/images/placeholder/ph-24.jpg",
+          "/images/placeholder/ph-01.jpg",
+          "/images/placeholder/ph-02.jpg",
+          "/images/placeholder/ph-03.jpg",
+          "/images/placeholder/ph-04.jpg",
+          "/images/placeholder/ph-05.jpg"
+        ]
+      }
+    },
+    {
+      "type": "list-rows",
+      "settings": {
+        "label": "Details",
+        "items": [
+          {
+            "title": "Role",
+            "detail": "[Your role — e.g. art direction, design, motion]"
+          },
+          {
+            "title": "Year",
+            "detail": "[Year]"
+          },
+          {
+            "title": "Deliverables",
+            "detail": "[What shipped — e.g. graphics, apparel, social, signage]"
+          }
+        ]
+      }
+    }
+  ]
+}

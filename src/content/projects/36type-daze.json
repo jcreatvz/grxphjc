@@ -1,0 +1,78 @@
+{
+  "title": "36Type Daze",
+  "slug": "36type-daze",
+  "order": 16,
+  "category": "Typeface",
+  "cover": "/images/placeholder/ph-16.jpg",
+  "summary": "[Template] Display typefaces and specimens.",
+  "tags": [
+    "type"
+  ],
+  "blocks": [
+    {
+      "type": "hero",
+      "settings": {
+        "label": "Case Study — 16",
+        "headline": "36Type Daze",
+        "variant": "split-wordmark",
+        "subhead": "[Template] Display typefaces and specimens.",
+        "scrollCue": false
+      }
+    },
+    {
+      "type": "text",
+      "settings": {
+        "label": "Overview",
+        "heading": "The brief",
+        "body": "<p>[Template] Who it was for, what they needed, and the constraints. Two or three sentences.</p><p>[Template] What you made and why it worked.</p><p><em>Edit in src/content/projects/36type-daze.json</em></p>"
+      }
+    },
+    {
+      "type": "statement",
+      "settings": {
+        "label": "Specimen",
+        "text": "Aa Bb Cc — *[typeface name]* set big. Replace with a real specimen line.",
+        "size": "xl"
+      }
+    },
+    {
+      "type": "gallery",
+      "settings": {
+        "label": "Frames",
+        "layout": "masonry",
+        "images": [
+          "/images/placeholder/ph-17.jpg",
+          "/images/placeholder/ph-18.jpg",
+          "/images/placeholder/ph-19.jpg",
+          "/images/placeholder/ph-20.jpg",
+          "/images/placeholder/ph-21.jpg",
+          "/images/placeholder/ph-22.jpg"
+        ]
+      }
+    },
+    {
+      "type": "list-rows",
+      "settings": {
+        "label": "Details",
+        "items": [
+          {
+            "title": "Styles",
+            "detail": "[Weights and styles]"
+          },
+          {
+            "title": "Glyphs",
+            "detail": "[Character set]"
+          },
+          {
+            "title": "Year",
+            "detail": "[Year]"
+          },
+          {
+            "title": "Status",
+            "detail": "[Released / in progress / not for sale]"
+          }
+        ]
+      }
+    }
+  ]
+}

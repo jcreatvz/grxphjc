@@ -1,0 +1,70 @@
+{
+  "title": "Web Designs '23 — 24",
+  "slug": "web-designs-23-24",
+  "order": 7,
+  "category": "Web design",
+  "cover": "/images/placeholder/ph-07.jpg",
+  "summary": "[Template] Websites and interfaces from '23–24.",
+  "tags": [
+    "web"
+  ],
+  "blocks": [
+    {
+      "type": "hero",
+      "settings": {
+        "label": "Case Study — 07",
+        "headline": "Web Designs '23 — 24",
+        "variant": "split-wordmark",
+        "subhead": "[Template] Websites and interfaces from '23–24.",
+        "scrollCue": true,
+        "media": "/images/placeholder/ph-07.jpg"
+      }
+    },
+    {
+      "type": "text",
+      "settings": {
+        "label": "Overview",
+        "heading": "The brief",
+        "body": "<p>[Template] Who it was for, what they needed, and the constraints. Two or three sentences.</p><p>[Template] What you made and why it worked.</p><p><em>Edit in src/content/projects/web-designs-23-24.json</em></p>"
+      }
+    },
+    {
+      "type": "gallery",
+      "settings": {
+        "label": "Frames — Scroll to travel",
+        "layout": "pinned-scroll",
+        "images": [
+          "/images/placeholder/ph-08.jpg",
+          "/images/placeholder/ph-09.jpg",
+          "/images/placeholder/ph-10.jpg",
+          "/images/placeholder/ph-11.jpg",
+          "/images/placeholder/ph-12.jpg"
+        ]
+      }
+    },
+    {
+      "type": "list-rows",
+      "settings": {
+        "label": "Details",
+        "items": [
+          {
+            "title": "Role",
+            "detail": "[Your role — e.g. art direction, design, motion]"
+          },
+          {
+            "title": "Year",
+            "detail": "[Year]"
+          },
+          {
+            "title": "Deliverables",
+            "detail": "[What shipped — e.g. graphics, apparel, social, signage]"
+          }
+        ]
+      }
+    }
+  ],
+  "header": {
+    "theme": "dark",
+    "transparent": true
+  }
+}

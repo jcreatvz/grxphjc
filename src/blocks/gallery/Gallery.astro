@@ -1,10 +1,15 @@
 ---
 import { href } from '../../lib/url';
+import { aspectOf } from '../../lib/media';
 type Img = string | { src: string; title?: string; note?: string };
 export interface Props { label?: string; images: Img[]; layout?: string; behavior?: string; lightbox?: boolean; pinDistance?: number; }
 const { label = '', images = [], layout = 'grid', behavior = 'none', lightbox = true, pinDistance = 1 } = Astro.props;
 const pinned = layout === 'pinned-scroll';
-const list = images.map((im, i) => typeof im === 'string' ? { src: href(im), title: `Frame ${i + 1}` } : { ...im, src: href(im.src), title: im.title ?? `Frame ${i + 1}` });
+const list = images.map((im, i) => {
+  const o = typeof im === 'string' ? { src: im } : im;
+  const ar = aspectOf(o.src); // null for remote images → measured in the browser instead
+  return { ...o, url: href(o.src), title: o.title ?? `Frame ${i + 1}`, ar };
+});
 const pad = (n: number) => String(n).padStart(2, '0');
 ---
 <section class="gallery" data-layout={layout} data-behavior={behavior} data-pin-ratio={pinned ? pinDistance : undefined}>
@@ -17,10 +22,13 @@ const pad = (n: number) => String(n).padStart(2, '0');
     <div class="gallery__track" data-lb-group>
       {list.map((im, i) => {
         const Tag = lightbox ? 'button' : 'figure';
+        const style = [im.ar ? `--ar:${im.ar.toFixed(4)}` : '', pinned ? '' : `--reveal-i:${i % 3}`].filter(Boolean).join(';');
         return (
-          <Tag class="gallery__item" {...(pinned ? {} : { 'data-reveal': '', style: `--reveal-i:${i % 3}` })}
-               {...(lightbox ? { type: 'button', 'data-lb': '', 'data-lb-src': im.src, 'data-lb-title': im.title, 'data-lb-note': (im as any).note, 'aria-label': `Open ${im.title}` } : {})}>
-            <img src={im.src} alt="" loading={pinned ? 'eager' : 'lazy'} decoding="async" draggable="false" />
+          <Tag class="gallery__item" style={style || undefined}
+               {...(pinned ? {} : { 'data-reveal': '' })}
+               {...(im.ar ? {} : { 'data-ar-auto': '' })}
+               {...(lightbox ? { type: 'button', 'data-lb': '', 'data-lb-src': im.url, 'data-lb-title': im.title, 'data-lb-note': (im as any).note, 'aria-label': `Open ${im.title}` } : {})}>
+            <img src={im.url} alt="" loading={pinned ? 'eager' : 'lazy'} decoding="async" draggable="false" />
             <span class="gallery__index mono-xs">{pad(i + 1)} <span>/</span> {pad(list.length)}</span>
           </Tag>
         );
@@ -41,15 +49,17 @@ const pad = (n: number) => String(n).padStart(2, '0');
   .gallery__stage { position: relative; }
   .gallery__label { display: inline-block; margin-bottom: 32px; }
   .gallery__track { display: grid; gap: clamp(12px, 1.6vw, 24px); grid-template-columns: repeat(3, 1fr); }
-  .gallery__item { position: relative; display: block; margin: 0; padding: 0; width: 100%; background: var(--paper-2); overflow: hidden; }
+  .gallery__item {
+    position: relative; display: block; margin: 0; padding: 0; width: 100%;
+    background: var(--paper-2); overflow: hidden; -webkit-appearance: none; appearance: none; border: 0; border-radius: 0;
+  }
   .gallery__item img { width: 100%; height: auto; transition: transform 800ms var(--ease-out); }
   button.gallery__item:hover img { transform: scale(1.03); }
   .gallery__index { position: absolute; right: 10px; bottom: 10px; padding: 4px 8px; color: var(--on-media); background: rgba(10, 10, 10, 0.62); }
   .gallery__index span { opacity: 0.55; }
   .gallery__hud { display: none; }
 
-  /* Native horizontal scroller. Used by horizontal-scroll, and as the fallback for
-     pinned-scroll when JS is off or the visitor prefers reduced motion. */
+  /* Native horizontal scroller — horizontal-scroll, and the pinned-scroll fallback (no JS / reduced motion) */
   .gallery[data-layout="horizontal-scroll"] .gallery__track,
   .gallery[data-layout="pinned-scroll"] .gallery__track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; overscroll-behavior-x: contain; }
   .gallery[data-layout="horizontal-scroll"] .gallery__track::-webkit-scrollbar,
@@ -64,26 +74,42 @@ const pad = (n: number) => String(n).padStart(2, '0');
   .gallery[data-layout="sticky"] .gallery__track { display: block; }
   .gallery[data-layout="sticky"] .gallery__item { position: sticky; top: calc(var(--frame-top) + 16px); margin-bottom: 20svh; }
 
-  /* ---- pinned-scroll: the section is a tall runway; the stage sticks to the viewport
-         and vertical scroll slides the track sideways (src/scripts/pinned.ts) ---- */
+  /* ---- pinned-scroll ----
+     Every size is EXPLICIT: strip height comes from 100svh minus chrome, and each frame is
+     strip-height x its image ratio (read at build time). No percentage heights, no intrinsic
+     image sizing — that chain is what WebKit/Safari resolved differently from Chrome. */
   @media (prefers-reduced-motion: no-preference) {
-    :global(html.js) .gallery[data-layout="pinned-scroll"] { padding: 0; height: var(--pin-h, 300svh); }
+    :global(html.js) .gallery[data-layout="pinned-scroll"] {
+      --pin-gap: clamp(10px, 1.6svh, 18px);
+      --pin-row: 20px;
+      --pin-top: calc(var(--frame-top) + var(--safe-top) + 12px);
+      --pin-bot: calc(var(--bar-h) + var(--safe-bottom) + 12px);
+      --pin-track-h: calc(100svh - var(--pin-top) - var(--pin-bot) - 2 * var(--pin-row) - 2 * var(--pin-gap));
+      padding: 0; height: var(--pin-h, 300svh);
+    }
     :global(html.js) .gallery[data-layout="pinned-scroll"] .gallery__stage {
-      position: sticky; top: 0; height: 100svh;
-      display: flex; flex-direction: column; gap: clamp(12px, 2svh, 24px);
-      padding: calc(var(--frame-top) + var(--safe-top) + 16px) 0 calc(var(--bar-h) + var(--safe-bottom) + 16px);
+      position: -webkit-sticky; position: sticky; top: 0; height: 100vh; height: 100svh;
+      display: flex; flex-direction: column; justify-content: center; gap: var(--pin-gap);
+      padding: var(--pin-top) 0 var(--pin-bot);
       overflow: hidden; overflow: clip;
     }
-    :global(html.js) .gallery[data-layout="pinned-scroll"] .gallery__label { flex: none; margin: 0; padding-inline: var(--gutter); }
-    :global(html.js) .gallery[data-layout="pinned-scroll"] .gallery__track {
-      flex: 1 1 auto; min-height: 0; width: max-content; display: flex; overflow: visible; scroll-snap-type: none;
-      gap: clamp(12px, 1.6vw, 24px); padding-inline: var(--gutter); will-change: transform;
+    :global(html.js) .gallery[data-layout="pinned-scroll"] .gallery__label {
+      flex: none; margin: 0; height: var(--pin-row); line-height: var(--pin-row); padding-inline: var(--gutter); white-space: nowrap;
     }
-    :global(html.js) .gallery[data-layout="pinned-scroll"] .gallery__item { flex: none; width: auto; height: 100%; scroll-snap-align: none; }
-    :global(html.js) .gallery[data-layout="pinned-scroll"] .gallery__item img { width: auto; height: 100%; max-width: none; }
+    :global(html.js) .gallery[data-layout="pinned-scroll"] .gallery__track {
+      flex: none; display: flex; align-items: flex-start; width: max-content; height: var(--pin-track-h);
+      overflow: visible; scroll-snap-type: none; gap: clamp(12px, 1.6vw, 24px); padding-inline: var(--gutter);
+      transform: translate3d(0, 0, 0); -webkit-backface-visibility: hidden; backface-visibility: hidden;
+    }
+    :global(html.js) .gallery[data-layout="pinned-scroll"] .gallery__item {
+      flex: none; height: var(--pin-track-h); width: calc(var(--pin-track-h) * var(--ar, 1.5)); scroll-snap-align: none;
+    }
+    :global(html.js) .gallery[data-layout="pinned-scroll"] .gallery__item img {
+      position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; object-fit: cover; transition: none;
+    }
     :global(html.js) .gallery[data-layout="pinned-scroll"].is-static { height: auto; }
     :global(html.js) .gallery[data-layout="pinned-scroll"] .gallery__hud {
-      flex: none; display: flex; align-items: center; gap: 16px; padding-inline: var(--gutter); color: var(--muted);
+      flex: none; height: var(--pin-row); display: flex; align-items: center; gap: 16px; padding-inline: var(--gutter); color: var(--muted);
     }
     .gallery__count b { color: var(--accent); font-weight: 500; }
     .gallery__bar { position: relative; flex: 1; height: 1px; background: var(--hairline); overflow: hidden; }

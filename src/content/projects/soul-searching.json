@@ -1,0 +1,66 @@
+{
+  "title": "Soul Searching",
+  "slug": "soul-searching",
+  "order": 11,
+  "category": "Personal",
+  "cover": "/images/placeholder/ph-11.jpg",
+  "summary": "[Template] Self-initiated series.",
+  "tags": [
+    "personal"
+  ],
+  "blocks": [
+    {
+      "type": "hero",
+      "settings": {
+        "label": "Case Study — 11",
+        "headline": "Soul Searching",
+        "variant": "standard",
+        "subhead": "[Template] Self-initiated series.",
+        "scrollCue": false
+      }
+    },
+    {
+      "type": "text",
+      "settings": {
+        "label": "Overview",
+        "heading": "The brief",
+        "body": "<p>[Template] Who it was for, what they needed, and the constraints. Two or three sentences.</p><p>[Template] What you made and why it worked.</p><p><em>Edit in src/content/projects/soul-searching.json</em></p>"
+      }
+    },
+    {
+      "type": "gallery",
+      "settings": {
+        "label": "Frames",
+        "layout": "masonry",
+        "images": [
+          "/images/placeholder/ph-12.jpg",
+          "/images/placeholder/ph-13.jpg",
+          "/images/placeholder/ph-14.jpg",
+          "/images/placeholder/ph-15.jpg",
+          "/images/placeholder/ph-16.jpg",
+          "/images/placeholder/ph-17.jpg"
+        ]
+      }
+    },
+    {
+      "type": "list-rows",
+      "settings": {
+        "label": "Details",
+        "items": [
+          {
+            "title": "Role",
+            "detail": "[Your role — e.g. art direction, design, motion]"
+          },
+          {
+            "title": "Year",
+            "detail": "[Year]"
+          },
+          {
+            "title": "Deliverables",
+            "detail": "[What shipped — e.g. graphics, apparel, social, signage]"
+          }
+        ]
+      }
+    }
+  ]
+}

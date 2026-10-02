@@ -103,6 +103,7 @@ Source: `src/blocks/project-grid/schema.js`
 | `label` | text | `"Selected Work"` | Bracketed label |
 | `heading` | text | `""` | Heading |
 | `limit` | range 1–24 | `12` | Max projects |
+| `columns` | select: `2` · `3` | `2` | Columns (grid layout, desktop) |
 | `layout` | select: `grid` · `list` | `"grid"` | Layout |
 
 ### `statement` — Statement

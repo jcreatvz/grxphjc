@@ -1,12 +1,12 @@
 ---
-import { getCollection } from 'astro:content';
+import { getProjects, projectMeta } from '../../lib/projects';
 import { href } from '../../lib/url';
-export interface Props { label?: string; heading?: string; limit?: number; layout?: 'grid' | 'list'; }
-const { label = 'Selected Work', heading = '', limit = 12, layout = 'grid' } = Astro.props;
-const projects = (await getCollection('projects')).sort((a, b) => (b.data.year ?? 0) - (a.data.year ?? 0)).slice(0, limit);
+export interface Props { label?: string; heading?: string; limit?: number; layout?: 'grid' | 'list'; columns?: 2 | 3; }
+const { label = 'Selected Work', heading = '', limit = 12, layout = 'grid', columns = 2 } = Astro.props;
+const projects = (await getProjects()).slice(0, limit);
 const pad = (n: number) => String(n).padStart(2, '0');
 ---
-<section class="pgrid" data-layout={layout}>
+<section class="pgrid" data-layout={layout} data-cols={columns}>
   <header class="pgrid__head">
     <div class="section-label" data-reveal>{label} — {pad(projects.length)}</div>
     {heading && <h2 class="pgrid__heading" data-reveal style="--reveal-i:1">{heading}</h2>}
@@ -24,7 +24,7 @@ const pad = (n: number) => String(n).padStart(2, '0');
           <span class="pgrid__meta">
             <span class="pgrid__idx mono-xs">{pad(i + 1)}</span>
             <span class="pgrid__title">{p.data.title}</span>
-            <span class="pgrid__sub mono-xs">{[p.data.client, p.data.year].filter(Boolean).join(' — ')}</span>
+            <span class="pgrid__sub mono-xs">{projectMeta(p.data)}</span>
             {layout === 'list' && <span class="pgrid__arrow" aria-hidden="true">→</span>}
           </span>
         </a>
@@ -65,4 +65,8 @@ const pad = (n: number) => String(n).padStart(2, '0');
     .pgrid[data-layout="list"] .pgrid__meta { grid-template-columns: 36px 1fr 24px; }
     .pgrid[data-layout="list"] .pgrid__sub { grid-column: 2; grid-row: 2; }
   }
+  .pgrid[data-layout="grid"][data-cols="3"] .pgrid__list { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .pgrid[data-cols="3"] .pgrid__title { font-size: var(--step-3); }
+  @media (max-width: 1024px) { .pgrid[data-layout="grid"][data-cols="3"] .pgrid__list { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 720px) { .pgrid[data-layout="grid"][data-cols] .pgrid__list { grid-template-columns: 1fr; } }
 </style>

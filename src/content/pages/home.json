@@ -8,157 +8,12 @@
       "settings": {
         "label": "Archive — Frames & Studies",
         "headline": "Experienced *n* Experimental",
-        "source": "both",
+        "source": "projects",
         "projectAction": "popup",
         "startView": "sphere",
-        "maxItems": 26,
+        "maxItems": 28,
         "cue": "Drag to rotate · Scroll to dive",
-        "items": [
-          {
-            "image": "/images/placeholder/ph-01.jpg",
-            "title": "Night Shift",
-            "meta": "Study — 2024",
-            "note": "Placeholder frame. Swap the image, title and note in src/content/pages/home.json.",
-            "action": "popup"
-          },
-          {
-            "image": "/images/placeholder/ph-02.jpg",
-            "title": "Static Bloom",
-            "meta": "Study — 2025",
-            "note": "Placeholder frame. Swap the image, title and note in src/content/pages/home.json.",
-            "action": "popup"
-          },
-          {
-            "image": "/images/placeholder/ph-03.jpg",
-            "title": "Signal Loss",
-            "meta": "Study — 2026",
-            "note": "Placeholder frame. Swap the image, title and note in src/content/pages/home.json.",
-            "action": "popup"
-          },
-          {
-            "image": "/images/placeholder/ph-04.jpg",
-            "title": "Soft Machine",
-            "meta": "Study — 2024",
-            "note": "Placeholder frame. Swap the image, title and note in src/content/pages/home.json.",
-            "action": "popup"
-          },
-          {
-            "image": "/images/placeholder/ph-05.jpg",
-            "title": "Paper Weather",
-            "meta": "Study — 2025",
-            "note": "Placeholder frame. Swap the image, title and note in src/content/pages/home.json.",
-            "action": "popup",
-            "tall": true
-          },
-          {
-            "image": "/images/placeholder/ph-06.jpg",
-            "title": "Low Orbit",
-            "meta": "Study — 2026",
-            "note": "Placeholder frame. Swap the image, title and note in src/content/pages/home.json.",
-            "action": "popup"
-          },
-          {
-            "image": "/images/placeholder/ph-07.jpg",
-            "title": "Afterimage",
-            "meta": "Study — 2024",
-            "note": "Placeholder frame. Swap the image, title and note in src/content/pages/home.json.",
-            "action": "popup"
-          },
-          {
-            "image": "/images/placeholder/ph-08.jpg",
-            "title": "Field Test",
-            "meta": "Study — 2025",
-            "note": "Placeholder frame. Swap the image, title and note in src/content/pages/home.json.",
-            "action": "popup"
-          },
-          {
-            "image": "/images/placeholder/ph-09.jpg",
-            "title": "Quiet Loud",
-            "meta": "Study — 2026",
-            "note": "Placeholder frame. Swap the image, title and note in src/content/pages/home.json.",
-            "action": "popup"
-          },
-          {
-            "image": "/images/placeholder/ph-10.jpg",
-            "title": "Rerun",
-            "meta": "Study — 2024",
-            "note": "Placeholder frame. Swap the image, title and note in src/content/pages/home.json.",
-            "action": "popup",
-            "tall": true
-          },
-          {
-            "image": "/images/placeholder/ph-11.jpg",
-            "title": "Grain Study",
-            "meta": "Study — 2025",
-            "note": "Placeholder frame. Swap the image, title and note in src/content/pages/home.json.",
-            "action": "popup"
-          },
-          {
-            "image": "/images/placeholder/ph-12.jpg",
-            "title": "Northbound",
-            "meta": "Study — 2026",
-            "note": "Placeholder frame. Swap the image, title and note in src/content/pages/home.json.",
-            "action": "popup"
-          },
-          {
-            "image": "/images/placeholder/ph-13.jpg",
-            "title": "Hand Held",
-            "meta": "Study — 2024",
-            "note": "Placeholder frame. Swap the image, title and note in src/content/pages/home.json.",
-            "action": "popup"
-          },
-          {
-            "image": "/images/placeholder/ph-14.jpg",
-            "title": "Blackout Poster",
-            "meta": "Study — 2025",
-            "note": "Placeholder frame. Swap the image, title and note in src/content/pages/home.json.",
-            "action": "popup"
-          },
-          {
-            "image": "/images/placeholder/ph-15.jpg",
-            "title": "Slow Cut",
-            "meta": "Study — 2026",
-            "note": "Placeholder frame. Swap the image, title and note in src/content/pages/home.json.",
-            "action": "popup",
-            "tall": true
-          },
-          {
-            "image": "/images/placeholder/ph-16.jpg",
-            "title": "Echo Chamber",
-            "meta": "Study — 2024",
-            "note": "Placeholder frame. Swap the image, title and note in src/content/pages/home.json.",
-            "action": "popup"
-          },
-          {
-            "image": "/images/placeholder/ph-17.jpg",
-            "title": "Frame Rate",
-            "meta": "Study — 2025",
-            "note": "Placeholder frame. Swap the image, title and note in src/content/pages/home.json.",
-            "action": "popup"
-          },
-          {
-            "image": "/images/placeholder/ph-18.jpg",
-            "title": "Off Register",
-            "meta": "Study — 2026",
-            "note": "Placeholder frame. Swap the image, title and note in src/content/pages/home.json.",
-            "action": "popup"
-          },
-          {
-            "image": "/images/placeholder/ph-19.jpg",
-            "title": "Long Exposure",
-            "meta": "Study — 2024",
-            "note": "Placeholder frame. Swap the image, title and note in src/content/pages/home.json.",
-            "action": "popup"
-          },
-          {
-            "image": "/images/placeholder/ph-20.jpg",
-            "title": "Dead Air",
-            "meta": "Study — 2025",
-            "note": "Placeholder frame. Swap the image, title and note in src/content/pages/home.json.",
-            "action": "popup",
-            "tall": true
-          }
-        ]
+        "items": []
       }
     },
     {
@@ -188,9 +43,10 @@
       "settings": {
         "anchor": "work",
         "label": "Selected Work",
-        "heading": "Recent projects",
-        "limit": 8,
-        "layout": "grid"
+        "heading": "Projects",
+        "limit": 24,
+        "layout": "grid",
+        "columns": 3
       }
     },
     {

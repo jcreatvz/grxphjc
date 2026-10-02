@@ -41,6 +41,12 @@ One entry, `src/scripts/main.ts`, ~5 KB gzipped. Each module no-ops if its marku
 
 `src/layout/Base.astro` has an inline `<head>` script that sets theme, accent, cursor and the loader flag **before first paint** — keep it inline.
 
+## Build-time helpers
+- `src/lib/url.ts` — `href()` base-path resolver.
+- `src/lib/media.ts` — `aspectOf(src)` reads local image dimensions (EXIF-aware) so layouts size frames explicitly.
+- `src/lib/projects.ts` — `getProjects()` (sorted by `order`, then year, then title) and `projectMeta()` ("Category — Year").
+- `src/lib/bleed.ts` — whether a page's first block runs under the top frame.
+
 ## Gotchas worth knowing
 - `backdrop-filter`, `transform` and `filter` on an ancestor trap `position: fixed` children. That's why overlays live at body level, not inside the bar.
 - Astro scoped CSS raises selector specificity; a media-query override can lose to a base rule. Repeat the stronger selector.

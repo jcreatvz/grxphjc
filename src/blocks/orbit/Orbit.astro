@@ -1,5 +1,5 @@
 ---
-import { getCollection } from 'astro:content';
+import { getProjects, projectMeta } from '../../lib/projects';
 import { href, isExternal } from '../../lib/url';
 
 type Action = 'popup' | 'page' | 'url';
@@ -13,12 +13,11 @@ const { label = '', headline = '', source = 'both', projectAction = 'popup',
         items = [], startView = 'sphere', maxItems = 28, cue = 'Drag to rotate' } = Astro.props;
 
 const fromProjects: Item[] = source === 'manual' ? [] :
-  (await getCollection('projects'))
-    .sort((a, b) => (b.data.year ?? 0) - (a.data.year ?? 0))
+  (await getProjects())
     .filter((p) => p.data.cover)
     .map((p) => ({
       image: p.data.cover!, title: p.data.title,
-      meta: [p.data.client, p.data.year].filter(Boolean).join(' — '),
+      meta: projectMeta(p.data),
       note: p.data.summary, action: projectAction, href: `/work/${p.data.slug}`,
     }));
 const manual = source === 'projects' ? [] : items;

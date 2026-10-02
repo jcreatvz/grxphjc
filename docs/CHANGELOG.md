@@ -2,6 +2,14 @@
 
 Dated entry per release. Newest first. See [`ROADMAP.md`](ROADMAP.md) for what's next.
 
+## v0.7 — 2026-10-01 · Step 2 fixes + project list
+- **Safari / iPhone pinned gallery.** Root causes: frame width relied on intrinsic image sizing inside a percentage-height flex chain, which WebKit resolves differently (images sat letterboxed, frames wrong width); the strip width changed as images decoded, so the script re-measured and snapped mid-scroll (the glitch); iOS address-bar resizes triggered the same; easing layered on iOS momentum felt rubbery.
+  Fixes: image ratios read at build time (`src/lib/media.ts`, `image-size`), every size explicit (`--pin-track-h` from 100svh minus chrome, frame width = height × ratio, image absolutely fills with `object-fit: cover`); re-measure only when a width/height actually changes and never snap; touch devices track scroll directly, mouse/trackpad keeps the glide; translate snapped to device pixels. Remote images get their ratio from the browser once.
+- **Logo hover** swaps the logo's own letters (`data-scramble="swap"`) — every frame stays in the brand font.
+- **21 projects** from John's list, in his order (`order` field), with a `category` label, template copy and [bracketed] fields. The old sample projects are gone. The orbit now shows only real projects; the home grid shows all 21 in 3 columns (`columns` setting on `project-grid`).
+- CTA heading floor lowered to 44px — "something." overflowed 320px screens.
+- Note: WebKit can't run in Claude's sandbox, so Safari fixes are verified by reasoning + Chromium tests; John re-tests on real Safari.
+
 ## v0.6 — 2026-10-01 · Type tweaks + pinned gallery
 - **H1s** (orbit headline, hero headlines, split wordmark): `line-height: normal`, `letter-spacing: 0.5rem`. Tokens `--h1-leading` / `--h1-tracking`. Below 561px the tracking becomes `0.075em` — at a flat 0.5rem, "Experienced" and "Reimagined" ran off 320–414px screens.
 - **No opacity on echo words:** the second word of split headlines is now a solid grey (`--ghost`, `--ghost-on-media`) instead of a translucent white. Entrance fade-ins still animate opacity but finish fully solid.

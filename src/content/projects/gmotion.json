@@ -1,0 +1,71 @@
+{
+  "title": "Gmotion",
+  "slug": "gmotion",
+  "order": 12,
+  "category": "Motion",
+  "cover": "/images/placeholder/ph-12.jpg",
+  "summary": "[Template] Motion pieces and loops.",
+  "tags": [
+    "motion"
+  ],
+  "blocks": [
+    {
+      "type": "hero",
+      "settings": {
+        "label": "Case Study — 12",
+        "headline": "Gmotion",
+        "variant": "split-wordmark",
+        "subhead": "[Template] Motion pieces and loops.",
+        "scrollCue": true,
+        "media": "/images/placeholder/ph-12.jpg"
+      }
+    },
+    {
+      "type": "text",
+      "settings": {
+        "label": "Overview",
+        "heading": "The brief",
+        "body": "<p>[Template] Who it was for, what they needed, and the constraints. Two or three sentences.</p><p>[Template] What you made and why it worked.</p><p><em>Edit in src/content/projects/gmotion.json</em></p>"
+      }
+    },
+    {
+      "type": "gallery",
+      "settings": {
+        "label": "Frames — Scroll to travel",
+        "layout": "pinned-scroll",
+        "images": [
+          "/images/placeholder/ph-13.jpg",
+          "/images/placeholder/ph-14.jpg",
+          "/images/placeholder/ph-15.jpg",
+          "/images/placeholder/ph-16.jpg",
+          "/images/placeholder/ph-17.jpg",
+          "/images/placeholder/ph-18.jpg"
+        ]
+      }
+    },
+    {
+      "type": "list-rows",
+      "settings": {
+        "label": "Details",
+        "items": [
+          {
+            "title": "Role",
+            "detail": "[Your role — e.g. art direction, design, motion]"
+          },
+          {
+            "title": "Year",
+            "detail": "[Year]"
+          },
+          {
+            "title": "Deliverables",
+            "detail": "[What shipped — e.g. graphics, apparel, social, signage]"
+          }
+        ]
+      }
+    }
+  ],
+  "header": {
+    "theme": "dark",
+    "transparent": true
+  }
+}

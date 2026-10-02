@@ -4,6 +4,11 @@ Why things are the way they are. Newest first.
 
 | Date | Decision | Why |
 |---|---|---|
+| 2026-10-01 | Pinned frames: fill height, width from the image's ratio | John's call after Safari test — same as Chrome. |
+| 2026-10-01 | Build-time image ratios instead of browser sizing | Removes the WebKit/Chrome difference and any mid-scroll layout change. |
+| 2026-10-01 | No easing on touch for the pinned gallery | iOS momentum is already smooth; a second easing layer lagged the finger. |
+| 2026-10-01 | Logo hover swaps its own letters | Random glyphs fell outside the brand font (digits/symbols fall back to Inter). |
+| 2026-10-01 | Template project copy uses [brackets] for facts | Placeholder text must never read as a real claim about a client. |
 | 2026-10-01 | Pinned gallery as a new layout, not a replacement | The drag-to-scroll gallery still has uses; pinned is opt-in per gallery. |
 | 2026-10-01 | Pinned effect hand-written, not GSAP | ~100 lines, no dependency. Revisit when scroll-stories need timelines. |
 | 2026-10-01 | H1 tracking drops to 0.075em on phones | A flat 0.5rem pushed long graffiti words off 320–414px screens. |

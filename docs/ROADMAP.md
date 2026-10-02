@@ -2,7 +2,7 @@
 
 > Single source of truth for where the project is and what's next.
 > Updated at the end of every step. Dates are when work shipped (pushed to `main`).
-> Last updated: **2026-10-01** · Current version: **v0.6**
+> Last updated: **2026-10-01** · Current version: **v0.7**
 
 **Live:** https://jcreatvz.github.io/grxphjc/ · **Repo:** https://github.com/jcreatvz/grxphjc
 
@@ -11,8 +11,8 @@
 ## Where we are
 
 ```
-DONE  ██████████████████░░░░░░░░░░░░  Phases 0 · 1 · 3 · 2 + brand font + docs + pinned gallery
-NEXT  → Step 2: real-device QA (needs John's MacBook + iPhone)
+DONE  ██████████████████░░░░░░░░░░░░  Phases 0 · 1 · 3 · 2 + brand font + docs + pinned gallery + Safari fixes + 21 project shells
+NEXT  → Step 2: John re-tests the pinned gallery in Safari (desktop + iPhone) on v0.7
 ```
 
 ---
@@ -27,6 +27,7 @@ NEXT  → Step 2: real-device QA (needs John's MacBook + iPhone)
 | v0.4 | 2026-09-30 | **2 · Block library + nav rebuild** | Pages-as-blocks · orbit 3D hero · statement, project-grid, metrics, list-rows, steps, marquee, cta, text · lightbox · scroll reveal · scramble · crosshair cursor · Webflow-recreated frame, bottom bar, menu and red-square loader · audit fixes |
 | v0.5 | 2026-09-30 | **Brand font + docs foundation** | GGGGG SpecialG on logo, page H1s and footer watermark (outline cut) · 18+ years · email shows hello@grxphjc.com, sends to Gmail · `docs/` folder · auto-generated block reference · `/styleguide` page |
 | v0.6 | 2026-10-01 | **Type tweaks + pinned gallery** | H1s: line-height normal, 0.5rem tracking (scales down on phones), solid-shade echo words instead of opacity · footer watermark in GW fill · gallery `pinned-scroll` layout: vertical scroll slides the images sideways, eased, with counter + progress bar |
+| v0.7 | 2026-10-01 | **Step 2 fixes + project list** | Safari/iPhone pinned-gallery fix (explicit frame sizing from real image ratios, no mid-scroll re-measure, direct tracking on touch) · logo hover swaps its own letters · 21 project pages with template content, in John's order, with categories · 3-column project grid · CTA heading fits 320px |
 
 Full detail per release: [`CHANGELOG.md`](CHANGELOG.md)
 
@@ -36,15 +37,16 @@ Full detail per release: [`CHANGELOG.md`](CHANGELOG.md)
 
 Each step is done only when its docs are updated (see *Definition of done* below).
 
-### ☐ Step 2 · Real-device QA — *next*
+### ◐ Step 2 · Real-device QA — *in progress*
 So far everything was tested in headless Chromium only. John tests on real hardware; Claude fixes what turns up.
 
-- [ ] Safari on MacBook — orbit drag, scroll-dive, menu blur, cursor, loader
-- [ ] iPhone Safari — bar + safe areas, menu, orbit swipe vs. page scroll, popup
-- [ ] Chrome or Firefox on desktop — quick pass
-- [ ] Brand font renders on all three (logo, H1s, watermark)
-- [ ] Pinned gallery on iPhone: scroll feel, and whether frames should fill the height (current) or fit the screen width
-- [ ] H1 letter-spacing on a real phone (0.5rem ≥561px, scaled below)
+- [x] Safari on MacBook — all good except the pinned gallery (2026-10-01) → fixed in v0.7, **re-test**
+- [x] iPhone Safari — same pinned-gallery issue (2026-10-01) → fixed in v0.7, **re-test**
+- [x] Chrome / Firefox — passed (2026-10-01)
+- [x] Brand font renders on all three (2026-10-01)
+- [x] Logo hover swaps its own letters instead of random characters (v0.7)
+- [ ] **Re-test pinned gallery** on Safari desktop + iPhone: smooth scroll, frames proportional (fill height, width from each image's ratio — John's call 2026-10-01)
+- [x] H1 letter-spacing on a real phone — good (2026-10-01)
 - [ ] Send screenshots or a screen recording of anything off
 
 **Owner:** John (testing) → Claude (fixes) · **Blocked on:** nothing
@@ -63,6 +65,8 @@ The site can't show a reel yet — the biggest gap for a motion designer.
 
 ### ☐ Step 4 · Phase 5 — Real content
 Swap placeholders for real work. Content pressure shows which blocks are still missing.
+
+**Started v0.7:** 21 project pages exist (John's titles and order) with template copy; every factual field is in [brackets].
 
 **Owner:** John (assets) → Claude (build) · **Blocked on:** John — see *Owed by John*
 
@@ -94,7 +98,8 @@ Form-based editor (`tools/editor.html`) generated from each block's `schema.js`,
 
 | Item | Status | Needed for |
 |---|---|---|
-| 4–8 best projects: cover image, frames, reel/video links, short write-up | ⏳ coming later | Step 4 |
+| Project list | ✅ 21 titles received 2026-10-01 — template pages built | Step 4 |
+| Per project: cover, frames, reel/video links, write-up, role, year, client, category check | ⏳ John to brief | Step 4 |
 | Shipped-projects count and brands/clients count (currently placeholder 140 and 38) | ⏳ double-checking | Step 4 |
 | Bio, story and services copy (current text is placeholder) | ⏳ | Step 4 |
 | Social handles (Instagram etc.) | ⏳ | Step 4 |
