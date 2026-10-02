@@ -1,0 +1,28 @@
+---
+import { fill } from '../../lib/tokens';
+export interface Props { label?: string; items: Array<{ label: string; value: string }>; context?: Record<string, any>; }
+const { label = '', items = [], context = {} } = Astro.props;
+const cells = items.map((it) => ({ label: it.label, value: fill(it.value, context) })).filter((c) => c.value);
+---
+{cells.length > 0 && (
+  <section class="meta">
+    {label && <div class="section-label" data-reveal>{label}</div>}
+    <dl class="meta__list">
+      {cells.map((c, i) => (
+        <div class="meta__cell" data-reveal style={`--reveal-i:${i % 5}`}>
+          <dt class="mono-xs">{c.label}</dt>
+          <dd>{c.value}</dd>
+        </div>
+      ))}
+    </dl>
+  </section>
+)}
+
+<style>
+  .meta { padding: calc(var(--section-y) * 0.55) var(--gutter); max-width: var(--page-max); margin: 0 auto; display: grid; gap: 20px; }
+  .meta__list { margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); column-gap: clamp(16px, 2vw, 32px); }
+  .meta__cell { position: relative; display: grid; gap: 8px; padding: 22px 0 8px; border-top: 1px solid var(--hairline); align-content: start; }
+  .meta__cell::before { content: '+'; position: absolute; top: -7px; left: -4px; font-family: var(--font-mono); font-size: 11px; line-height: 1; color: var(--muted); }
+  .meta__cell dt { color: var(--muted); }
+  .meta__cell dd { margin: 0; font-family: var(--font-display); font-weight: 500; letter-spacing: -0.02em; line-height: 1.15; font-size: var(--step-3); overflow-wrap: anywhere; }
+</style>

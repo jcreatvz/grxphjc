@@ -32,7 +32,7 @@ public/images/placeholder/    placeholder frames — replace with real work
 
 ## Content blocks
 
-`hero` · `gallery` · `orbit` · `statement` · `project-grid` · `metrics` · `list-rows` · `steps` · `marquee` · `cta` · `text`
+`hero` · `gallery` · `orbit` · `statement` · `project-grid` · `metrics` · `list-rows` · `steps` · `marquee` · `cta` · `text` · `video` · `embed` · `quote` · `credits` · `project-meta` · `fullbleed-image`
 Settings for each are listed in its `schema.js`. Any block can take `"anchor": "id"` to become a link target (e.g. `/#work`).
 
 ### Orbit (homepage hero)

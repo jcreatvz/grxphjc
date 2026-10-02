@@ -41,8 +41,26 @@ In `src/content/pages/home.json`, the orbit's `items` list takes:
 ## Gallery that scrolls sideways as you scroll down
 In any `gallery` block set `"layout": "pinned-scroll"`. The section pins to the screen and the images slide sideways as the visitor scrolls down, with a counter and progress bar. `"pinDistance"` sets how much scrolling it takes (1 = one pixel of scroll per pixel of travel; 1.5 = slower, longer). Use 4–10 images; with only one or two it won't pin. `"horizontal-scroll"` (with `"behavior": "drag"`) is the older drag-to-scroll version.
 
-## Accent a word
-In `statement` text and the orbit headline, wrap a word in asterisks: `Experienced *n* Experimental`.
+## Accent words
+In `statement`, `quote` and the orbit headline, wrap one or several words in asterisks: `Experienced *n* Experimental`, `about *working together* goes here`.
+
+## Video, embeds, quotes, credits, meta strip, full-bleed
+All settings: [`BLOCKS.md`](BLOCKS.md). See each rendered at `/styleguide`.
+
+**Video file** (`video` block) — keep clips short (loops under ~10 s, ~1–3 MB). Put files in `public/media/`. Export an MP4 for every browser and an optional smaller WebM:
+```bash
+ffmpeg -i input.mov -vf scale=1920:-2 -c:v libx264 -crf 26 -preset slow -pix_fmt yuv420p -movflags +faststart -an out.mp4
+ffmpeg -i input.mov -vf scale=1920:-2 -c:v libvpx-vp9 -crf 34 -b:v 0 -an out.webm
+```
+(`-an` drops audio — right for loops. For `click` mode with sound, remove it.) Always add a `poster` image: it shows before play and on slow connections. **Full reels belong on Vimeo or YouTube** — use the `embed` block.
+
+**Embed** — paste any normal YouTube or Vimeo share link in `url`; add a `poster` image. Nothing loads from YouTube/Vimeo until a visitor presses Play.
+
+**project-meta** — cells like `{ "label": "Client", "value": "{client|[Client]}" }`. Add `"client"` / `"year"` to the project JSON and the strip fills itself; the text after `|` is only a fallback. Tokens: `{client}` `{year}` `{category}` `{title}`. A cell with no value is hidden.
+
+**quote** — `tone`: `paper` · `accent` · `night`; `align`: `left` · `center`.
+**credits** — `items` `{ role, name, href? }` plus `tools` tags.
+**fullbleed-image** — `height`: `natural` (image's own shape) · `cinema` (21:9; 16:9 on phones) · `screen`. Use wide images (about 2400 px across).
 
 ## Contact email
 `src/site.json → contact`:

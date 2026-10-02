@@ -2,6 +2,19 @@
 
 Dated entry per release. Newest first. See [`ROADMAP.md`](ROADMAP.md) for what's next.
 
+## v0.8 — 2026-10-01 · Step 3: missing blocks
+- **`video`** — self-hosted MP4 (+ optional WebM) with poster. `loop` mode: muted autoplay while ≥35% on screen, pauses when it leaves; reduced motion / data-saver gets poster + Play instead. `click` mode: poster + Play, plays with sound, native controls, pauses if scrolled away. Ratios 16:9 · 21:9 · 4:3 · 1:1 · 9:16; contained or full width; caption.
+- **`embed`** — YouTube / Vimeo from any share link. A facade: nothing from either site loads until Play is clicked, then one privacy-mode iframe (`youtube-nocookie.com`, Vimeo `dnt=1`). The pasted URL is never used directly — only a validated ID goes into a URL we build. Unsupported links show a clear notice.
+- **`quote`** — paper / accent / night backgrounds, left or centred, `*highlight*` words.
+- **`credits`** — role / name list (optional links) + tools tags.
+- **`project-meta`** — facts strip. Cell values accept `{client}`, `{year}`, `{category}`, `{title}`, with fallbacks: `{client|[Client]}`. Fills from the project's own fields as soon as they exist; empty cells hide.
+- **`fullbleed-image`** — edge to edge; natural (uses the image's real shape) · cinema 21:9 (16:9 on phones) · screen; optional popup.
+- `BlockRenderer` passes the project as `context` to every block.
+- **All 21 project templates recomposed** with the new blocks. Dummy assets: 4-second loop (MP4 33 KB / WebM 18 KB), poster, three wide placeholders.
+- **Fix:** `*accent*` highlights now work across several words (`*working together*`) — previously silently ignored. Shared `lib/accent.ts`.
+- **Fix:** statement text wraps long words instead of overflowing 320px screens.
+- Tests: embed URL parser (14 cases incl. hostile input), token fill, loop/click/pause/reduced-motion playback, facade → single iframe, all 21 project pages render, full-bleed shapes, overflow sweep (27 pages × 5 widths), pinned-gallery regression.
+
 ## v0.7 — 2026-10-01 · Step 2 fixes + project list
 - **Safari / iPhone pinned gallery.** Root causes: frame width relied on intrinsic image sizing inside a percentage-height flex chain, which WebKit resolves differently (images sat letterboxed, frames wrong width); the strip width changed as images decoded, so the script re-measured and snapped mid-scroll (the glitch); iOS address-bar resizes triggered the same; easing layered on iOS momentum felt rubbery.
   Fixes: image ratios read at build time (`src/lib/media.ts`, `image-size`), every size explicit (`--pin-track-h` from 100svh minus chrome, frame width = height × ratio, image absolutely fills with `object-fit: cover`); re-measure only when a width/height actually changes and never snap; touch devices track scroll directly, mouse/trackpad keeps the glide; translate snapped to device pixels. Remote images get their ratio from the browser once.

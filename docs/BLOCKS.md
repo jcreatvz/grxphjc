@@ -7,6 +7,18 @@ Any content block also accepts `"anchor": "id"` to become a link target (e.g. `/
 
 ## Content blocks
 
+### `credits` — Credits
+
+Source: `src/blocks/credits/schema.js`
+
+| Setting | Type | Default | Notes |
+|---|---|---|---|
+| `label` | text | `"Credits"` | Bracketed label |
+| `heading` | text | `""` | Heading |
+| `items` | item_list | — | People / roles: { role, name, href? } |
+| `toolsLabel` | text | `"Tools"` | Label above the tools list |
+| `tools` | text_list | `[]` | Tools / software |
+
 ### `cta` — Call to action
 
 Source: `src/blocks/cta/schema.js`
@@ -19,6 +31,33 @@ Source: `src/blocks/cta/schema.js`
 | `email` | text | `""` | Email shown on the page |
 | `emailTo` | text | `""` | Where the link sends (defaults to site.json contact.mailto) |
 | `button` | link | — | Button { label, href } |
+
+### `embed` — Embed (YouTube / Vimeo)
+
+Source: `src/blocks/embed/schema.js`
+
+| Setting | Type | Default | Notes |
+|---|---|---|---|
+| `label` | text | `""` | Bracketed label |
+| `url` | text | `""` | YouTube or Vimeo link (any normal share URL) |
+| `poster` | image | `""` | Poster image (shown until play — nothing from YouTube/Vimeo loads before the click) |
+| `title` | text | `"Video"` | Accessible title |
+| `ratio` | select: `16:9` · `21:9` · `4:3` | `"16:9"` | Aspect ratio |
+| `width` | select: `contained` · `full` | `"contained"` | Width |
+| `caption` | text | `""` | Caption |
+
+### `fullbleed-image` — Full-bleed image
+
+Source: `src/blocks/fullbleed-image/schema.js`
+
+| Setting | Type | Default | Notes |
+|---|---|---|---|
+| `label` | text | `""` | Bracketed label |
+| `src` | image | — | Image |
+| `alt` | text | `""` | Alt text (leave empty if purely decorative) |
+| `caption` | text | `""` | Caption |
+| `height` | select: `natural` · `cinema` · `screen` | `"natural"` | Height: natural = the image's own shape · cinema = 21:9 (16:9 on phones) · screen = full viewport |
+| `lightbox` | toggle | `false` | Open in popup on click |
 
 ### `gallery` — Image Gallery
 
@@ -106,6 +145,28 @@ Source: `src/blocks/project-grid/schema.js`
 | `columns` | select: `2` · `3` | `2` | Columns (grid layout, desktop) |
 | `layout` | select: `grid` · `list` | `"grid"` | Layout |
 
+### `project-meta` — Project meta strip
+
+Source: `src/blocks/project-meta/schema.js`
+
+| Setting | Type | Default | Notes |
+|---|---|---|---|
+| `label` | text | `""` | Bracketed label (optional) |
+| `items` | item_list | — | Cells: { label, value }. value may use {client}, {year}, {category}, {title}; add a fallback with {client\|[Client]}. Empty cells are hidden. |
+
+### `quote` — Quote
+
+Source: `src/blocks/quote/schema.js`
+
+| Setting | Type | Default | Notes |
+|---|---|---|---|
+| `label` | text | `""` | Bracketed label |
+| `quote` | textarea | — | Quote (wrap one or several words in *asterisks* to accent them) |
+| `name` | text | `""` | Name |
+| `role` | text | `""` | Role / company |
+| `tone` | select: `paper` · `accent` · `night` | `"paper"` | Background |
+| `align` | select: `left` · `center` | `"left"` | Alignment |
+
 ### `statement` — Statement
 
 Source: `src/blocks/statement/schema.js`
@@ -113,7 +174,7 @@ Source: `src/blocks/statement/schema.js`
 | Setting | Type | Default | Notes |
 |---|---|---|---|
 | `label` | text | `""` | Bracketed label |
-| `text` | textarea | — | Statement (wrap words in *asterisks* to accent them) |
+| `text` | textarea | — | Statement (wrap one or several words in *asterisks* to accent them) |
 | `size` | select: `l` · `xl` | `"l"` | Size |
 | `footnote` | text | `""` | Small mono footnote |
 
@@ -137,6 +198,22 @@ Source: `src/blocks/text/schema.js`
 | `heading` | text | `""` | Heading |
 | `body` | richtext | — | Body (HTML) |
 | `layout` | select: `stack` · `split` | `"split"` | Layout |
+
+### `video` — Video
+
+Source: `src/blocks/video/schema.js`
+
+| Setting | Type | Default | Notes |
+|---|---|---|---|
+| `label` | text | `""` | Bracketed label |
+| `src` | text | `""` | MP4 (H.264) path or URL — plays everywhere, including Safari |
+| `srcWebm` | text | `""` | WebM (VP9) path or URL — optional, smaller in Chrome/Firefox |
+| `poster` | image | `""` | Poster image shown before play (strongly recommended) |
+| `mode` | select: `loop` · `click` | `"loop"` | Mode: loop = muted autoplay while on screen · click = poster + play button, with sound |
+| `ratio` | select: `16:9` · `21:9` · `4:3` · `1:1` · `9:16` | `"16:9"` | Aspect ratio |
+| `width` | select: `contained` · `full` | `"contained"` | Width |
+| `title` | text | `"Video"` | Accessible title |
+| `caption` | text | `""` | Caption |
 
 ## Shell blocks (used in site.json → header / footer)
 

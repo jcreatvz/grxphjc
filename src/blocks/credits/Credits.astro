@@ -1,0 +1,46 @@
+---
+import { href, isExternal } from '../../lib/url';
+export interface Props { label?: string; heading?: string; items: Array<{ role: string; name: string; href?: string }>; toolsLabel?: string; tools?: string[]; }
+const { label = 'Credits', heading = '', items = [], toolsLabel = 'Tools', tools = [] } = Astro.props;
+---
+<section class="credits">
+  <header class="credits__head">
+    {label && <div class="section-label" data-reveal>{label}</div>}
+    {heading && <h2 class="credits__heading" data-reveal style="--reveal-i:1">{heading}</h2>}
+  </header>
+  <div class="credits__body">
+    <dl class="credits__list">
+      {items.map((it, i) => (
+        <div class="credits__row" data-reveal style={`--reveal-i:${i % 4}`}>
+          <dt class="mono-xs">{it.role}</dt>
+          <dd>{it.href
+            ? <a href={href(it.href)} target={isExternal(it.href) ? '_blank' : undefined} rel={isExternal(it.href) ? 'noopener noreferrer' : undefined}>{it.name}</a>
+            : it.name}</dd>
+        </div>
+      ))}
+    </dl>
+    {tools.length > 0 && (
+      <div class="credits__tools" data-reveal>
+        <p class="mono-xs">{toolsLabel}</p>
+        <ul>{tools.map((t) => <li class="mono-xs">{t}</li>)}</ul>
+      </div>
+    )}
+  </div>
+</section>
+
+<style>
+  .credits { padding: var(--section-y) var(--gutter); max-width: var(--page-max); margin: 0 auto; display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(24px, 5vw, 96px); align-items: start; }
+  .credits__head { display: grid; gap: 20px; }
+  .credits__heading { margin: 0; font-family: var(--font-display); font-weight: 600; letter-spacing: -0.03em; line-height: 1.02; font-size: var(--step-display-m); }
+  .credits__list { margin: 0; border-top: 1px solid var(--hairline); }
+  .credits__row { display: grid; grid-template-columns: minmax(110px, 0.4fr) 1fr; gap: 16px; align-items: baseline; padding: 16px 0; border-bottom: 1px solid var(--hairline); }
+  .credits__row dt { color: var(--muted); }
+  .credits__row dd { margin: 0; font-size: var(--step-3); letter-spacing: -0.01em; }
+  .credits__row a { border-bottom: 1px solid currentColor; transition: color var(--duration-fast) var(--ease-out); }
+  .credits__row a:hover { color: var(--accent); }
+  .credits__tools { margin-top: 28px; display: grid; gap: 12px; }
+  .credits__tools p { margin: 0; color: var(--muted); }
+  .credits__tools ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+  .credits__tools li { padding: 6px 10px; border: 1px solid var(--hairline); }
+  @media (max-width: 860px) { .credits { grid-template-columns: 1fr; } }
+</style>

@@ -20,11 +20,26 @@
       }
     },
     {
-      "type": "text",
+      "type": "project-meta",
       "settings": {
-        "label": "Overview",
-        "heading": "The brief",
-        "body": "<p>[Template] Who it was for, what they needed, and the constraints. Two or three sentences.</p><p>[Template] What you made and why it worked.</p><p><em>Edit in src/content/projects/deadstock-typefaces.json</em></p>"
+        "items": [
+          {
+            "label": "Category",
+            "value": "{category}"
+          },
+          {
+            "label": "Year",
+            "value": "{year|[Year]}"
+          },
+          {
+            "label": "Role",
+            "value": "[Your role]"
+          },
+          {
+            "label": "Deliverables",
+            "value": "[What shipped]"
+          }
+        ]
       }
     },
     {
@@ -36,41 +51,47 @@
       }
     },
     {
+      "type": "fullbleed-image",
+      "settings": {
+        "src": "/images/placeholder/wide-02.jpg",
+        "height": "cinema",
+        "alt": "",
+        "caption": "[Template] Caption for this frame."
+      }
+    },
+    {
       "type": "gallery",
       "settings": {
         "label": "Frames",
         "layout": "masonry",
         "images": [
-          "/images/placeholder/ph-18.jpg",
           "/images/placeholder/ph-19.jpg",
           "/images/placeholder/ph-20.jpg",
           "/images/placeholder/ph-21.jpg",
           "/images/placeholder/ph-22.jpg",
-          "/images/placeholder/ph-23.jpg"
+          "/images/placeholder/ph-23.jpg",
+          "/images/placeholder/ph-24.jpg"
         ]
       }
     },
     {
-      "type": "list-rows",
+      "type": "credits",
       "settings": {
-        "label": "Details",
+        "heading": "Credits",
         "items": [
           {
-            "title": "Styles",
-            "detail": "[Weights and styles]"
+            "role": "Art direction",
+            "name": "[Name]"
           },
           {
-            "title": "Glyphs",
-            "detail": "[Character set]"
-          },
-          {
-            "title": "Year",
-            "detail": "[Year]"
-          },
-          {
-            "title": "Status",
-            "detail": "[Released / in progress / not for sale]"
+            "role": "Design",
+            "name": "[Name]"
           }
+        ],
+        "tools": [
+          "[Tool]",
+          "[Tool]",
+          "[Tool]"
         ]
       }
     }

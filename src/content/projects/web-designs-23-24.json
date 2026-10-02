@@ -21,6 +21,33 @@
       }
     },
     {
+      "type": "project-meta",
+      "settings": {
+        "items": [
+          {
+            "label": "Category",
+            "value": "{category}"
+          },
+          {
+            "label": "Client",
+            "value": "{client|[Client]}"
+          },
+          {
+            "label": "Year",
+            "value": "{year|[Year]}"
+          },
+          {
+            "label": "Role",
+            "value": "[Your role]"
+          },
+          {
+            "label": "Deliverables",
+            "value": "[What shipped]"
+          }
+        ]
+      }
+    },
+    {
       "type": "text",
       "settings": {
         "label": "Overview",
@@ -29,36 +56,60 @@
       }
     },
     {
+      "type": "fullbleed-image",
+      "settings": {
+        "src": "/images/placeholder/wide-01.jpg",
+        "height": "natural",
+        "alt": "",
+        "caption": "[Template] Caption for this frame."
+      }
+    },
+    {
       "type": "gallery",
       "settings": {
         "label": "Frames — Scroll to travel",
         "layout": "pinned-scroll",
         "images": [
-          "/images/placeholder/ph-08.jpg",
           "/images/placeholder/ph-09.jpg",
           "/images/placeholder/ph-10.jpg",
           "/images/placeholder/ph-11.jpg",
-          "/images/placeholder/ph-12.jpg"
+          "/images/placeholder/ph-12.jpg",
+          "/images/placeholder/ph-13.jpg"
         ]
       }
     },
     {
-      "type": "list-rows",
+      "type": "quote",
       "settings": {
-        "label": "Details",
+        "label": "Words",
+        "tone": "night",
+        "quote": "[Template] A line from the client or a collaborator about the project — one or two sentences, with one or two *key words* highlighted.",
+        "name": "[Name]",
+        "role": "[Role, Company]"
+      }
+    },
+    {
+      "type": "credits",
+      "settings": {
+        "heading": "Credits",
         "items": [
           {
-            "title": "Role",
-            "detail": "[Your role — e.g. art direction, design, motion]"
+            "role": "Art direction",
+            "name": "[Name]"
           },
           {
-            "title": "Year",
-            "detail": "[Year]"
+            "role": "Design",
+            "name": "[Name]"
           },
           {
-            "title": "Deliverables",
-            "detail": "[What shipped — e.g. graphics, apparel, social, signage]"
+            "role": "Client",
+            "name": "[Name / company]"
           }
+        ],
+        "tools": [
+          "[Tool]",
+          "[Tool]",
+          "[Tool]"
         ]
       }
     }

@@ -4,6 +4,12 @@ Why things are the way they are. Newest first.
 
 | Date | Decision | Why |
 |---|---|---|
+| 2026-10-01 | Embeds are click-to-load facades | No third-party requests, cookies or weight until the visitor presses Play. |
+| 2026-10-01 | Embed iframes built from a validated ID, never the pasted URL | Closes off injection and wrong-host embeds. |
+| 2026-10-01 | Loop video: no autoplay for reduced motion / data-saver | Respects the visitor; poster + Play instead. |
+| 2026-10-01 | Big reels live on Vimeo/YouTube; small loops self-hosted | GitHub Pages has size and bandwidth limits. |
+| 2026-10-01 | `{field\|fallback}` tokens in project-meta | Templates carry placeholders that switch to real data without editing the block. |
+| 2026-10-01 | Statement/quote parse multi-word `*accents*` | Single-word-only parsing silently dropped John-style phrases. |
 | 2026-10-01 | Pinned frames: fill height, width from the image's ratio | John's call after Safari test — same as Chrome. |
 | 2026-10-01 | Build-time image ratios instead of browser sizing | Removes the WebKit/Chrome difference and any mid-scroll layout change. |
 | 2026-10-01 | No easing on touch for the pinned gallery | iOS momentum is already smooth; a second easing layer lagged the finger. |

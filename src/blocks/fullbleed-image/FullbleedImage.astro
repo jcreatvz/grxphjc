@@ -1,0 +1,30 @@
+---
+import { href } from '../../lib/url';
+import { aspectOf } from '../../lib/media';
+export interface Props { label?: string; src: string; alt?: string; caption?: string; height?: 'natural' | 'cinema' | 'screen'; lightbox?: boolean; }
+const { label = '', src = '', alt = '', caption = '', height = 'natural', lightbox = false } = Astro.props;
+const ar = aspectOf(src);
+const url = href(src);
+const Wrap = lightbox ? 'button' : 'div';
+---
+<section class="fb" data-height={height}>
+  {label && <div class="fb__label section-label" data-reveal>{label}</div>}
+  <Wrap class="fb__media" style={ar ? `--ar:${ar.toFixed(4)}` : undefined} data-reveal
+        {...(lightbox ? { type: 'button', 'data-lb': '', 'data-lb-src': url, 'data-lb-title': caption || alt || 'Image', 'aria-label': `Open ${caption || alt || 'image'}` } : {})}>
+    <img src={url} alt={alt} loading="lazy" decoding="async" draggable="false" />
+  </Wrap>
+  {caption && <p class="fb__cap mono-xs">{caption}</p>}
+</section>
+
+<style>
+  .fb { padding: calc(var(--section-y) * 0.6) 0; display: grid; gap: 16px; }
+  .fb__label, .fb__cap { padding-inline: var(--gutter); }
+  .fb__label { display: inline-block; }
+  .fb__cap { margin: 0; color: var(--muted); }
+  .fb__media { display: block; width: 100%; margin: 0; padding: 0; border: 0; border-radius: 0; background: var(--paper-2); overflow: hidden; -webkit-appearance: none; appearance: none; }
+  .fb__media img { display: block; width: 100%; height: auto; aspect-ratio: var(--ar, 16 / 9); max-height: 130svh; object-fit: cover; }
+  .fb[data-height="cinema"] .fb__media img { aspect-ratio: 21 / 9; max-height: none; }
+  .fb[data-height="screen"] .fb__media img { aspect-ratio: auto; height: 100svh; max-height: 1000px; }
+  button.fb__media { cursor: pointer; }
+  @media (max-width: 720px) { .fb[data-height="cinema"] .fb__media img { aspect-ratio: 16 / 9; } }
+</style>

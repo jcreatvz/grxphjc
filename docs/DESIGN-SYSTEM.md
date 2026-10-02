@@ -37,6 +37,7 @@ Brutalist editorial: grayscale + one accent, a graffiti brand face, monospace ut
 | Bracketed labels | `.section-label` → `[ Selected Work ]` |
 | Numeric indexing | `01 / 24` on galleries, popups, project grid, rows, steps |
 | Brand-mark bullet | `.brand-mark` → `▪ TEXT` |
+| Play button | accent square + triangle on video and embed posters |
 | Red flood | hover fill rising from the baseline (bar cells, steps, CTA button) |
 | Scramble | `data-scramble` on link text (random glyphs); the logo uses `data-scramble="swap"` — its own letters trade places, so every frame stays in the brand font |
 | Watermark | solid-fill brand wordmark cut off at the top of the footer |

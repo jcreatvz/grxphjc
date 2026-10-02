@@ -1,0 +1,45 @@
+---
+import { parseAccent } from '../../lib/accent';
+export interface Props { label?: string; quote: string; name?: string; role?: string; tone?: 'paper' | 'accent' | 'night'; align?: 'left' | 'center'; }
+const { label = '', quote = '', name = '', role = '', tone = 'paper', align = 'left' } = Astro.props;
+const words = parseAccent(quote);
+---
+<section class="quote" data-tone={tone} data-align={align}>
+  <div class="quote__inner">
+    {label && <div class="section-label" data-reveal>{label}</div>}
+    <figure class="quote__fig">
+      <blockquote class="quote__text" data-reveal style="--reveal-i:1">
+        <p>{words.map((w) => <><span class:list={['quote__w', { 'is-accent': w.accent }]}>{w.t}</span>{' '}</>)}</p>
+      </blockquote>
+      {(name || role) && (
+        <figcaption class="quote__by mono" data-reveal style="--reveal-i:2">
+          {name && <span class="quote__name">{name}</span>}
+          {role && <span class="quote__role">{role}</span>}
+        </figcaption>
+      )}
+    </figure>
+  </div>
+</section>
+
+<style>
+  .quote { background: var(--paper); color: var(--ink); }
+  .quote[data-tone="accent"] { background: var(--accent); color: var(--on-accent); }
+  .quote[data-tone="night"] { background: var(--night); color: var(--night-ink); }
+  .quote__inner { max-width: var(--page-max); margin: 0 auto; padding: calc(var(--section-y) * 1.1) var(--gutter); display: grid; gap: 28px; }
+  .quote[data-tone="accent"] .section-label { color: inherit; }
+  .quote[data-tone="night"] .section-label { color: var(--night-muted); }
+  .quote__fig { margin: 0; display: grid; gap: 28px; }
+  .quote__text { margin: 0; max-width: 26ch; font-family: var(--font-display); font-weight: 500; letter-spacing: -0.03em; line-height: 1.08; font-size: var(--step-display-m); }
+  .quote__text p { margin: 0; }
+  .quote__text::before { content: '\201C'; display: block; font-size: 2.3em; line-height: 0.7; margin-bottom: 0.16em; color: var(--accent); }
+  .quote[data-tone="accent"] .quote__text::before { color: var(--on-accent); }
+  .quote__w.is-accent { color: var(--accent); }
+  .quote[data-tone="accent"] .quote__w.is-accent { color: var(--paper); }
+  .quote__by { margin: 0; display: flex; flex-wrap: wrap; gap: 4px 16px; font-style: normal; }
+  .quote__role { color: var(--muted); }
+  .quote[data-tone="accent"] .quote__role { color: inherit; }
+  .quote[data-tone="night"] .quote__role { color: var(--night-muted); }
+  .quote[data-align="center"] .quote__inner { text-align: center; justify-items: center; }
+  .quote[data-align="center"] .quote__text { margin-inline: auto; }
+  .quote[data-align="center"] .quote__by { justify-content: center; }
+</style>

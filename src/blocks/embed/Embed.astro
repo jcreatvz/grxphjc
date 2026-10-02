@@ -1,0 +1,49 @@
+---
+import { href } from '../../lib/url';
+import { parseEmbed } from '../../lib/embed';
+export interface Props { label?: string; url?: string; title?: string; poster?: string; ratio?: '16:9' | '21:9' | '4:3'; width?: 'contained' | 'full'; caption?: string; }
+const { label = '', url = '', title = 'Video', poster = '', ratio = '16:9', width = 'contained', caption = '' } = Astro.props;
+const emb = parseEmbed(url);
+const [rw, rh] = ratio.split(':').map(Number);
+---
+<section class="embed" data-width={width}>
+  <span class="plus-corner plus-corner--tl">+</span><span class="plus-corner plus-corner--br">+</span>
+  {label && <div class="embed__label section-label" data-reveal>{label}</div>}
+  <figure class="embed__fig" style={`--ar:${rw} / ${rh}`}>
+    {emb ? (
+      <div class="embed__box" data-embed data-embed-src={emb.src} data-embed-title={title} data-reveal>
+        {poster && <img class="embed__poster" src={href(poster)} alt="" loading="lazy" decoding="async" />}
+        <button class="embed__play" type="button" data-embed-play aria-label={`Play ${title} (${emb.label})`}>
+          <span class="embed__icon" aria-hidden="true"></span>
+          <span class="mono-xs">Play · {emb.label}</span>
+        </button>
+        <a class="embed__open mono-xs" href={url} target="_blank" rel="noopener noreferrer">Open on {emb.label} ↗</a>
+      </div>
+    ) : (
+      <div class="embed__box embed__notice mono">Embed: paste a YouTube or Vimeo link in this block's "url" setting.<br />Current value: {url || '(empty)'}</div>
+    )}
+    {caption && <figcaption class="embed__cap mono-xs">{caption}</figcaption>}
+  </figure>
+</section>
+
+<style>
+  .embed { position: relative; padding: var(--section-y) var(--gutter); max-width: var(--page-max); margin: 0 auto; display: grid; gap: 24px; }
+  .embed[data-width="full"] { max-width: none; padding-inline: 0; }
+  .embed[data-width="full"] .embed__label, .embed[data-width="full"] .embed__cap { padding-inline: var(--gutter); }
+  .embed__fig { margin: 0; display: grid; gap: 12px; }
+  .embed__box { position: relative; aspect-ratio: var(--ar); overflow: hidden; background: linear-gradient(135deg, #0a0a0a, #202020); }
+  .embed__poster { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .embed__play {
+    position: absolute; inset: 0; display: grid; place-content: center; justify-items: center; gap: 14px;
+    color: var(--night-ink); background: linear-gradient(180deg, rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.35));
+  }
+  .embed__icon { display: grid; place-items: center; width: 68px; height: 68px; background: var(--accent); transition: transform var(--duration-med) var(--ease-out); }
+  .embed__icon::before { content: ''; margin-left: 4px; border-style: solid; border-width: 11px 0 11px 18px; border-color: transparent transparent transparent var(--on-accent); }
+  .embed__play:hover .embed__icon, .embed__play:focus-visible .embed__icon { transform: scale(1.08); }
+  .embed__open { position: absolute; z-index: 2; right: 12px; bottom: 10px; color: var(--night-ink); border-bottom: 1px solid currentColor; }
+  .embed__open:hover { color: var(--accent-strong); }
+  .embed__box.is-loaded .embed__play, .embed__box.is-loaded .embed__open, .embed__box.is-loaded .embed__poster { display: none; }
+  .embed__box :global(.embed__frame) { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+  .embed__notice { display: grid; place-content: center; padding: 24px; text-align: center; color: var(--accent); border: 1px dashed var(--accent); background: none; line-height: 1.6; }
+  .embed__cap { color: var(--muted); }
+</style>

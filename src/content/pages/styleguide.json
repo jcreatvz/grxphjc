@@ -14,7 +14,7 @@
     {
       "type": "hero",
       "settings": {
-        "label": "hero \u2014 standard",
+        "label": "hero — standard",
         "headline": "Brand Face Headline",
         "subhead": "Standard hero. Headline uses the brand font; digits fall back to Inter: 2026.",
         "scrollCue": false
@@ -23,7 +23,7 @@
     {
       "type": "hero",
       "settings": {
-        "label": "hero \u2014 split-wordmark",
+        "label": "hero — split-wordmark",
         "headline": "Split Wordmark",
         "variant": "split-wordmark",
         "align": "right",
@@ -34,7 +34,7 @@
       "type": "hero",
       "settings": {
         "media": "/images/placeholder/ph-03.jpg",
-        "label": "hero \u2014 media",
+        "label": "hero — media",
         "headline": "Media Hero",
         "variant": "split-wordmark",
         "subhead": "Full-bleed image with gradient and on-media text.",
@@ -44,7 +44,7 @@
     {
       "type": "text",
       "settings": {
-        "label": "text \u2014 split",
+        "label": "text — split",
         "heading": "Text block",
         "body": "<p>Rich text body with a <a href='#'>link</a> and <em>muted emphasis</em>.</p><p>Second paragraph.</p>"
       }
@@ -52,7 +52,7 @@
     {
       "type": "gallery",
       "settings": {
-        "label": "gallery \u2014 grid",
+        "label": "gallery — grid",
         "images": [
           "/images/placeholder/ph-01.jpg",
           "/images/placeholder/ph-02.jpg",
@@ -66,7 +66,7 @@
     {
       "type": "gallery",
       "settings": {
-        "label": "gallery \u2014 horizontal + drag",
+        "label": "gallery — horizontal + drag",
         "layout": "horizontal-scroll",
         "behavior": "drag",
         "images": [
@@ -80,7 +80,7 @@
     {
       "type": "gallery",
       "settings": {
-        "label": "gallery \u2014 pinned-scroll (keep scrolling down)",
+        "label": "gallery — pinned-scroll (keep scrolling down)",
         "layout": "pinned-scroll",
         "images": [
           "/images/placeholder/ph-02.jpg",
@@ -95,7 +95,7 @@
     {
       "type": "gallery",
       "settings": {
-        "label": "gallery \u2014 masonry",
+        "label": "gallery — masonry",
         "layout": "masonry",
         "images": [
           "/images/placeholder/ph-05.jpg",
@@ -133,14 +133,14 @@
     {
       "type": "project-grid",
       "settings": {
-        "label": "project-grid \u2014 grid",
+        "label": "project-grid — grid",
         "limit": 4
       }
     },
     {
       "type": "project-grid",
       "settings": {
-        "label": "project-grid \u2014 list",
+        "label": "project-grid — list",
         "layout": "list",
         "limit": 4
       }
@@ -209,6 +209,166 @@
             "text": "Step text."
           }
         ]
+      }
+    },
+    {
+      "type": "video",
+      "settings": {
+        "src": "/media/dummy-loop.mp4",
+        "srcWebm": "/media/dummy-loop.webm",
+        "poster": "/media/dummy-poster.jpg",
+        "label": "video — loop (muted autoplay while on screen)",
+        "caption": "Dummy clip. Plays when visible, pauses when it leaves.",
+        "title": "Dummy loop"
+      }
+    },
+    {
+      "type": "video",
+      "settings": {
+        "src": "/media/dummy-loop.mp4",
+        "srcWebm": "/media/dummy-loop.webm",
+        "poster": "/media/dummy-poster.jpg",
+        "label": "video — click (poster + play, with sound)",
+        "mode": "click",
+        "width": "full",
+        "ratio": "21:9",
+        "caption": "Full width, 21:9.",
+        "title": "Dummy clip"
+      }
+    },
+    {
+      "type": "embed",
+      "settings": {
+        "label": "embed — YouTube (nothing loads until you press play)",
+        "url": "https://www.youtube.com/watch?v=aqz-KE-bpKQ",
+        "poster": "/media/dummy-poster.jpg",
+        "title": "Dummy YouTube embed",
+        "caption": "Dummy video — replace the link."
+      }
+    },
+    {
+      "type": "embed",
+      "settings": {
+        "label": "embed — Vimeo",
+        "url": "https://vimeo.com/76979871",
+        "poster": "/images/placeholder/wide-01.jpg",
+        "ratio": "21:9",
+        "title": "Dummy Vimeo embed"
+      }
+    },
+    {
+      "type": "embed",
+      "settings": {
+        "label": "embed — unsupported link (shows this notice)",
+        "url": "https://example.com/not-a-video",
+        "ratio": "21:9"
+      }
+    },
+    {
+      "type": "quote",
+      "settings": {
+        "label": "quote — paper",
+        "quote": "[Template] A short line from a client or collaborator about *working together* goes here.",
+        "name": "[Name]",
+        "role": "[Role, Company]"
+      }
+    },
+    {
+      "type": "quote",
+      "settings": {
+        "label": "quote — accent, centred",
+        "tone": "accent",
+        "align": "center",
+        "quote": "[Template] The accent background flips the highlight to paper.",
+        "name": "[Name]",
+        "role": "[Role, Company]"
+      }
+    },
+    {
+      "type": "quote",
+      "settings": {
+        "label": "quote — night",
+        "tone": "night",
+        "quote": "[Template] The night background suits a closing line.",
+        "name": "[Name]",
+        "role": "[Role, Company]"
+      }
+    },
+    {
+      "type": "project-meta",
+      "settings": {
+        "label": "project-meta",
+        "items": [
+          {
+            "label": "Category",
+            "value": "{category|[Category]}"
+          },
+          {
+            "label": "Client",
+            "value": "{client|[Client]}"
+          },
+          {
+            "label": "Year",
+            "value": "{year|[Year]}"
+          },
+          {
+            "label": "Role",
+            "value": "[Role]"
+          },
+          {
+            "label": "Deliverables",
+            "value": "[Deliverables]"
+          }
+        ]
+      }
+    },
+    {
+      "type": "credits",
+      "settings": {
+        "label": "credits",
+        "heading": "Credits",
+        "items": [
+          {
+            "role": "Art direction",
+            "name": "[Name]"
+          },
+          {
+            "role": "Design",
+            "name": "[Name]",
+            "href": "https://example.com"
+          },
+          {
+            "role": "Motion",
+            "name": "[Name]"
+          },
+          {
+            "role": "Photography",
+            "name": "[Name]"
+          }
+        ],
+        "tools": [
+          "[Tool]",
+          "[Tool]",
+          "[Tool]"
+        ]
+      }
+    },
+    {
+      "type": "fullbleed-image",
+      "settings": {
+        "label": "fullbleed-image — natural",
+        "src": "/images/placeholder/wide-01.jpg",
+        "alt": "",
+        "caption": "Natural shape — edge to edge."
+      }
+    },
+    {
+      "type": "fullbleed-image",
+      "settings": {
+        "label": "fullbleed-image — cinema (21:9)",
+        "src": "/images/placeholder/wide-02.jpg",
+        "height": "cinema",
+        "caption": "Cinema crop; 16:9 on phones."
       }
     },
     {

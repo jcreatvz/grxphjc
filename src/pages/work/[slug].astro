@@ -16,7 +16,7 @@ export async function getStaticPaths() {
 const { project, next } = Astro.props;
 ---
 <Base title={`${project.title} — ${site.brand.name}`} description={project.summary} header={project.header} bleed={isBleed(project.blocks)}>
-  <BlockRenderer blocks={project.blocks} />
+  <BlockRenderer blocks={project.blocks} context={project} />
   {next.slug !== project.slug && (
     <a class="next" href={href(`/work/${next.slug}`)}>
       <span class="section-label">Next project</span>

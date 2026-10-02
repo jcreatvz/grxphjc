@@ -1,9 +1,11 @@
 ---
 // One renderer for projects AND pages. Any block may set `anchor` to get an id.
+// `context` (the project, on project pages) goes to every block; blocks that don't use
+// it ignore it — project-meta uses it to fill {client|fallback} tokens.
 import { blockRegistry } from './registry.js';
 import { applyDefaults } from './utils.js';
-export interface Props { blocks: Array<{ type: string; settings: Record<string, any> }>; }
-const { blocks = [] } = Astro.props;
+export interface Props { blocks: Array<{ type: string; settings: Record<string, any> }>; context?: Record<string, any>; }
+const { blocks = [], context = {} } = Astro.props;
 ---
 {blocks.map((block) => {
   const entry = (blockRegistry as any)[block.type];
@@ -11,8 +13,8 @@ const { blocks = [] } = Astro.props;
   const Block = entry.component;
   const settings = applyDefaults(blockRegistry, block.type, block.settings);
   return settings.anchor
-    ? <div id={settings.anchor} class="block-anchor"><Block {...settings} /></div>
-    : <Block {...settings} />;
+    ? <div id={settings.anchor} class="block-anchor"><Block {...settings} context={context} /></div>
+    : <Block {...settings} context={context} />;
 })}
 
 <style>

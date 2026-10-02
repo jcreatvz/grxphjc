@@ -14,10 +14,32 @@
       "settings": {
         "label": "Case Study — 19",
         "headline": "Car Graphics + Wraps",
-        "variant": "split-wordmark",
+        "variant": "standard",
         "subhead": "[Template] Print, signage and large-format production.",
-        "scrollCue": true,
-        "media": "/images/placeholder/ph-19.jpg"
+        "scrollCue": false
+      }
+    },
+    {
+      "type": "project-meta",
+      "settings": {
+        "items": [
+          {
+            "label": "Category",
+            "value": "{category}"
+          },
+          {
+            "label": "Year",
+            "value": "{year|[Year]}"
+          },
+          {
+            "label": "Role",
+            "value": "[Your role]"
+          },
+          {
+            "label": "Deliverables",
+            "value": "[What shipped]"
+          }
+        ]
       }
     },
     {
@@ -34,12 +56,12 @@
         "label": "Frames",
         "layout": "grid",
         "images": [
-          "/images/placeholder/ph-20.jpg",
           "/images/placeholder/ph-21.jpg",
           "/images/placeholder/ph-22.jpg",
           "/images/placeholder/ph-23.jpg",
           "/images/placeholder/ph-24.jpg",
-          "/images/placeholder/ph-01.jpg"
+          "/images/placeholder/ph-01.jpg",
+          "/images/placeholder/ph-02.jpg"
         ]
       }
     },
@@ -68,28 +90,34 @@
       }
     },
     {
-      "type": "list-rows",
+      "type": "fullbleed-image",
       "settings": {
-        "label": "Details",
+        "src": "/images/placeholder/wide-01.jpg",
+        "height": "screen",
+        "alt": "",
+        "caption": "[Template] Caption for this frame."
+      }
+    },
+    {
+      "type": "credits",
+      "settings": {
+        "heading": "Credits",
         "items": [
           {
-            "title": "Role",
-            "detail": "[Your role — e.g. art direction, design, motion]"
+            "role": "Art direction",
+            "name": "[Name]"
           },
           {
-            "title": "Year",
-            "detail": "[Year]"
-          },
-          {
-            "title": "Deliverables",
-            "detail": "[What shipped — e.g. graphics, apparel, social, signage]"
+            "role": "Design",
+            "name": "[Name]"
           }
+        ],
+        "tools": [
+          "[Tool]",
+          "[Tool]",
+          "[Tool]"
         ]
       }
     }
-  ],
-  "header": {
-    "theme": "dark",
-    "transparent": true
-  }
+  ]
 }

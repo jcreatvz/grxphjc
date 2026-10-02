@@ -9,6 +9,7 @@ import { initLightbox } from './lightbox';
 import { initLoader } from './loader';
 import { initOrbits } from './orbit';
 import { initPinnedGalleries } from './pinned';
+import { initVideos } from './video';
 import { initMarquees } from './marquee';
 
 initPrefs();
@@ -20,4 +21,5 @@ initLightbox();
 initMarquees();
 initOrbits();
 initPinnedGalleries();
+initVideos();
 initLoader(() => initReveal()); // reveal runs once the intro has cleared

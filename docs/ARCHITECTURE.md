@@ -23,6 +23,8 @@ The site is deployed under `/grxphjc/`. Every authored link and image goes throu
 - `src/blocks/registry.js` — **content blocks**, full-width page sections.
 - `src/blocks/shell-registry.js` — **chrome blocks** (logo, bar cells, menu toggle, footer columns). They assume narrow, horizontal layouts.
 
+`BlockRenderer` passes the whole project to every block as `context`; blocks that don't need it ignore it.
+
 ## Chrome
 Configured in `src/site.json`. Pages may only tweak modifiers — `header: { "theme": "auto|light|dark", "transparent": true|false }` — never replace chrome blocks.
 
@@ -37,7 +39,7 @@ Configured in `src/site.json`. Pages may only tweak modifiers — `header: { "th
 | Footer | `layout/Footer.astro` | watermark + footer shell blocks |
 
 ## Client JavaScript
-One entry, `src/scripts/main.ts`, ~5 KB gzipped. Each module no-ops if its markup is absent: prefs, menu, scramble, reveal, progress, cursor, lightbox, marquee, orbit, pinned (scroll-driven gallery), loader. `focus.ts` holds the shared focus trap and scroll lock.
+One entry, `src/scripts/main.ts`, ~5 KB gzipped. Each module no-ops if its markup is absent: prefs, menu, scramble, reveal, progress, cursor, lightbox, marquee, orbit, pinned (scroll-driven gallery), video (loop/click playback + embed facades), loader. `focus.ts` holds the shared focus trap and scroll lock.
 
 `src/layout/Base.astro` has an inline `<head>` script that sets theme, accent, cursor and the loader flag **before first paint** — keep it inline.
 
@@ -45,6 +47,9 @@ One entry, `src/scripts/main.ts`, ~5 KB gzipped. Each module no-ops if its marku
 - `src/lib/url.ts` — `href()` base-path resolver.
 - `src/lib/media.ts` — `aspectOf(src)` reads local image dimensions (EXIF-aware) so layouts size frames explicitly.
 - `src/lib/projects.ts` — `getProjects()` (sorted by `order`, then year, then title) and `projectMeta()` ("Category — Year").
+- `src/lib/embed.ts` — `parseEmbed(url)`: YouTube/Vimeo URL → validated, privacy-mode embed src (or null).
+- `src/lib/tokens.ts` — `fill("{client|[Client]}", project)` token filler used by project-meta.
+- `src/lib/accent.ts` — `parseAccent(text)`: `*word*` / `*several words*` highlight flags.
 - `src/lib/bleed.ts` — whether a page's first block runs under the top frame.
 
 ## Gotchas worth knowing

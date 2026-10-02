@@ -20,11 +20,26 @@
       }
     },
     {
-      "type": "text",
+      "type": "project-meta",
       "settings": {
-        "label": "Overview",
-        "heading": "The brief",
-        "body": "<p>[Template] Who it was for, what they needed, and the constraints. Two or three sentences.</p><p>[Template] What you made and why it worked.</p><p><em>Edit in src/content/projects/archive-09-12.json</em></p>"
+        "items": [
+          {
+            "label": "Category",
+            "value": "{category}"
+          },
+          {
+            "label": "Year",
+            "value": "{year|[Year]}"
+          },
+          {
+            "label": "Role",
+            "value": "[Your role]"
+          },
+          {
+            "label": "Deliverables",
+            "value": "[What shipped]"
+          }
+        ]
       }
     },
     {
@@ -41,34 +56,14 @@
         "label": "Frames",
         "layout": "masonry",
         "images": [
-          "/images/placeholder/ph-22.jpg",
           "/images/placeholder/ph-23.jpg",
           "/images/placeholder/ph-24.jpg",
           "/images/placeholder/ph-01.jpg",
           "/images/placeholder/ph-02.jpg",
           "/images/placeholder/ph-03.jpg",
           "/images/placeholder/ph-04.jpg",
-          "/images/placeholder/ph-05.jpg"
-        ]
-      }
-    },
-    {
-      "type": "list-rows",
-      "settings": {
-        "label": "Details",
-        "items": [
-          {
-            "title": "Role",
-            "detail": "[Your role — e.g. art direction, design, motion]"
-          },
-          {
-            "title": "Year",
-            "detail": "[Year]"
-          },
-          {
-            "title": "Deliverables",
-            "detail": "[What shipped — e.g. graphics, apparel, social, signage]"
-          }
+          "/images/placeholder/ph-05.jpg",
+          "/images/placeholder/ph-06.jpg"
         ]
       }
     }

@@ -1,0 +1,48 @@
+---
+import { href } from '../../lib/url';
+export interface Props {
+  label?: string; src?: string; srcWebm?: string; poster?: string;
+  mode?: 'loop' | 'click'; ratio?: '16:9' | '21:9' | '4:3' | '1:1' | '9:16';
+  width?: 'contained' | 'full'; title?: string; caption?: string;
+}
+const { label = '', src = '', srcWebm = '', poster = '', mode = 'loop', ratio = '16:9', width = 'contained', title = 'Video', caption = '' } = Astro.props;
+const [rw, rh] = ratio.split(':').map(Number);
+---
+<section class="video" data-width={width} data-ratio={ratio}>
+  <span class="plus-corner plus-corner--tl">+</span><span class="plus-corner plus-corner--br">+</span>
+  {label && <div class="video__label section-label" data-reveal>{label}</div>}
+  <figure class="video__fig" style={`--ar:${rw} / ${rh};--arn:${(rw / rh).toFixed(4)}`}>
+    <div class="video__box" data-video data-mode={mode} data-reveal>
+      <video class="video__el" playsinline preload="none" muted={mode === 'loop'} loop={mode === 'loop'}
+             controls={mode === 'click'} poster={poster ? href(poster) : undefined} aria-label={title}>
+        {src && <source src={href(src)} type="video/mp4" />}
+        {srcWebm && <source src={href(srcWebm)} type="video/webm" />}
+      </video>
+      <button class="video__play" type="button" data-video-play aria-label={`Play ${title}`}>
+        <span class="video__icon" aria-hidden="true"></span><span class="mono-xs">Play</span>
+      </button>
+    </div>
+    {caption && <figcaption class="video__cap mono-xs">{caption}</figcaption>}
+  </figure>
+</section>
+
+<style>
+  .video { position: relative; padding: var(--section-y) var(--gutter); max-width: var(--page-max); margin: 0 auto; display: grid; gap: 24px; }
+  .video[data-width="full"] { max-width: none; padding-inline: 0; }
+  .video[data-width="full"] .video__label, .video[data-width="full"] .video__cap { padding-inline: var(--gutter); }
+  .video__fig { margin: 0; display: grid; gap: 12px; }
+  .video[data-ratio="1:1"] .video__fig, .video[data-ratio="9:16"] .video__fig { max-width: calc(78svh * var(--arn)); width: 100%; margin-inline: auto; }
+  .video__box { position: relative; aspect-ratio: var(--ar); background: var(--night); overflow: hidden; }
+  .video__el { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; background: var(--night); }
+  .video__cap { color: var(--muted); }
+
+  .video__play {
+    position: absolute; inset: 0; display: none; place-content: center; justify-items: center; gap: 14px;
+    color: var(--night-ink); background: linear-gradient(180deg, rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.35));
+  }
+  :global(html.js) .video__box[data-mode="click"]:not(.is-playing) .video__play,
+  :global(html.js) .video__box.needs-play .video__play { display: grid; }
+  .video__icon { display: grid; place-items: center; width: 68px; height: 68px; background: var(--accent); transition: transform var(--duration-med) var(--ease-out); }
+  .video__icon::before { content: ''; margin-left: 4px; border-style: solid; border-width: 11px 0 11px 18px; border-color: transparent transparent transparent var(--on-accent); }
+  .video__play:hover .video__icon, .video__play:focus-visible .video__icon { transform: scale(1.08); }
+</style>

@@ -21,6 +21,33 @@
       }
     },
     {
+      "type": "project-meta",
+      "settings": {
+        "items": [
+          {
+            "label": "Category",
+            "value": "{category}"
+          },
+          {
+            "label": "Client",
+            "value": "{client|[Client]}"
+          },
+          {
+            "label": "Year",
+            "value": "{year|[Year]}"
+          },
+          {
+            "label": "Role",
+            "value": "[Your role]"
+          },
+          {
+            "label": "Deliverables",
+            "value": "[What shipped]"
+          }
+        ]
+      }
+    },
+    {
       "type": "text",
       "settings": {
         "label": "Overview",
@@ -29,41 +56,70 @@
       }
     },
     {
+      "type": "video",
+      "settings": {
+        "src": "/media/dummy-loop.mp4",
+        "srcWebm": "/media/dummy-loop.webm",
+        "poster": "/media/dummy-poster.jpg",
+        "label": "Motion",
+        "mode": "loop",
+        "width": "contained",
+        "ratio": "16:9",
+        "caption": "[Template] Teaser cut.",
+        "title": "Dummy clip"
+      }
+    },
+    {
       "type": "gallery",
       "settings": {
         "label": "Frames — Scroll to travel",
         "layout": "pinned-scroll",
         "images": [
-          "/images/placeholder/ph-04.jpg",
           "/images/placeholder/ph-05.jpg",
           "/images/placeholder/ph-06.jpg",
           "/images/placeholder/ph-07.jpg",
           "/images/placeholder/ph-08.jpg",
-          "/images/placeholder/ph-09.jpg"
+          "/images/placeholder/ph-09.jpg",
+          "/images/placeholder/ph-10.jpg"
         ]
       }
     },
     {
-      "type": "list-rows",
+      "type": "quote",
       "settings": {
-        "label": "Details",
+        "label": "Words",
+        "tone": "paper",
+        "quote": "[Template] A line from the client or a collaborator about the project — one or two sentences, with one or two *key words* highlighted.",
+        "name": "[Name]",
+        "role": "[Role, Company]"
+      }
+    },
+    {
+      "type": "credits",
+      "settings": {
+        "heading": "Credits",
         "items": [
           {
-            "title": "Client",
-            "detail": "[Client / partner]"
+            "role": "Art direction",
+            "name": "[Name]"
           },
           {
-            "title": "Role",
-            "detail": "[Your role — e.g. art direction, design, motion]"
+            "role": "Design",
+            "name": "[Name]"
           },
           {
-            "title": "Year",
-            "detail": "[Year]"
+            "role": "Motion",
+            "name": "[Name]"
           },
           {
-            "title": "Deliverables",
-            "detail": "[What shipped — e.g. graphics, apparel, social, signage]"
+            "role": "Client",
+            "name": "[Name / company]"
           }
+        ],
+        "tools": [
+          "[Tool]",
+          "[Tool]",
+          "[Tool]"
         ]
       }
     }

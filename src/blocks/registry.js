@@ -11,6 +11,12 @@ import Steps from './steps/Steps.astro';              import stepsSchema from '.
 import Marquee from './marquee/Marquee.astro';        import marqueeSchema from './marquee/schema.js';
 import Cta from './cta/Cta.astro';                    import ctaSchema from './cta/schema.js';
 import Text from './text/Text.astro';                 import textSchema from './text/schema.js';
+import Video from './video/Video.astro';             import videoSchema from './video/schema.js';
+import Embed from './embed/Embed.astro';             import embedSchema from './embed/schema.js';
+import Quote from './quote/Quote.astro';             import quoteSchema from './quote/schema.js';
+import Credits from './credits/Credits.astro';       import creditsSchema from './credits/schema.js';
+import ProjectMeta from './project-meta/ProjectMeta.astro'; import projectMetaSchema from './project-meta/schema.js';
+import FullbleedImage from './fullbleed-image/FullbleedImage.astro'; import fullbleedSchema from './fullbleed-image/schema.js';
 
 export const blockRegistry = {
   'hero':         { component: Hero,        schema: heroSchema },
@@ -24,4 +30,10 @@ export const blockRegistry = {
   'marquee':      { component: Marquee,     schema: marqueeSchema },
   'cta':          { component: Cta,         schema: ctaSchema },
   'text':         { component: Text,        schema: textSchema },
+  'video':        { component: Video,       schema: videoSchema },
+  'embed':        { component: Embed,       schema: embedSchema },
+  'quote':        { component: Quote,       schema: quoteSchema },
+  'credits':      { component: Credits,     schema: creditsSchema },
+  'project-meta': { component: ProjectMeta, schema: projectMetaSchema },
+  'fullbleed-image': { component: FullbleedImage, schema: fullbleedSchema },
 };

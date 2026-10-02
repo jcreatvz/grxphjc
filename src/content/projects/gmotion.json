@@ -21,6 +21,29 @@
       }
     },
     {
+      "type": "project-meta",
+      "settings": {
+        "items": [
+          {
+            "label": "Category",
+            "value": "{category}"
+          },
+          {
+            "label": "Year",
+            "value": "{year|[Year]}"
+          },
+          {
+            "label": "Role",
+            "value": "[Your role]"
+          },
+          {
+            "label": "Deliverables",
+            "value": "[What shipped]"
+          }
+        ]
+      }
+    },
+    {
       "type": "text",
       "settings": {
         "label": "Overview",
@@ -29,37 +52,66 @@
       }
     },
     {
+      "type": "embed",
+      "settings": {
+        "label": "Reel",
+        "url": "https://www.youtube.com/watch?v=aqz-KE-bpKQ",
+        "poster": "/media/dummy-poster.jpg",
+        "title": "Dummy reel",
+        "caption": "[Template] Dummy YouTube embed — paste your reel link."
+      }
+    },
+    {
+      "type": "video",
+      "settings": {
+        "src": "/media/dummy-loop.mp4",
+        "srcWebm": "/media/dummy-loop.webm",
+        "poster": "/media/dummy-poster.jpg",
+        "label": "Motion",
+        "mode": "loop",
+        "width": "full",
+        "ratio": "21:9",
+        "caption": "[Template] Loop.",
+        "title": "Dummy clip"
+      }
+    },
+    {
       "type": "gallery",
       "settings": {
         "label": "Frames — Scroll to travel",
         "layout": "pinned-scroll",
         "images": [
-          "/images/placeholder/ph-13.jpg",
           "/images/placeholder/ph-14.jpg",
           "/images/placeholder/ph-15.jpg",
           "/images/placeholder/ph-16.jpg",
           "/images/placeholder/ph-17.jpg",
-          "/images/placeholder/ph-18.jpg"
+          "/images/placeholder/ph-18.jpg",
+          "/images/placeholder/ph-19.jpg"
         ]
       }
     },
     {
-      "type": "list-rows",
+      "type": "credits",
       "settings": {
-        "label": "Details",
+        "heading": "Credits",
         "items": [
           {
-            "title": "Role",
-            "detail": "[Your role — e.g. art direction, design, motion]"
+            "role": "Art direction",
+            "name": "[Name]"
           },
           {
-            "title": "Year",
-            "detail": "[Year]"
+            "role": "Design",
+            "name": "[Name]"
           },
           {
-            "title": "Deliverables",
-            "detail": "[What shipped — e.g. graphics, apparel, social, signage]"
+            "role": "Motion",
+            "name": "[Name]"
           }
+        ],
+        "tools": [
+          "[Tool]",
+          "[Tool]",
+          "[Tool]"
         ]
       }
     }
