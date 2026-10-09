@@ -58,6 +58,9 @@
   --font-h1: var(--font-brand);
   --h1-tracking: 0.5rem;               /* page-level H1 letter-spacing */
   --h1-leading: normal;                /* page-level H1 line-height */
+  --plus-x: -3.5px;                    /* plus-mark offset on metrics + project-meta hairlines (v0.9) */
+  --plus-y: -8.5px;
+  --scramble-ms: auto;                 /* global scramble speed; a number (ms) overrides the built-in timing */
 
   --step-display-xl: clamp(64px, 12vw, 200px);
   --step-display-l:  clamp(44px, 6.4vw, 96px);

@@ -130,6 +130,16 @@ Source: `src/blocks/orbit/schema.js`
 | `items` | item_list | — | Manual items: { image, title, meta, note, action: popup\|page\|url, href, tall } |
 | `startView` | select: `sphere` · `grid` | `"sphere"` | Start view |
 | `maxItems` | range 4–40 | `28` | Max items |
+| `explosion` | range 0–4 | `1.6` | Scroll explosion — max spread (× sphere radius); 0 turns it off |
+| `burst` | range 0–3 | `0.3` | Extra spread from scroll SPEED |
+| `stiffness` | range 30–400 | `120` | Spring stiffness |
+| `bounce` | range 0.15–1 | `0.87` | Damping (1 = no bounce) |
+| `variation` | range 0–0.8 | `0.35` | Per-card variation |
+| `stagger` | range 0–0.6 | `0.25` | Cascade (cards leave at different moments) |
+| `tumble` | range 0–1.5 | `1.5` | Tumble while flying |
+| `fade` | range 0–1 | `1` | Fade when far away |
+| `squeeze` | toggle | `true` | Fast upward scroll squeezes cards inward |
+| `runway` | range 0–300 | `100` | Scroll length after pinning (svh) |
 | `cue` | text | `"Drag to rotate"` | Interaction cue |
 
 ### `project-grid` — Project Grid

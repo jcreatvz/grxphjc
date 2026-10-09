@@ -39,6 +39,7 @@ Brutalist editorial: grayscale + one accent, a graffiti brand face, monospace ut
 | Brand-mark bullet | `.brand-mark` → `▪ TEXT` |
 | Play button | accent square + triangle on video and embed posters |
 | Red flood | hover fill rising from the baseline (bar cells, steps, CTA button) |
+| Plus-mark offsets | `--plus-x: -3.5px`, `--plus-y: -8.5px` — where `+` sits on metrics / project-meta hairlines |
 | Scramble | `data-scramble` on link text (random glyphs); the logo uses `data-scramble="swap"` — its own letters trade places, so every frame stays in the brand font |
 | Watermark | solid-fill brand wordmark cut off at the top of the footer |
 
@@ -48,4 +49,5 @@ Brutalist editorial: grayscale + one accent, a graffiti brand face, monospace ut
 Breakpoints used: 380 · 560 · 640 · 720 (phone) · 900 · 1024 (tablet).
 
 ## Motion
+Physics: `src/scripts/spring.ts` (k = stiffness, ζ = damping). Footer reveal = expo-out 650ms; orbit = one spring per card. Scramble speed: `--scramble-ms` / `data-scramble-ms`.
 `--duration-fast 200ms` · `--duration-med 260ms` · `--duration-slow 600ms` · `--ease-out cubic-bezier(.16,1,.3,1)`. Entrance motion via `data-reveal` (+ `--reveal-i` stagger). Everything respects `prefers-reduced-motion`.

@@ -4,6 +4,15 @@ Why things are the way they are. Newest first.
 
 | Date | Decision | Why |
 |---|---|---|
+| 2026-10-09 | Ship John's mock-up settings verbatim as defaults | He tuned by feel; the live orbit was verified to reproduce the mock within ±0.03. |
+| 2026-10-09 | Footer settings in `site.json`, orbit settings on the block | Footer is site chrome; the orbit is a block that can appear on any page with its own tuning. |
+| 2026-10-09 | Footer fully open → `height: auto` | Stays correct when content reflows (fonts, resize) without re-measuring. |
+| 2026-10-09 | Mock-ups kept in the repo under /mocks | Re-tuning on a phone later needs no rebuild of the mocks. |
+| 2026-10-01 | Footer opens at the end of the page (15%), not 75% early | Collapsed footer = page can't scroll past its end; an early open animates below the fold where nobody sees it. |
+| 2026-10-01 | Optional scroll assist on footer open | Lets the unroll be seen on a single wheel notch; cancels the instant the visitor scrolls up. |
+| 2026-10-01 | Progress line measures content only, not footer | Footer height changes would jump the line. |
+| 2026-10-01 | One spring helper shared by footer and orbit | Same feel everywhere; per-card springs for the orbit, one spring for the footer. |
+| 2026-10-01 | Mock-ups before implementation | John prefers to review motion visually and tune by feel; settings copy straight into the build. |
 | 2026-10-01 | Embeds are click-to-load facades | No third-party requests, cookies or weight until the visitor presses Play. |
 | 2026-10-01 | Embed iframes built from a validated ID, never the pasted URL | Closes off injection and wrong-host embeds. |
 | 2026-10-01 | Loop video: no autoplay for reduced motion / data-saver | Respects the visitor; poster + Play instead. |

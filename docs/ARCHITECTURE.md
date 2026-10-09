@@ -39,7 +39,7 @@ Configured in `src/site.json`. Pages may only tweak modifiers — `header: { "th
 | Footer | `layout/Footer.astro` | watermark + footer shell blocks |
 
 ## Client JavaScript
-One entry, `src/scripts/main.ts`, ~5 KB gzipped. Each module no-ops if its markup is absent: prefs, menu, scramble, reveal, progress, cursor, lightbox, marquee, orbit, pinned (scroll-driven gallery), video (loop/click playback + embed facades), loader. `focus.ts` holds the shared focus trap and scroll lock.
+One entry, `src/scripts/main.ts`, ~5 KB gzipped. Each module no-ops if its markup is absent: prefs, menu, scramble, reveal, progress, cursor, lightbox, marquee, orbit (incl. per-card scroll explosion), pinned (scroll-driven gallery), video (loop/click playback + embed facades), footer (reveal), loader. `spring.ts` is the shared physics. `focus.ts` holds the shared focus trap and scroll lock.
 
 `src/layout/Base.astro` has an inline `<head>` script that sets theme, accent, cursor and the loader flag **before first paint** — keep it inline.
 
@@ -51,6 +51,9 @@ One entry, `src/scripts/main.ts`, ~5 KB gzipped. Each module no-ops if its marku
 - `src/lib/tokens.ts` — `fill("{client|[Client]}", project)` token filler used by project-meta.
 - `src/lib/accent.ts` — `parseAccent(text)`: `*word*` / `*several words*` highlight flags.
 - `src/lib/bleed.ts` — whether a page's first block runs under the top frame.
+
+## Footer reveal
+`Footer.astro` renders a zero-height `[data-footer-marker]` before the footer — the end of the content. `footer.ts` opens/closes the footer from the marker's distance to the bottom of the screen; `progress.ts` measures to the marker so footer height never moves the progress line. With the footer collapsed the page cannot scroll past the marker, which is why it must open *at* the end, not before.
 
 ## Gotchas worth knowing
 - `backdrop-filter`, `transform` and `filter` on an ancestor trap `position: fixed` children. That's why overlays live at body level, not inside the bar.

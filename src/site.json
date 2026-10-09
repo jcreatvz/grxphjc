@@ -140,7 +140,21 @@
           "line": "© 2026 Grxphjc. Work belongs to its respective clients."
         }
       }
-    ]
+    ],
+    "reveal": {
+      "enabled": true,
+      "triggerPct": 15,
+      "closePct": 45,
+      "assist": true,
+      "assistPct": 10,
+      "motion": "smooth",
+      "smoothMs": 650,
+      "stiffness": 260,
+      "bounce": 0.46,
+      "scrambleMs": 1100,
+      "scrambleAt": 65,
+      "_note": "Tuned by John in the v0.9 mock-up (public/mocks/footer-reveal-mock.html). triggerPct/closePct = % of a screen between the end of the page and the bottom of the screen. motion: smooth | spring (spring uses stiffness + bounce)."
+    }
   },
   "contact": {
     "email": "hello@grxphjc.com",

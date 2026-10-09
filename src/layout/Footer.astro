@@ -3,25 +3,30 @@ import { shellRegistry } from '../blocks/shell-registry.js';
 import { applyDefaults } from '../blocks/utils.js';
 import site from '../site.json';
 const blocks = site.footer.blocks;
+// Footer reveal settings (v0.9) — see site.json -> footer.reveal and src/scripts/footer.ts.
+const reveal = (site.footer as any).reveal ?? { enabled: false };
 ---
-<footer class="site-footer">
-  <div class="site-footer__watermark" aria-hidden="true">{site.brand.name.toUpperCase()}</div>
-  <div class="site-footer__body">
-    {blocks.map((b: any) => {
-      const e = shellRegistry[b.type];
-      if (!e) return null;
-      const C = e.component;
-      return <C {...applyDefaults(shellRegistry, b.type, b.settings)} />;
-    })}
+<div class="site-footer-marker" data-footer-marker aria-hidden="true"></div>
+<footer class="site-footer" data-footer-reveal={reveal.enabled ? JSON.stringify(reveal) : undefined}>
+  <div class="site-footer__inner">
+    <div class="site-footer__watermark" aria-hidden="true">{site.brand.name.toUpperCase()}</div>
+    <div class="site-footer__body">
+      {blocks.map((b: any) => {
+        const e = shellRegistry[b.type];
+        if (!e) return null;
+        const C = e.component;
+        return <C {...applyDefaults(shellRegistry, b.type, b.settings)} />;
+      })}
+    </div>
   </div>
 </footer>
 
 <style>
-  .site-footer {
-    position: relative; overflow: hidden;
-    background: var(--night); color: var(--night-ink);
-    padding-top: clamp(120px, 16vw, 200px);
-  }
+  .site-footer-marker { height: 0; }
+  /* height is driven by footer.ts (inline px while animating, 'auto' when fully open).
+     Without JS or with reduced motion it simply stays at its natural height. */
+  .site-footer { overflow: hidden; background: var(--night); color: var(--night-ink); }
+  .site-footer__inner { position: relative; padding-top: clamp(120px, 16vw, 200px); }
   .site-footer__watermark {
     position: absolute; top: -0.28em; left: 50%; transform: translateX(-50%);
     font-family: var(--font-brand); font-weight: 400; font-synthesis: none; letter-spacing: 0; line-height: 1;

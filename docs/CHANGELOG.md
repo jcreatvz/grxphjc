@@ -2,6 +2,16 @@
 
 Dated entry per release. Newest first. See [`ROADMAP.md`](ROADMAP.md) for what's next.
 
+## v0.9 — 2026-10-09 · Polish round (tuned by John in mock-ups)
+- **Footer reveal.** The footer sits at zero height and opens to its natural height when the end of the page is within 15% of a screen (650ms smooth/expo-out). At 65% open the watermark does one letter-swap (1100ms). Scrolling more than 45% of a screen away collapses it again; every approach repeats. Optional scroll assist (10%) nudges the page as it opens and yields instantly to an upward scroll. Keyboard focus inside the footer opens it and holds it open. Fully open → `height: auto`. No collapse with reduced motion or without JS; short pages start open. Settings: `site.json → footer.reveal`.
+- **Orbit scroll explosion.** Each card has its own spring; scroll position sets how far it's pushed out along the centre→card line (up to 2.6× the radius), scroll *speed* adds a force, fast upward scroll squeezes inward, cards cascade, tumble and fade as they leave. Section is now 200svh (runway 100). All values are orbit block settings with John's numbers as defaults; `explosion: 0` turns it off.
+- **Scramble speed knobs.** `data-scramble-ms="400"` per element, or `--scramble-ms` in CSS (global default `auto` in tokens.css). Built-in timing unchanged until declared.
+- **Plus-marks** on metrics + project-meta hairlines: `--plus-x: -3.5px; --plus-y: -8.5px`.
+- **Progress line** measures the content only, so footer height changes never move it.
+- Shared `src/scripts/spring.ts` (same physics as the mock-ups). Debug read-outs with `?debug` in the URL.
+- Mock-ups ship at `public/mocks/` (noindex) with John's settings as defaults, for re-tuning on any device.
+- Tests: footer (thresholds, smooth curve, swap timing + letters, assist, collapse/reopen, focus, progress, reduced motion, short page, phone), orbit (runway, full spread, clearing, parity with the mock in four scroll scenarios), scramble knobs, plus-mark offsets; full regression (interactions 14, pinned/logo/overflow 27 pages × 5 widths, Step-3 blocks 21, accents) all pass.
+
 ## v0.8 — 2026-10-01 · Step 3: missing blocks
 - **`video`** — self-hosted MP4 (+ optional WebM) with poster. `loop` mode: muted autoplay while ≥35% on screen, pauses when it leaves; reduced motion / data-saver gets poster + Play instead. `click` mode: poster + Play, plays with sound, native controls, pauses if scrolled away. Ratios 16:9 · 21:9 · 4:3 · 1:1 · 9:16; contained or full width; caption.
 - **`embed`** — YouTube / Vimeo from any share link. A facade: nothing from either site loads until Play is clicked, then one privacy-mode iframe (`youtube-nocookie.com`, Vimeo `dnt=1`). The pasted URL is never used directly — only a validated ID goes into a URL we build. Unsupported links show a clear notice.

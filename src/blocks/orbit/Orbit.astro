@@ -8,9 +8,13 @@ export interface Props {
   label?: string; headline?: string;
   source?: 'projects' | 'manual' | 'both'; projectAction?: 'popup' | 'page';
   items?: Item[]; startView?: 'sphere' | 'grid'; maxItems?: number; cue?: string;
+  explosion?: number; burst?: number; stiffness?: number; bounce?: number; variation?: number;
+  stagger?: number; tumble?: number; fade?: number; squeeze?: boolean; runway?: number;
 }
 const { label = '', headline = '', source = 'both', projectAction = 'popup',
-        items = [], startView = 'sphere', maxItems = 28, cue = 'Drag to rotate' } = Astro.props;
+        items = [], startView = 'sphere', maxItems = 28, cue = 'Drag to rotate',
+        explosion = 1.6, burst = 0.3, stiffness = 120, bounce = 0.87, variation = 0.35,
+        stagger = 0.25, tumble = 1.5, fade = 1, squeeze = true, runway = 100 } = Astro.props;
 
 const fromProjects: Item[] = source === 'manual' ? [] :
   (await getProjects())
@@ -37,7 +41,9 @@ const pad = (n: number) => String(n).padStart(2, '0');
 const words = headline.split(/\s+/).filter(Boolean).map((w) => ({ t: w.replace(/\*/g, ''), accent: /^\*.*\*$/.test(w) }));
 const plainHeadline = headline.replace(/\*/g, '');
 ---
-<section class="orbit" data-orbit data-start={startView} aria-label={label || plainHeadline || 'Image orbit'}>
+<section class="orbit" data-orbit data-start={startView} aria-label={label || plainHeadline || 'Image orbit'}
+  data-explosion={explosion} data-burst={burst} data-stiffness={stiffness} data-bounce={bounce} data-variation={variation}
+  data-stagger={stagger} data-tumble={tumble} data-fade={fade} data-squeeze={String(squeeze)} style={`--runway:${runway}`}>
   <div class="orbit__sticky">
     <div class="orbit__stage" data-orbit-stage>
       <div class="orbit__world">
@@ -98,7 +104,7 @@ const plainHeadline = headline.replace(/\*/g, '');
 </section>
 
 <style>
-  .orbit { position: relative; height: 150svh; background: var(--paper); --cw: 200px; --persp: 1150px; }
+  .orbit { position: relative; height: calc(100svh + var(--runway, 100) * 1svh); background: var(--paper); --cw: 200px; --persp: 1150px; }
   .orbit__sticky { position: sticky; top: 0; height: 100svh; overflow: hidden; }
   .orbit__stage {
     position: absolute; inset: 0; perspective: var(--persp); perspective-origin: 50% 50%;
@@ -192,7 +198,6 @@ const plainHeadline = headline.replace(/\*/g, '');
   .orbit__tile-cap .mono-xs { color: var(--accent-strong); }
 
   @media (max-width: 640px) {
-    .orbit { height: 130svh; }
     .orbit__headline { width: 90vw; font-size: clamp(40px, 12.6vw, 64px); }
     .orbit__cue { display: none; }
     .orbit__label { bottom: 52px; }

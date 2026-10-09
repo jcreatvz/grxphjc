@@ -15,6 +15,7 @@ npm run build    # → dist/
 - [`docs/BLOCKS.md`](docs/BLOCKS.md) — every block's settings (generated: `npm run docs`)
 - [`docs/DESIGN-SYSTEM.md`](docs/DESIGN-SYSTEM.md) · [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) · [`docs/DECISIONS.md`](docs/DECISIONS.md) · [`docs/CHANGELOG.md`](docs/CHANGELOG.md)
 - Live block preview: `/styleguide`
+- Motion tuning mock-ups: `/mocks/footer-reveal-mock.html`, `/mocks/orbit-explode-mock.html`
 
 ## Where things live
 

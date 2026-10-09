@@ -2,7 +2,7 @@
 
 > Single source of truth for where the project is and what's next.
 > Updated at the end of every step. Dates are when work shipped (pushed to `main`).
-> Last updated: **2026-10-01** · Current version: **v0.8**
+> Last updated: **2026-10-09** · Current version: **v0.9**
 
 **Live:** https://jcreatvz.github.io/grxphjc/ · **Repo:** https://github.com/jcreatvz/grxphjc
 
@@ -11,8 +11,8 @@
 ## Where we are
 
 ```
-DONE  ██████████████████░░░░░░░░░░░░  Phases 0 · 1 · 3 · 2 + brand font + docs + pinned gallery + Safari fixes + 21 project shells + Step 3 blocks
-NEXT  → Step 4: real content — John briefs projects one at a time; decision pending on starting motion in parallel
+DONE  ██████████████████░░░░░░░░░░░░  Phases 0 · 1 · 3 · 2 + brand font + docs + pinned gallery + Safari fixes + 21 project shells + Step 3 blocks + v0.9 polish
+NEXT  → Step 4: real content as John briefs projects · Step 5 (motion layer) can start in parallel on request
 ```
 
 ---
@@ -29,6 +29,7 @@ NEXT  → Step 4: real content — John briefs projects one at a time; decision 
 | v0.6 | 2026-10-01 | **Type tweaks + pinned gallery** | H1s: line-height normal, 0.5rem tracking (scales down on phones), solid-shade echo words instead of opacity · footer watermark in GW fill · gallery `pinned-scroll` layout: vertical scroll slides the images sideways, eased, with counter + progress bar |
 | v0.7 | 2026-10-01 | **Step 2 fixes + project list** | Safari/iPhone pinned-gallery fix (explicit frame sizing from real image ratios, no mid-scroll re-measure, direct tracking on touch) · logo hover swaps its own letters · 21 project pages with template content, in John's order, with categories · 3-column project grid · CTA heading fits 320px |
 | v0.8 | 2026-10-01 | **Step 3 · missing blocks** | `video` (loop / click) · `embed` (YouTube, Vimeo — facade, nothing loads until Play) · `quote` · `credits` · `project-meta` (fills from the project) · `fullbleed-image` · all 21 project templates recomposed with them · multi-word `*accent*` highlights · long words wrap instead of overflowing phones |
+| v0.9 | 2026-10-09 | **Polish round (John-tuned)** | Footer reveal (collapses to 0, opens at the end, one watermark swap, repeats) · orbit scroll explosion with per-card springs + scroll-speed force · scramble speed knobs · plus-mark offsets · progress line ignores footer · tuning mock-ups live at /mocks/ |
 
 Full detail per release: [`CHANGELOG.md`](CHANGELOG.md)
 
@@ -66,7 +67,17 @@ Built with dummy content. Each project page now has a meta strip; collabs/sports
 
 **Owner:** done
 
-### ☐ Step 4 · Phase 5 — Real content — *next*
+### ✅ Step 3b · v0.9 polish round — shipped 2026-10-09
+Requested 2026-10-01 (two further bullets arrived empty — John to resend if something was cut off).
+- [x] **Footer reveal** — footer collapses to zero height; springs open as the end of the page is reached; watermark does one quick letter-swap per opening; collapses again when scrolled away. Mock: `footer-reveal-mock.html`.
+- [x] **Orbit explosion** — cards burst outward on scroll, with per-card springs; scroll *speed* adds a burst and bounce; fast upward scroll can squeeze inward. Mock: `orbit-explode-mock.html`.
+- [x] **Scramble speed knobs** — global default (`--scramble-ms` in tokens) + per-element `data-scramble-ms`. Nothing changes until declared.
+- [x] **Plus-mark offsets** — `top: -8.5px; left: -3.5px` via `--plus-x` / `--plus-y` tokens on metrics + project-meta; re-check phone 2×2.
+
+**Mock-up findings (2026-10-01):** (1) with the footer collapsed the page cannot scroll past its end, so an "open when 75% of a screen early" trigger plays the whole animation below the fold — invisible. Default is now *open as you reach the end (15%)*, plus optional **scroll assist** (pulls the page down ~70% of the footer's height in step with the spring; yields instantly if the visitor scrolls up). (2) The top progress line must measure against the content *without* the footer or it jumps ~8 points when the footer opens. (3) Keyboard focus inside a collapsed footer must force it open and hold it. (4) Orbit: same destination, slow scroll peaks +0.77 spread, fast flick +1.27, both settle +0.71. (5) Real-device frame rate of 28 springs is unmeasured (sandbox has no GPU) — John to feel it on iPhone.
+**John's settings (2026-10-09), now live:** footer — smooth 650ms, opens when the end is within 15% of a screen, closes past 45%, scroll assist 10%, watermark swap 1100ms starting at 65% open · orbit — spread 1.6, speed 0.3, stiffness 120, damping 0.87, variation 0.35, cascade 0.25, tumble 1.5, fade 1, runway 100 svh, squeeze on. Live orbit verified against the mock: same scenarios within ±0.03. Re-tune any time at `/grxphjc/mocks/footer-reveal-mock.html` and `/grxphjc/mocks/orbit-explode-mock.html`.
+
+### ☐ Step 4 · Phase 5 — Real content
 Swap placeholders for real work. Content pressure shows which blocks are still missing.
 
 **Started v0.7–0.8:** 21 project pages exist (John's titles and order), each composed from the Step 3 blocks with template copy; every factual field is in [brackets]. Per project John supplies: cover + frames (wide frames for full-bleed), video file or link, role / year / client / deliverables, a short brief, quote + credits if any. Claude fills the JSON, swaps blocks to suit, and ticks it off below.

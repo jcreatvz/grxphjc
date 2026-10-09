@@ -10,6 +10,7 @@ import { initLoader } from './loader';
 import { initOrbits } from './orbit';
 import { initPinnedGalleries } from './pinned';
 import { initVideos } from './video';
+import { initFooterReveal } from './footer';
 import { initMarquees } from './marquee';
 
 initPrefs();
@@ -22,4 +23,5 @@ initMarquees();
 initOrbits();
 initPinnedGalleries();
 initVideos();
+initFooterReveal();
 initLoader(() => initReveal()); // reveal runs once the intro has cleared
