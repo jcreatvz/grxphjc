@@ -121,6 +121,10 @@ html {
   transition: background var(--duration-med) var(--ease-out), color var(--duration-med) var(--ease-out);
 }
 body {
+  /* body paints the page; html (canvas) only shows in overscroll — the curtain footer recolours that
+     at the very end, and this keeps every transparent section on paper (v0.10) */
+  background: var(--paper);
+  transition: background var(--duration-med) var(--ease-out), color var(--duration-med) var(--ease-out);
   font-family: var(--font-sans);
   font-size: var(--step-4);
   line-height: 1.45;

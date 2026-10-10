@@ -3,13 +3,16 @@ import { shellRegistry } from '../blocks/shell-registry.js';
 import { applyDefaults } from '../blocks/utils.js';
 import site from '../site.json';
 const blocks = site.footer.blocks;
-// Footer reveal settings (v0.9) — see site.json -> footer.reveal and src/scripts/footer.ts.
-const reveal = (site.footer as any).reveal ?? { enabled: false };
+// Curtain footer (v0.10) — Nakula-style reveal, tuned by John in public/mocks/footer-reveal-mock.html.
+// Settings: site.json -> footer.curtain · motion: src/scripts/footer.ts
+const curtain = (site.footer as any).curtain ?? { enabled: false };
+const look = curtain.look === 'ghost' ? 'ghost' : 'accent';
+const scale = Math.max(0.3, (curtain.height ?? 100) / 100);
 ---
-<div class="site-footer-marker" data-footer-marker aria-hidden="true"></div>
-<footer class="site-footer" data-footer-reveal={reveal.enabled ? JSON.stringify(reveal) : undefined}>
+<footer class="site-footer" data-look={look} style={`--footer-panel-scale:${scale}`}
+        data-footer-curtain={curtain.enabled ? JSON.stringify(curtain) : undefined}>
+  <!-- Layer 1: the normal footer content; scrolls like the rest of the page -->
   <div class="site-footer__inner">
-    <div class="site-footer__watermark" aria-hidden="true">{site.brand.name.toUpperCase()}</div>
     <div class="site-footer__body">
       {blocks.map((b: any) => {
         const e = shellRegistry[b.type];
@@ -19,19 +22,51 @@ const reveal = (site.footer as any).reveal ?? { enabled: false };
       })}
     </div>
   </div>
+  <!-- Layer 2: the curtain. The window moves with the page and crops (clip-path) a panel that is
+       fixed to the bottom of the screen, so scrolling UNCOVERS a stationary wordmark.
+       Must stay the LAST element of the footer, and no ancestor may have transform/filter/contain. -->
+  <div class="site-footer__window" aria-hidden="true">
+    <div class="site-footer__panel">
+      <div class="site-footer__watermark">{site.brand.name.toUpperCase()}</div>
+    </div>
+  </div>
 </footer>
 
 <style>
-  .site-footer-marker { height: 0; }
-  /* height is driven by footer.ts (inline px while animating, 'auto' when fully open).
-     Without JS or with reduced motion it simply stays at its natural height. */
-  .site-footer { overflow: hidden; background: var(--night); color: var(--night-ink); }
-  .site-footer__inner { position: relative; padding-top: clamp(120px, 16vw, 200px); }
-  .site-footer__watermark {
-    position: absolute; top: -0.28em; left: 50%; transform: translateX(-50%);
-    font-family: var(--font-brand); font-weight: 400; font-synthesis: none; letter-spacing: 0; line-height: 1;
-    font-size: clamp(110px, 22vw, 360px); white-space: nowrap;
-    color: #1f1f1f; pointer-events: none; user-select: none;
+  /* Every sizing variable is scoped to .site-footer — nothing on :root, so nothing else inherits or collides. */
+  .site-footer {
+    /* wordmark size: 22vw on desktop (John's tuning); on phones up to 27vw / 120px so it stays bold.
+       The face's ink is ~3.18em wide, so this always fits inside the gutters (checked 320–1920px). */
+    --footer-wm-size: clamp(64px, max(22vw, min(27vw, 120px)), 360px);
+    /* panel height: John's `.4em + bar + 44px`, expressed relative to the wordmark so the SAME ~55% of
+       the letters shows above the curtain edge on every screen (equal to his formula at 1440px). */
+    --footer-panel-h: calc((var(--footer-wm-size) * .495 + var(--bar-h) + var(--safe-bottom) + 14px) * var(--footer-panel-scale, 1));
+    --footer-panel-bg: var(--accent);
+    --footer-wm-color: var(--night);
+    position: relative; isolation: isolate; color: var(--night-ink);
   }
-  .site-footer__body { position: relative; z-index: 1; }
+  .site-footer[data-look="ghost"] { --footer-panel-bg: var(--night); --footer-wm-color: #1f1f1f; }
+  .site-footer__inner { position: relative; z-index: 2; background: var(--night); padding-top: clamp(64px, 8vw, 120px); }
+  .site-footer__body { position: relative; }
+  .site-footer__window { position: relative; height: var(--footer-panel-h); clip-path: inset(0); background: var(--footer-panel-bg); }
+  .site-footer__panel {
+    position: fixed; left: 0; bottom: 0; width: 100%; height: var(--footer-panel-h);
+    display: flex; align-items: flex-end; justify-content: center;
+    padding-bottom: calc(var(--bar-h) + var(--safe-bottom) + 14px); /* clear the fixed bottom bar */
+    background: var(--footer-panel-bg); pointer-events: none; will-change: transform;
+  }
+  .site-footer__watermark {
+    font-family: var(--font-brand); font-weight: 400; font-synthesis: none; letter-spacing: 0;
+    font-size: var(--footer-wm-size); line-height: .9; white-space: nowrap;
+    margin-left: .12em; /* the face's ink sits .06em left of its advance box — re-centre it */
+    color: var(--footer-wm-color); user-select: none; will-change: transform;
+  }
+  /* Reduced motion (or JS off): a plain footer with the panel sitting in place. */
+  @media (prefers-reduced-motion: reduce) {
+    .site-footer__panel { position: absolute; transform: none !important; will-change: auto; }
+  }
+  :global(html:not(.js)) .site-footer__panel { position: absolute; }
+  /* Overscroll bounce at the very end shows the html background — match it to the panel (set by footer.ts). */
+  :global(html[data-footer-end="accent"]) { background: var(--accent); }
+  :global(html[data-footer-end="ghost"]) { background: var(--night); }
 </style>

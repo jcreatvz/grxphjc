@@ -1,6 +1,6 @@
 // Top-frame scroll progress line.
-// Measured against the CONTENT (up to the footer marker), not the whole document, so it
-// doesn't jump when the footer opens or closes (v0.9).
+// Since v0.10 (curtain footer) the page height never changes, so this simply measures the whole
+// document. (A [data-footer-marker] element, if ever present, still caps it at the content end.)
 export function initProgress() {
   const frame = document.querySelector<HTMLElement>('.site-frame');
   if (!frame) return;

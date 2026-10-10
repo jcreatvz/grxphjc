@@ -4,6 +4,13 @@ Why things are the way they are. Newest first.
 
 | Date | Decision | Why |
 |---|---|---|
+| 2026-10-09 | Curtain footer replaces the v0.9 height reveal entirely | John: "this should replace v0.9". Keeping both meant two footer layouts to maintain; v0.9 stays in git history and as a mock mode. |
+| 2026-10-09 | Accent look (red panel, night wordmark) | John's pick in the mock. |
+| 2026-10-09 | Panel height proportional to the wordmark | Keeps John's desktop overlap (~55% of the letters above the edge) identical on phones; his literal formula would show ~75% on phones. |
+| 2026-10-09 | Footer variables scoped to `.site-footer` | John asked that nothing on `:root` affect other elements. |
+| 2026-10-09 | `body` paints its own background | Lets the html canvas match the panel during overscroll without recolouring transparent sections (a bug caught in review). |
+| 2026-10-09 | Prototype Nakula's curtain reveal as a mock-up before touching the site | The feel depends on scroll-linked, reversible motion — incompatible with the v0.9 time-based height reveal, so it needs a visual A/B first. |
+| 2026-10-09 | Curtain mock keeps the v0.9 height mode as a selectable style | John can compare feel directly and revert if he prefers it. |
 | 2026-10-09 | Ship John's mock-up settings verbatim as defaults | He tuned by feel; the live orbit was verified to reproduce the mock within ±0.03. |
 | 2026-10-09 | Footer settings in `site.json`, orbit settings on the block | Footer is site chrome; the orbit is a block that can appear on any page with its own tuning. |
 | 2026-10-09 | Footer fully open → `height: auto` | Stays correct when content reflows (fonts, resize) without re-measuring. |

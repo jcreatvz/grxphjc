@@ -2,7 +2,7 @@
 
 > Single source of truth for where the project is and what's next.
 > Updated at the end of every step. Dates are when work shipped (pushed to `main`).
-> Last updated: **2026-10-09** · Current version: **v0.9**
+> Last updated: **2026-10-09** · Current version: **v0.10**
 
 **Live:** https://jcreatvz.github.io/grxphjc/ · **Repo:** https://github.com/jcreatvz/grxphjc
 
@@ -11,8 +11,8 @@
 ## Where we are
 
 ```
-DONE  ██████████████████░░░░░░░░░░░░  Phases 0 · 1 · 3 · 2 + brand font + docs + pinned gallery + Safari fixes + 21 project shells + Step 3 blocks + v0.9 polish
-NEXT  → Step 4: real content as John briefs projects · Step 5 (motion layer) can start in parallel on request
+DONE  ██████████████████░░░░░░░░░░░░  Phases 0 · 1 · 3 · 2 + brand font + docs + pinned gallery + Safari fixes + 21 project shells + Step 3 blocks + v0.9 polish + v0.10 curtain footer
+NEXT  → Step 4: real content as John briefs projects · Step 5 (motion layer) on request
 ```
 
 ---
@@ -30,6 +30,7 @@ NEXT  → Step 4: real content as John briefs projects · Step 5 (motion layer) 
 | v0.7 | 2026-10-01 | **Step 2 fixes + project list** | Safari/iPhone pinned-gallery fix (explicit frame sizing from real image ratios, no mid-scroll re-measure, direct tracking on touch) · logo hover swaps its own letters · 21 project pages with template content, in John's order, with categories · 3-column project grid · CTA heading fits 320px |
 | v0.8 | 2026-10-01 | **Step 3 · missing blocks** | `video` (loop / click) · `embed` (YouTube, Vimeo — facade, nothing loads until Play) · `quote` · `credits` · `project-meta` (fills from the project) · `fullbleed-image` · all 21 project templates recomposed with them · multi-word `*accent*` highlights · long words wrap instead of overflowing phones |
 | v0.9 | 2026-10-09 | **Polish round (John-tuned)** | Footer reveal (collapses to 0, opens at the end, one watermark swap, repeats) · orbit scroll explosion with per-card springs + scroll-speed force · scramble speed knobs · plus-mark offsets · progress line ignores footer · tuning mock-ups live at /mocks/ |
+| v0.10 | 2026-10-09 | **Curtain footer** | Nakula-style reveal replaces the v0.9 height reveal: page scrolls away to uncover a fixed accent panel; wordmark settles from lift/skew/stretch with 120ms lag; ~55% of the letters show above the curtain edge on every screen size; swap once per approach; progress line back to whole-page; overscroll matches the panel |
 
 Full detail per release: [`CHANGELOG.md`](CHANGELOG.md)
 
@@ -76,6 +77,19 @@ Requested 2026-10-01 (two further bullets arrived empty — John to resend if so
 
 **Mock-up findings (2026-10-01):** (1) with the footer collapsed the page cannot scroll past its end, so an "open when 75% of a screen early" trigger plays the whole animation below the fold — invisible. Default is now *open as you reach the end (15%)*, plus optional **scroll assist** (pulls the page down ~70% of the footer's height in step with the spring; yields instantly if the visitor scrolls up). (2) The top progress line must measure against the content *without* the footer or it jumps ~8 points when the footer opens. (3) Keyboard focus inside a collapsed footer must force it open and hold it. (4) Orbit: same destination, slow scroll peaks +0.77 spread, fast flick +1.27, both settle +0.71. (5) Real-device frame rate of 28 springs is unmeasured (sandbox has no GPU) — John to feel it on iPhone.
 **John's settings (2026-10-09), now live:** footer — smooth 650ms, opens when the end is within 15% of a screen, closes past 45%, scroll assist 10%, watermark swap 1100ms starting at 65% open · orbit — spread 1.6, speed 0.3, stiffness 120, damping 0.87, variation 0.35, cascade 0.25, tumble 1.5, fade 1, runway 100 svh, squeeze on. Live orbit verified against the mock: same scenarios within ±0.03. Re-tune any time at `/grxphjc/mocks/footer-reveal-mock.html` and `/grxphjc/mocks/orbit-explode-mock.html`.
+
+### ✅ Step 3c · Curtain footer (Nakula-inspired) — shipped 2026-10-09 (v0.10)
+Requested 2026-10-09 with `nakula-footer.html` as the reference. Goal: on scrolling to our footer, the exact Nakula "uncover" feel — the wordmark panel stays still while the page scrolls away from it, and the wordmark settles from a lifted, skewed, stretched pose with a smoothing lag. Watermark swap must still fire once per approach.
+- [x] Review `footer-reveal-mock.html` v2 — presets: *Nakula (reference)*, *Soft*, *Kinetic*, *v0.9 height (yours)*; looks: *ghost* (current colours) / *accent* (red panel like Nakula)
+- [x] Decide: curtain **replaces** the v0.9 height reveal (default) — old behaviour stays available as `footer.reveal.mode: "height"`
+- [x] Decide panel look (ghost / accent) and copy the settings JSON from the mock
+- [ ] **Still open:** real-device check: iPhone + Safari desktop (position:fixed + clip-path, dynamic toolbar)
+- [x] Implement + ship as v0.10 (footer.ts curtain controller, Footer.astro window/panel markup, progress.ts back to whole-page, docs)
+
+**How Nakula's footer works (analysed 2026-10-09):** three layers — page content (z-index above) · `.brand-window` (in-flow, last in the footer, `height = panel height`, `clip-path: inset(0)`) · `.brand-panel` (`position: fixed; bottom: 0`, same height). The window rides the document and crops the fixed panel, so scrolling *uncovers* a stationary panel. JS adds feel: `target = clamp((innerHeight − window.top) / window.height)`; `cur` eases toward it with `1 − exp(−dt/lag)` (lag 120ms); `remaining = 1 − ease(cur)` drives panel `translateY(remaining × height × 45%)` and wordmark `translateY(90px) skewY(−6°) scaleY(1.3)` scaled by `remaining`. Their approved defaults: parallax 45 · lag 120 · lift 90 · stretch 30 · skew −6 · ease linear. Constraint: no ancestor of the fixed panel may have transform/filter/contain/perspective/will-change.
+**Mock findings:** formulas reproduced to ±1px; lag 67% in 120ms (ideal 63%); page height constant (no scrollbar/progress jump); reversible; swap fires once at 65% revealed and re-arms below 30%; swap coexists with lift/skew; clip trick + "no transformed ancestors" guard verified; reduced motion → plain static footer. **Changes vs v0.9:** watermark moves from behind the columns to a final bottom panel; collapse/open triggers, scroll assist and the footer marker are no longer needed in curtain mode.
+
+**John's call (2026-10-09):** curtain replaces v0.9 · accent look · Nakula motion numbers · panel height from his `.4em + bar + 44px`, made proportional so ~55% of the letters overlap the curtain edge on every screen.
 
 ### ☐ Step 4 · Phase 5 — Real content
 Swap placeholders for real work. Content pressure shows which blocks are still missing.

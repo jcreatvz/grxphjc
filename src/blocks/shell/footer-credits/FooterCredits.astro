@@ -7,7 +7,7 @@ const { line = '' } = Astro.props;
 <style>
   .footer-credits {
     max-width: var(--page-max); margin: 0 auto;
-    padding: 20px var(--gutter) calc(var(--bar-h) + var(--safe-bottom) + 24px);
+    padding: 20px var(--gutter) 28px; /* the curtain panel follows, so no bottom-bar clearance needed here */
     border-top: 1px solid var(--night-line);
   }
   .footer-credits p {

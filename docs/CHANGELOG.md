@@ -2,6 +2,17 @@
 
 Dated entry per release. Newest first. See [`ROADMAP.md`](ROADMAP.md) for what's next.
 
+## v0.10 — 2026-10-09 · Curtain footer (replaces the v0.9 height reveal)
+- **The Nakula reveal.** The footer content scrolls normally; after it, `.site-footer__window` (in flow, `clip-path: inset(0)`) crops `.site-footer__panel` (`position: fixed; bottom: 0`), so scrolling *uncovers* a stationary accent panel with the GRXPHJC wordmark. All scroll-linked and reversible: the panel rises from 45% of its height, the wordmark settles from lift 90px / skew −6° / stretch 30%, smoothed with a 120ms lag. Settings: `site.json → footer.curtain` (John's values from the mock).
+- **The overlap.** Panel height follows John's `.4em + bar + 44px` but is expressed relative to the wordmark (`.495em + bar + safe-area + 14px`), so the same ~55% of the letters shows above the curtain edge on every screen (verified 320px → 1920px and landscape). Wordmark size `clamp(64px, max(22vw, min(27vw, 120px)), 360px)` keeps it bold on phones and inside the gutters (the face's ink is ~3.18em wide); `margin-left: .12em` re-centres its ink.
+- **Scoped variables.** All footer sizing variables live on `.site-footer`, not `:root` — nothing else can inherit or collide.
+- **Watermark swap** fires once at 65% revealed and re-arms below 30%; hover `data-scramble` on footer links is untouched.
+- **Overscroll.** At the very end the page background behind a bounce matches the panel; `body` now paints its own paper background so transparent sections never change colour.
+- **Removed:** v0.9 height reveal, scroll assist, footer marker (still in git history; the mock-up keeps a "height" mode for comparison). The progress line measures the whole page again; page height never changes.
+- Credits padding no longer reserves bottom-bar space (the panel follows).
+- Mock-up (`public/mocks/footer-reveal-mock.html`) now defaults to the live settings with the same scoped, proportional formula.
+- Tests: curtain formulas ±1px, 120ms lag, constant page height, swap once / re-arm / hysteresis, hover scramble intact, scoping (nothing on :root), no transformed ancestors, overscroll + pixel check, 10-size responsive sweep, reduced motion, short page; full regression (pinned gallery, logo, orbit, 27 pages × 5 widths, menu a11y, prefs, popup, media blocks, accents) green.
+
 ## v0.9 — 2026-10-09 · Polish round (tuned by John in mock-ups)
 - **Footer reveal.** The footer sits at zero height and opens to its natural height when the end of the page is within 15% of a screen (650ms smooth/expo-out). At 65% open the watermark does one letter-swap (1100ms). Scrolling more than 45% of a screen away collapses it again; every approach repeats. Optional scroll assist (10%) nudges the page as it opens and yields instantly to an upward scroll. Keyboard focus inside the footer opens it and holds it open. Fully open → `height: auto`. No collapse with reduced motion or without JS; short pages start open. Settings: `site.json → footer.reveal`.
 - **Orbit scroll explosion.** Each card has its own spring; scroll position sets how far it's pushed out along the centre→card line (up to 2.6× the radius), scroll *speed* adds a force, fast upward scroll squeezes inward, cards cascade, tumble and fade as they leave. Section is now 200svh (runway 100). All values are orbit block settings with John's numbers as defaults; `explosion: 0` turns it off.

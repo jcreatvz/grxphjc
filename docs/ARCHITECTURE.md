@@ -52,8 +52,8 @@ One entry, `src/scripts/main.ts`, ~5 KB gzipped. Each module no-ops if its marku
 - `src/lib/accent.ts` — `parseAccent(text)`: `*word*` / `*several words*` highlight flags.
 - `src/lib/bleed.ts` — whether a page's first block runs under the top frame.
 
-## Footer reveal
-`Footer.astro` renders a zero-height `[data-footer-marker]` before the footer — the end of the content. `footer.ts` opens/closes the footer from the marker's distance to the bottom of the screen; `progress.ts` measures to the marker so footer height never moves the progress line. With the footer collapsed the page cannot scroll past the marker, which is why it must open *at* the end, not before.
+## Footer curtain
+`Footer.astro` = `.site-footer__inner` (normal content, z-index 2) + `.site-footer__window` (LAST, in flow, `clip-path: inset(0)`) containing `.site-footer__panel` (`position: fixed; bottom: 0`). The window rides the page and crops the fixed panel, so scrolling uncovers it. `footer.ts` adds the scroll-linked feel (target → lagged `cur` → `remaining` drives panel rise + wordmark lift/skew/stretch) and the one-shot watermark swap. **Rule:** no ancestor of the panel may have transform / filter / perspective / contain / will-change, or `position: fixed` stops being relative to the screen. Sizing variables are scoped to `.site-footer`.
 
 ## Gotchas worth knowing
 - `backdrop-filter`, `transform` and `filter` on an ancestor trap `position: fixed` children. That's why overlays live at body level, not inside the bar.

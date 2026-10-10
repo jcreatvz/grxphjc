@@ -141,19 +141,20 @@
         }
       }
     ],
-    "reveal": {
+    "curtain": {
       "enabled": true,
-      "triggerPct": 15,
-      "closePct": 45,
-      "assist": true,
-      "assistPct": 10,
-      "motion": "smooth",
-      "smoothMs": 650,
-      "stiffness": 260,
-      "bounce": 0.46,
+      "look": "accent",
+      "parallax": 45,
+      "lag": 120,
+      "lift": 90,
+      "stretch": 30,
+      "skew": -6,
+      "ease": "linear",
+      "height": 100,
       "scrambleMs": 1100,
       "scrambleAt": 65,
-      "_note": "Tuned by John in the v0.9 mock-up (public/mocks/footer-reveal-mock.html). triggerPct/closePct = % of a screen between the end of the page and the bottom of the screen. motion: smooth | spring (spring uses stiffness + bounce)."
+      "rearm": 30,
+      "_note": "Tuned by John in public/mocks/footer-reveal-mock.html (curtain mode). look: accent | ghost. parallax = % of panel height it rises from; lag = smoothing ms; lift px / stretch % / skew deg = the wordmark's starting pose; ease: linear | out | inout; height = panel height %; swap fires at scrambleAt % revealed and re-arms below rearm %."
     }
   },
   "contact": {

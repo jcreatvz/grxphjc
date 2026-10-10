@@ -49,5 +49,5 @@ Brutalist editorial: grayscale + one accent, a graffiti brand face, monospace ut
 Breakpoints used: 380 · 560 · 640 · 720 (phone) · 900 · 1024 (tablet).
 
 ## Motion
-Physics: `src/scripts/spring.ts` (k = stiffness, ζ = damping). Footer reveal = expo-out 650ms; orbit = one spring per card. Scramble speed: `--scramble-ms` / `data-scramble-ms`.
+Physics: `src/scripts/spring.ts` (k = stiffness, ζ = damping). Footer = curtain reveal (scroll-linked, 120ms lag, panel rises 45%, wordmark lift 90px / skew −6° / stretch 30%); orbit = one spring per card. Scramble speed: `--scramble-ms` / `data-scramble-ms`.
 `--duration-fast 200ms` · `--duration-med 260ms` · `--duration-slow 600ms` · `--ease-out cubic-bezier(.16,1,.3,1)`. Entrance motion via `data-reveal` (+ `--reveal-i` stagger). Everything respects `prefers-reduced-motion`.

@@ -62,8 +62,8 @@ ffmpeg -i input.mov -vf scale=1920:-2 -c:v libvpx-vp9 -crf 34 -b:v 0 -an out.web
 **credits** — `items` `{ role, name, href? }` plus `tools` tags.
 **fullbleed-image** — `height`: `natural` (image's own shape) · `cinema` (21:9; 16:9 on phones) · `screen`. Use wide images (about 2400 px across).
 
-## Footer reveal
-`src/site.json → footer.reveal`: `enabled`, `triggerPct` (opens when the end of the page is within this % of a screen), `closePct` (collapses when farther than this), `assist` + `assistPct` (nudge the page as it opens — values under ~12% land under the bottom bar), `motion` (`smooth` uses `smoothMs`; `spring` uses `stiffness` + `bounce`), `scrambleMs`, `scrambleAt` (% open when the watermark swap starts). Set `enabled: false` for a normal static footer. Re-tune by feel at `/mocks/footer-reveal-mock.html` and paste the copied values here.
+## Footer curtain
+`src/site.json → footer.curtain`: `enabled`, `look` (`accent` | `ghost`), `parallax` (% of the panel's height it rises from), `lag` (smoothing, ms), `lift` (px) / `stretch` (%) / `skew` (°) — the wordmark's starting pose, `ease` (`linear` | `out` | `inout`), `height` (panel height %), `scrambleMs`, `scrambleAt` (% revealed when the letter-swap fires), `rearm` (% it must drop below before it can fire again). Re-tune by feel at `/mocks/footer-reveal-mock.html` (curtain mode) and paste the values here.
 
 ## Orbit explosion
 On the `orbit` block: `explosion` (max spread; `0` = off), `burst` (extra spread from scroll speed), `stiffness`, `bounce` (1 = no bounce), `variation`, `stagger`, `tumble`, `fade`, `squeeze`, `runway` (svh of scrolling while pinned). Re-tune at `/mocks/orbit-explode-mock.html`.
