@@ -1,4 +1,4 @@
-# grxphjc — Roadmap test
+# grxphjc — Roadmap
 
 > Single source of truth for where the project is and what's next.
 > Updated at the end of every step. Dates are when work shipped (pushed to `main`).
