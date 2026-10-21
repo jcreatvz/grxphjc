@@ -4,6 +4,9 @@ Why things are the way they are. Newest first.
 
 | Date | Decision | Why |
 |---|---|---|
+| 2026-10-21 | Orbit v2 morph in CSS 3D, no three.js | The sphere is already CSS 3D; tweening each card's pose and the camera in that same space is exact, light, and keeps the cards real DOM (links, popups, focus). |
+| 2026-10-21 | List items take the sphere card's aspect ratio | Makes the morph's flat end pose identical to the list item, so the handoff is invisible. |
+| 2026-10-21 | Title column returns (right side), caption on phones | John's call after seeing v2; a right column doesn't fit beside the centred list under 900px. |
 | 2026-10-21 | Orbit v2's list is driven by page scroll, not wheel hijacking | bokid takes over the wheel for the whole page; a portfolio with sections below can't. "Loop twice, then release" (John) gives a finite runway with a visually looping list. |
 | 2026-10-21 | Orbit v2 shares `Orbit.astro` with v1 (`altView`) | The sphere is identical; duplicating ~200 lines of markup/CSS would drift. |
 | 2026-10-21 | Orbit v2 reviewed on a hidden page before replacing v1 | It changes the home page's first impression; John feels it first. |

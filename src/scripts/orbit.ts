@@ -207,9 +207,30 @@ function setup(sec: HTMLElement) {
   // v2: the vertical list replaces the grid (orbit-vertical.ts); v1 keeps the grid.
   const vert = sec.dataset.altView === 'vertical'
     ? setupVertical(sec, {
-        cards: cardEls, toggle, reduce,
+        cards: cardEls, toggle, reduce, world,
         pause: () => { gridMode = true; stage.inert = true; },
         resume: () => { gridMode = false; stage.inert = false; layout(true); kick(); },
+        // 3D poses for the morph — the SAME formulas place() and frame() use, so a morph that ends on
+        // `cardRest`/`worldRest` hands back to the live sphere without a single-pixel jump.
+        pose: {
+          worldNow: () => ({ camZ, sx: tilt + dragY, sy: dragX }),
+          worldRest: () => ({ camZ: 0, sx: tilt + dragY, sy: dragX }),
+          cardNow: (i: number) => {
+            const c = cards[i], m = Math.min(1 + c.s.x, (persp * 0.55) / R), k = clamp(c.s.x, -0.5, 3) * X.tumble * 28;
+            return { x: c.x * R * m, y: -c.y * R * m, z: c.z * R * m, ry: c.lon + c.tY * k, rx: c.lat + c.tX * k, s: 1,
+              o: c.hid ? 0 : c.o < 0 ? 1 : c.o, d: c.d < 0 ? 0 : c.d, g: 0 };
+          },
+          cardRest: (i: number) => {
+            const c = cards[i], sx = tilt + dragY, sy = dragX;
+            const z1 = -c.y * Math.sin(sx * DEG) + c.z * Math.cos(sx * DEG), zf = -c.x * Math.sin(sy * DEG) + z1 * Math.cos(sy * DEG);
+            const dim = 1 - (0.14 + 0.86 * Math.pow((zf + 1) / 2, 0.85));
+            return { x: c.x * R, y: -c.y * R, z: c.z * R, ry: c.lon, rx: c.lat, s: 1, o: 1, d: Math.round(dim * 100) / 100, g: 0 };
+          },
+          reset: () => {
+            camZ = 0;
+            for (const c of cards) { c.s.x = 0; c.s.v = 0; c.we = NaN; c.d = -1; c.o = -1; c.hid = false; c.el.style.visibility = ''; }
+          },
+        },
       })
     : null;
   if (vert) {

@@ -1,6 +1,6 @@
 # grxphjc — Roadmap
 
-> Last updated: **2026-10-21** · Current version: **v0.12** · Live: <https://jcreatvz.github.io/grxphjc/>
+> Last updated: **2026-10-21** · Current version: **v0.13** · Live: <https://jcreatvz.github.io/grxphjc/>
 >
 > One page, three questions: **what's done**, **what's next**, **what's waiting on John**.
 > The full history of every release is in [`CHANGELOG.md`](CHANGELOG.md); the reasons behind choices are in [`DECISIONS.md`](DECISIONS.md).
@@ -25,12 +25,13 @@ The site is built and live: block system, chrome, 24 content blocks, 23 project 
 | v0.10 | 2026-10-09 | Curtain footer (Nakula-style) |
 | v0.11 | 2026-10-21 | `marquee-tbx` tube marquee on the home page; The Centers + Graphics Kit projects |
 | v0.12 | 2026-10-21 | **Orbit v2** (preview page) · tube never cut off · `scripts/motion/` toolkit · docs cleanup |
+| v0.13 | 2026-10-21 | Orbit v2: real 3D morph sphere ⇄ list (no library), counter-scrolling number + title column |
 
 ## Now
 
 ### ◐ Orbit v2 — review, then swap into the home page
 Built and tested; on the hidden page `/grxphjc/orbit-v2` so it can be felt before it replaces v1.
-- [ ] John reviews on desktop, Safari and iPhone (pin, two loops, snap, morph)
+- [ ] John reviews on desktop, Safari and iPhone (pin, two loops, snap, 3D morph, title column)
 - [ ] Tune if needed: `loops`, `travel` (speed), `snap`
 - [ ] Swap: change the home page's `orbit` block to `orbit-v2`; delete the preview page
 

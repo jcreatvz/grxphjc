@@ -2,7 +2,7 @@
 
 Personal portfolio — an Astro static site with a Shopify-style block system. Every page and every project is a JSON list of blocks; the site chrome is configured in one JSON file. Deploys to <https://jcreatvz.github.io/grxphjc/> through GitHub Actions on every push to `main`. No server, database or login.
 
-**Current version: v0.12** — see [`docs/CHANGELOG.md`](docs/CHANGELOG.md) for what changed and [`docs/ROADMAP.md`](docs/ROADMAP.md) for what's next.
+**Current version: v0.13** — see [`docs/CHANGELOG.md`](docs/CHANGELOG.md) for what changed and [`docs/ROADMAP.md`](docs/ROADMAP.md) for what's next.
 
 ```bash
 npm install
@@ -36,7 +36,7 @@ src/blocks/<type>/            content blocks     (Component.astro + schema.js)
 src/blocks/shell/<type>/      chrome blocks      (logo, nav-links, menu-toggle, footer-*)
 src/layout/                   Base, Frame, Bar, Menu, Loader, Lightbox, Cursor, Footer
 src/scripts/                  client JS — one entry, main.ts
-src/scripts/motion/           shared motion toolkit (spring, damp, flip)
+src/scripts/motion/           shared motion toolkit (spring, damp, flip, morph3d)
 src/lib/                      build-time helpers (url, media, projects, embed, tokens, accent)
 src/styles/tokens.css         design tokens
 public/images/placeholder/    placeholder frames — replace with real work
