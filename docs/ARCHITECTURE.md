@@ -55,6 +55,9 @@ One entry, `src/scripts/main.ts`, ~5 KB gzipped. Each module no-ops if its marku
 ## Footer curtain
 `Footer.astro` = `.site-footer__inner` (normal content, z-index 2) + `.site-footer__window` (LAST, in flow, `clip-path: inset(0)`) containing `.site-footer__panel` (`position: fixed; bottom: 0`). The window rides the page and crops the fixed panel, so scrolling uncovers it. `footer.ts` adds the scroll-linked feel (target → lagged `cur` → `remaining` drives panel rise + wordmark lift/skew/stretch) and the one-shot watermark swap. **Rule:** no ancestor of the panel may have transform / filter / perspective / contain / will-change, or `position: fixed` stops being relative to the screen. Sizing variables are scoped to `.site-footer`.
 
+## Tube marquee
+`src/scripts/tbx.ts` is John's TBX engine, ported unchanged — do not edit the solver, the angle walk or the wrap decision without re-running `grxphjc-skill/references/tbx/fit_test.mjs`. `marquee-tbx/MarqueeTbx.astro` carries TBX's own base CSS wrapped in `:global()` (the ring's cells are built in JS, so Astro's scoping cannot reach them) plus the token mapping; `marquee-tbx.ts` mounts one instance per section from its `data-tbx-config`.
+
 ## Gotchas worth knowing
 - `backdrop-filter`, `transform` and `filter` on an ancestor trap `position: fixed` children. That's why overlays live at body level, not inside the bar.
 - Astro scoped CSS raises selector specificity; a media-query override can lose to a base rule. Repeat the stronger selector.

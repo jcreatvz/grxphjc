@@ -1,0 +1,120 @@
+{
+  "title": "The Centers",
+  "slug": "the-centers",
+  "order": 1,
+  "category": "Branding",
+  "cover": "/images/placeholder/ph-01.jpg",
+  "summary": "[Template] Brand identity — mark, type, colour and applications.",
+  "tags": [
+    "brand"
+  ],
+  "header": {
+    "theme": "dark",
+    "transparent": true
+  },
+  "blocks": [
+    {
+      "type": "hero",
+      "settings": {
+        "label": "Case Study — 01",
+        "headline": "The Centers",
+        "variant": "split-wordmark",
+        "subhead": "[Template] Branding — identity system, applications and rollout.",
+        "media": "/images/placeholder/ph-01.jpg",
+        "scrollCue": true
+      }
+    },
+    {
+      "type": "project-meta",
+      "settings": {
+        "items": [
+          {
+            "label": "Category",
+            "value": "{category}"
+          },
+          {
+            "label": "Client",
+            "value": "{client|[Client]}"
+          },
+          {
+            "label": "Year",
+            "value": "{year|[Year]}"
+          },
+          {
+            "label": "Role",
+            "value": "[Your role]"
+          },
+          {
+            "label": "Deliverables",
+            "value": "[What shipped]"
+          }
+        ]
+      }
+    },
+    {
+      "type": "text",
+      "settings": {
+        "label": "Overview",
+        "heading": "The brief",
+        "body": "<p>[Template] Who The Centers is, what they needed, and the constraints. Two or three sentences.</p><p>[Template] What you made — mark, type, colour, and where it shows up.</p><p><em>Edit in src/content/projects/the-centers.json</em></p>"
+      }
+    },
+    {
+      "type": "fullbleed-image",
+      "settings": {
+        "src": "/images/placeholder/wide-01.jpg",
+        "alt": "",
+        "caption": "[Template] The mark in place."
+      }
+    },
+    {
+      "type": "gallery",
+      "settings": {
+        "label": "Identity system",
+        "layout": "grid",
+        "images": [
+          "/images/placeholder/ph-02.jpg",
+          "/images/placeholder/ph-03.jpg",
+          "/images/placeholder/ph-04.jpg",
+          "/images/placeholder/ph-05.jpg",
+          "/images/placeholder/ph-06.jpg",
+          "/images/placeholder/ph-07.jpg"
+        ]
+      }
+    },
+    {
+      "type": "quote",
+      "settings": {
+        "label": "Words",
+        "quote": "[Template] A line from the client about the *identity* and how it landed.",
+        "name": "[Name]",
+        "role": "[Role, The Centers]"
+      }
+    },
+    {
+      "type": "credits",
+      "settings": {
+        "heading": "Credits",
+        "items": [
+          {
+            "role": "Art direction",
+            "name": "[Name]"
+          },
+          {
+            "role": "Design",
+            "name": "[Name]"
+          },
+          {
+            "role": "Client",
+            "name": "The Centers"
+          }
+        ],
+        "tools": [
+          "[Tool]",
+          "[Tool]",
+          "[Tool]"
+        ]
+      }
+    }
+  ]
+}

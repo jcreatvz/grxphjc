@@ -2,7 +2,7 @@
 
 > Single source of truth for where the project is and what's next.
 > Updated at the end of every step. Dates are when work shipped (pushed to `main`).
-> Last updated: **2026-10-09** · Current version: **v0.10**
+> Last updated: **2026-10-09** · Current version: **v0.11**
 
 **Live:** https://jcreatvz.github.io/grxphjc/ · **Repo:** https://github.com/jcreatvz/grxphjc
 
@@ -11,8 +11,8 @@
 ## Where we are
 
 ```
-DONE  ██████████████████░░░░░░░░░░░░  Phases 0 · 1 · 3 · 2 + brand font + docs + pinned gallery + Safari fixes + 21 project shells + Step 3 blocks + v0.9 polish + v0.10 curtain footer
-NEXT  → Step 4: real content as John briefs projects · Step 5 (motion layer) on request
+DONE  ██████████████████░░░░░░░░░░░░  Phases 0 · 1 · 3 · 2 + brand font + docs + pinned gallery + Safari fixes + 21 project shells + Step 3 blocks + v0.9 polish + v0.10 curtain footer + v0.11 tube marquee
+NEXT  → orbit v2 (vertical infinite scroll grid, bokid-style) — plan agreed, then build · Step 4 real content as John briefs projects
 ```
 
 ---
@@ -31,6 +31,7 @@ NEXT  → Step 4: real content as John briefs projects · Step 5 (motion layer) 
 | v0.8 | 2026-10-01 | **Step 3 · missing blocks** | `video` (loop / click) · `embed` (YouTube, Vimeo — facade, nothing loads until Play) · `quote` · `credits` · `project-meta` (fills from the project) · `fullbleed-image` · all 21 project templates recomposed with them · multi-word `*accent*` highlights · long words wrap instead of overflowing phones |
 | v0.9 | 2026-10-09 | **Polish round (John-tuned)** | Footer reveal (collapses to 0, opens at the end, one watermark swap, repeats) · orbit scroll explosion with per-card springs + scroll-speed force · scramble speed knobs · plus-mark offsets · progress line ignores footer · tuning mock-ups live at /mocks/ |
 | v0.10 | 2026-10-09 | **Curtain footer** | Nakula-style reveal replaces the v0.9 height reveal: page scrolls away to uncover a fixed accent panel; wordmark settles from lift/skew/stretch with 120ms lag; ~55% of the letters show above the curtain edge on every screen size; swap once per approach; progress line back to whole-page; overscroll matches the panel |
+| v0.11 | 2026-10-21 | **Tube marquee + 2 projects** | `marquee-tbx` block from John's tbx-tube-text skill (engine ported unchanged) replaces the flat marquee on the home page · The Centers (01) and Graphics Kit (02) added, the other 21 shifted to 3–23 |
 
 Full detail per release: [`CHANGELOG.md`](CHANGELOG.md)
 

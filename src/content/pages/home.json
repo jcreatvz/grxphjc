@@ -25,17 +25,24 @@
       }
     },
     {
-      "type": "marquee",
+      "type": "marquee-tbx",
       "settings": {
-        "items": [
+        "words": [
           "Motion",
           "Identity",
           "Type",
           "Campaign",
           "Experimental"
         ],
-        "separator": "+",
-        "tone": "accent"
+        "preset": "marquee",
+        "height": "band",
+        "tone": "accent",
+        "divider": "text",
+        "dividerText": "+",
+        "idleSpin": 7,
+        "tilt": 20,
+        "radius": 0.51,
+        "ariaLabel": "Studio disciplines"
       }
     },
     {

@@ -17,6 +17,7 @@ import Quote from './quote/Quote.astro';             import quoteSchema from './
 import Credits from './credits/Credits.astro';       import creditsSchema from './credits/schema.js';
 import ProjectMeta from './project-meta/ProjectMeta.astro'; import projectMetaSchema from './project-meta/schema.js';
 import FullbleedImage from './fullbleed-image/FullbleedImage.astro'; import fullbleedSchema from './fullbleed-image/schema.js';
+import MarqueeTbx from './marquee-tbx/MarqueeTbx.astro'; import marqueeTbxSchema from './marquee-tbx/schema.js';
 
 export const blockRegistry = {
   'hero':         { component: Hero,        schema: heroSchema },
@@ -28,6 +29,7 @@ export const blockRegistry = {
   'list-rows':    { component: ListRows,    schema: listRowsSchema },
   'steps':        { component: Steps,       schema: stepsSchema },
   'marquee':      { component: Marquee,     schema: marqueeSchema },
+  'marquee-tbx':  { component: MarqueeTbx,  schema: marqueeTbxSchema },
   'cta':          { component: Cta,         schema: ctaSchema },
   'text':         { component: Text,        schema: textSchema },
   'video':        { component: Video,       schema: videoSchema },

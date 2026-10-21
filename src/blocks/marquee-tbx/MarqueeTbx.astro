@@ -1,0 +1,141 @@
+---
+// Marquee tube — words ride a tilted 3D cylinder that turns with scroll.
+// Engine: src/scripts/tbx.ts (ported from John's tbx-tube-text skill, unmodified).
+// This file only supplies the markup, the brand tokens and the settings → config mapping.
+export interface Props {
+  label?: string; words?: string[]; ariaLabel?: string;
+  preset?: 'marquee' | 'tube'; height?: 'band' | 'full'; tone?: 'accent' | 'ink' | 'paper';
+  divider?: 'text' | 'svg' | 'none'; dividerText?: string; dividerSvg?: string;
+  idleSpin?: number; tilt?: number; radius?: number; turns?: number; repeat?: number;
+}
+const {
+  label = '', words = [], ariaLabel = 'Studio disciplines', preset = 'marquee', height = 'band', tone = 'accent',
+  divider = 'text', dividerText = '+', dividerSvg = '', idleSpin = 7, tilt = 20, radius = 0.51, turns = 1, repeat = 1,
+} = Astro.props;
+
+// Settings → a TBX config overlay. The engine merges this over its own defaults, so anything
+// not named here keeps the skill's tuned value (fit solver, wrap angles, easing).
+const config = {
+  preset,
+  words,
+  divider: { mode: divider, text: dividerText, svg: dividerSvg, scale: preset === 'marquee' ? 0.75 : 0.7 },
+  tube: { idleSpin, tilt, radius, turns, repeat },
+};
+const sr = words.join(divider === 'text' ? ` ${dividerText} ` : ', ');
+---
+<section class="mtbx" data-tone={tone} data-height={height}>
+  {label && <div class="mtbx__label section-label" data-reveal>{label}</div>}
+  <div class="tbx" data-tbx data-tbx-config={JSON.stringify(config)} aria-label={ariaLabel}>
+    <ul class="tbx__ring" aria-hidden="true"></ul>
+    <p class="tbx__sr">{sr}</p>
+  </div>
+  <noscript><div class="mtbx__fallback">{sr}</div></noscript>
+</section>
+
+<style>
+  .mtbx { position: relative; background: var(--mtbx-bg); color: var(--mtbx-ink); }
+  .mtbx[data-tone="accent"] { --mtbx-bg: var(--accent); --mtbx-ink: var(--on-accent); --mtbx-div: var(--paper); }
+  .mtbx[data-tone="ink"] { --mtbx-bg: var(--night); --mtbx-ink: var(--night-ink); --mtbx-div: var(--accent-strong); }
+  .mtbx[data-tone="paper"] { --mtbx-bg: var(--paper); --mtbx-ink: var(--ink); --mtbx-div: var(--accent); }
+  .mtbx__label { position: absolute; z-index: 2; top: clamp(14px, 2vw, 24px); left: var(--gutter); color: inherit; }
+  .mtbx__fallback {
+    padding: 18px var(--gutter); font-family: var(--font-mono); font-weight: 600; text-transform: uppercase;
+    font-size: clamp(22px, 3vw, 44px); text-align: center;
+  }
+
+  /* ---- TBX base CSS, from the skill's section block (assets/tbx.html), unchanged except for
+     the :global() wrappers: the ring's cells are built in JS, so Astro's scoping can't reach them.
+     Our token + height overrides follow below and win on specificity. ---- */
+  .mtbx :global(.tbx),
+  .mtbx :global(.tbx *),
+  .mtbx :global(.tbx *::before),
+  .mtbx :global(.tbx *::after) {box-sizing:border-box}
+  .mtbx :global(.tbx) {/* ---- tokens: override these per site ---- */
+  --tbx-bg:#151212;
+  --tbx-ink:#ffffff;
+  --tbx-accent:#d23235;
+  --tbx-font:'Archivo','Helvetica Neue',Arial,sans-serif;
+  --tbx-size:clamp(30px,6.4vw,104px);
+  --tbx-weight:600;
+  --tbx-track:-.015em;
+  --tbx-case:uppercase;
+  --tbx-perspective:1000px;
+  --tbx-squeeze:1;
+  --tbx-div-scale:.7;
+  --tbx-dh:calc(1em * var(--tbx-div-scale));
+
+  position:relative;display:block;
+  width:100%;height:100svh;min-height:430px;
+  overflow:hidden;
+  background:var(--tbx-bg);
+  color:var(--tbx-ink);
+  font-family:var(--tbx-font);
+  perspective:var(--tbx-perspective);
+  isolation:isolate;}
+  .mtbx :global(.tbx__ring) {position:absolute;inset:0;
+  margin:0;padding:0;list-style:none;
+  transform-style:preserve-3d;
+  transform-origin:center center;
+  will-change:transform;}
+  .mtbx :global(.tbx__cell) {position:absolute;top:50%;left:0;width:100%;
+  margin:0;padding:0;list-style:none;
+  display:flex;align-items:center;justify-content:center;
+  font-size:var(--tbx-size);
+  font-weight:var(--tbx-weight);
+  letter-spacing:var(--tbx-track);
+  text-transform:var(--tbx-case);
+  line-height:1;white-space:pre;
+  transform-origin:center center;}
+  .mtbx :global(.tbx[data-backface="hide"] .tbx__cell) {backface-visibility:hidden}
+  .mtbx :global(.tbx__word) {display:block;
+  transform:scaleX(var(--tbx-squeeze));
+  transform-origin:center center;}
+  /* ---- divider ---- */
+  .mtbx :global(.tbx__div) {display:inline-flex;align-items:center;justify-content:center;flex:none;
+  height:var(--tbx-dh);line-height:1;
+  color:var(--tbx-accent);
+  transform-origin:center center;}
+  .mtbx :global(.tbx__div--text) {height:auto;font-size:var(--tbx-dh);font-weight:inherit}
+  .mtbx :global(.tbx__div > svg),
+  .mtbx :global(.tbx__div > img) {display:block;height:100%;width:auto;max-width:none}
+  .mtbx :global(.tbx__div > svg) {fill:currentColor}
+  .mtbx :global(.tbx__div--lottie > div) {height:100%;aspect-ratio:var(--tbx-da,1)}
+  .mtbx :global(.tbx__div--lottie svg) {height:100%!important;width:auto!important}
+  /* ---- offscreen measuring rig ---- */
+  .mtbx :global(.tbx__measure) {position:absolute;top:0;left:0;
+  visibility:hidden;pointer-events:none;
+  white-space:pre;width:max-content;
+  font-size:var(--tbx-size);
+  font-weight:var(--tbx-weight);
+  letter-spacing:var(--tbx-track);
+  text-transform:var(--tbx-case);
+  line-height:1;}
+  /* ---- accessible text copy of the list ---- */
+  .mtbx :global(.tbx__sr) {position:absolute;width:1px;height:1px;
+  margin:-1px;padding:0;border:0;
+  clip-path:inset(50%);overflow:hidden;white-space:nowrap;}
+
+  /* TBX tokens mapped to the site's design system. --tbx-size is a CEILING: the solver only
+     ever moves down from it (or grows the ring instead), so it can be generous. */
+  .mtbx :global(.tbx) {
+    --tbx-bg: transparent;
+    --tbx-ink: var(--mtbx-ink);
+    --tbx-accent: var(--mtbx-div);
+    --tbx-font: var(--font-mono);
+    --tbx-size: clamp(26px, 5.6vw, 92px);
+    --tbx-weight: 600;
+    --tbx-track: 0.02em;
+    --tbx-case: uppercase;
+  }
+  /* band = a strip in the page flow (what the old marquee was); full = a whole screen. */
+  .mtbx[data-height="band"] :global(.tbx) { height: clamp(320px, 46svh, 520px); min-height: 0; }
+  .mtbx[data-height="full"] :global(.tbx) { height: 100svh; }
+
+  /* Reduced motion / no JS: the ring never mounts, so show the plain word list instead. */
+  @media (prefers-reduced-motion: reduce) {
+    .mtbx :global(.tbx) { height: auto !important; min-height: 0; }
+    .mtbx :global(.tbx__sr) { position: static; width: auto; height: auto; margin: 0; clip-path: none; white-space: normal;
+      padding: 18px var(--gutter); font-family: var(--font-mono); font-weight: 600; text-transform: uppercase;
+      font-size: clamp(22px, 3vw, 44px); text-align: center; letter-spacing: 0.02em; }
+  }
+</style>

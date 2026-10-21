@@ -2,6 +2,12 @@
 
 Dated entry per release. Newest first. See [`ROADMAP.md`](ROADMAP.md) for what's next.
 
+## v0.11 — 2026-10-21 · Tube marquee + two new projects
+- **`marquee-tbx` block** — words ride a tilted 3D cylinder that turns with scroll and drifts on its own. The engine is John's `tbx-tube-text` skill ported **unchanged** into `src/scripts/tbx.ts` (arc-length solver, glyph wrapping, measuring rig); the block supplies only markup, brand tokens and a settings → config mapping. Settings: words, preset (`marquee` | `tube`), height (`band` | `full`), tone, divider (text/svg/none), idle spin, tilt, radius, turns, repeat. Replaces the flat `marquee` on the home page; the old block stays available for other pages.
+- Reduced motion / no JS: the ring never mounts and the plain word list shows instead (it doubles as the screen-reader copy).
+- **Projects:** The Centers (Branding) is 01 and Graphics Kit (Design Tools — Soon) is 02; the existing 21 shifted to 3–23. Both are template pages with [bracketed] fields, Graphics Kit carrying a "coming soon" statement and a CTA instead of a case study.
+- Reference docs for the tube live in `grxphjc-skill/references/tbx/` (SKILL.md, geometry.md, presets.md, embedding.md, fit_test.mjs).
+
 ## v0.10 — 2026-10-09 · Curtain footer (replaces the v0.9 height reveal)
 - **The Nakula reveal.** The footer content scrolls normally; after it, `.site-footer__window` (in flow, `clip-path: inset(0)`) crops `.site-footer__panel` (`position: fixed; bottom: 0`), so scrolling *uncovers* a stationary accent panel with the GRXPHJC wordmark. All scroll-linked and reversible: the panel rises from 45% of its height, the wordmark settles from lift 90px / skew −6° / stretch 30%, smoothed with a 120ms lag. Settings: `site.json → footer.curtain` (John's values from the mock).
 - **The overlap.** Panel height follows John's `.4em + bar + 44px` but is expressed relative to the wordmark (`.495em + bar + safe-area + 14px`), so the same ~55% of the letters shows above the curtain edge on every screen (verified 320px → 1920px and landscape). Wordmark size `clamp(64px, max(22vw, min(27vw, 120px)), 360px)` keeps it bold on phones and inside the gutters (the face's ink is ~3.18em wide); `margin-left: .12em` re-centres its ink.

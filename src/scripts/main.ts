@@ -11,6 +11,7 @@ import { initOrbits } from './orbit';
 import { initPinnedGalleries } from './pinned';
 import { initVideos } from './video';
 import { initFooterCurtain } from './footer';
+import { initMarqueeTbx } from './marquee-tbx';
 import { initMarquees } from './marquee';
 
 initPrefs();
@@ -24,4 +25,5 @@ initOrbits();
 initPinnedGalleries();
 initVideos();
 initFooterCurtain();
+initMarqueeTbx();
 initLoader(() => initReveal()); // reveal runs once the intro has cleared

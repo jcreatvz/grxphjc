@@ -71,6 +71,9 @@ On the `orbit` block: `explosion` (max spread; `0` = off), `burst` (extra spread
 ## Scramble speed
 Hover-scramble timing: add `data-scramble-ms="400"` to a `[data-scramble]` element, or set `--scramble-ms: 400` in CSS for a whole area (`:root` for everything). `auto` keeps the built-in timing.
 
+## Tube marquee (`marquee-tbx`)
+`words` ride a 3D cylinder. `preset`: `marquee` (drifts on its own, words wrap onto the tube) or `tube` (scroll-driven only, flat words). `height`: `band` (a strip, the default) or `full` (a whole screen). `tone`: accent / ink / paper. `divider`: `text` (a character), `svg` (paste inline SVG; blank uses a bundled sample) or `none`. `idleSpin` 0 turns the drift off. The solver measures every word in the real font and will condense, shrink or grow the ring so nothing ever overlaps — long words are safe.
+
 ## Contact email
 `src/site.json → contact`:
 - `email` — what visitors see (`hello@grxphjc.com`)

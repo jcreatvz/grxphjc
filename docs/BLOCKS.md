@@ -97,6 +97,27 @@ Source: `src/blocks/list-rows/schema.js`
 | `heading` | text | `""` | Heading |
 | `items` | item_list | — | Rows: { title, detail, tags[] } |
 
+### `marquee-tbx` — Marquee tube (3D text)
+
+Source: `src/blocks/marquee-tbx/schema.js`
+
+| Setting | Type | Default | Notes |
+|---|---|---|---|
+| `label` | text | `""` | Bracketed label (optional) |
+| `words` | text_list | `["Motion","Identity","Type","Campaign","Experimental"]` | Words riding the tube |
+| `ariaLabel` | text | `"Studio disciplines"` | Describe the list for screen readers |
+| `preset` | select: `marquee` · `tube` | `"marquee"` | Preset: marquee = drifts on its own, wraps onto the tube · tube = scroll-driven only, flat words |
+| `height` | select: `band` · `full` | `"band"` | Section height: band = a strip like the old marquee · full = a full screen |
+| `tone` | select: `accent` · `ink` · `paper` | `"accent"` | Colours |
+| `divider` | select: `text` · `svg` · `none` | `"text"` | Between words |
+| `dividerText` | text | `"+"` | Divider character (divider = text) |
+| `dividerSvg` | textarea | `""` | Inline SVG (divider = svg; blank uses a bundled sample) |
+| `idleSpin` | range 0–20 | `7` | Drift speed with no scrolling (0 = scroll-driven only) |
+| `tilt` | range 0–45 | `20` | Tube tilt (degrees) |
+| `radius` | range 0.2–0.7 | `0.51` | Tube radius (× the smaller viewport side) |
+| `turns` | range 0.25–4 | `1` | Rotations across the scroll |
+| `repeat` | range 1–4 | `1` | Times the word list repeats around the tube |
+
 ### `marquee` — Marquee
 
 Source: `src/blocks/marquee/schema.js`

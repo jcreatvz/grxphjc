@@ -1,0 +1,90 @@
+{
+  "title": "Graphics Kit",
+  "slug": "graphics-kit",
+  "order": 2,
+  "category": "Design Tools",
+  "cover": "/images/placeholder/ph-03.jpg",
+  "summary": "[Template] Design tools — a kit of graphics, generators and templates. Coming soon.",
+  "tags": [
+    "tools"
+  ],
+  "blocks": [
+    {
+      "type": "hero",
+      "settings": {
+        "label": "Case Study — 02",
+        "headline": "Graphics Kit",
+        "variant": "standard",
+        "subhead": "[Template] Design tools — a kit of graphics, generators and templates. Coming soon."
+      }
+    },
+    {
+      "type": "project-meta",
+      "settings": {
+        "items": [
+          {
+            "label": "Category",
+            "value": "{category}"
+          },
+          {
+            "label": "Status",
+            "value": "Coming soon"
+          },
+          {
+            "label": "Year",
+            "value": "{year|[Year]}"
+          },
+          {
+            "label": "Role",
+            "value": "[Your role]"
+          },
+          {
+            "label": "Includes",
+            "value": "[What's in the kit]"
+          }
+        ]
+      }
+    },
+    {
+      "type": "statement",
+      "settings": {
+        "label": "Status",
+        "text": "[Template] *Coming soon* — a kit of design tools, generators and templates.",
+        "size": "xl",
+        "footnote": "In progress"
+      }
+    },
+    {
+      "type": "text",
+      "settings": {
+        "label": "Overview",
+        "heading": "What it is",
+        "body": "<p>[Template] What the kit contains and who it's for.</p><p>[Template] How it's made and what's coming first.</p><p><em>Edit in src/content/projects/graphics-kit.json</em></p>"
+      }
+    },
+    {
+      "type": "gallery",
+      "settings": {
+        "label": "Previews",
+        "layout": "masonry",
+        "images": [
+          "/images/placeholder/ph-04.jpg",
+          "/images/placeholder/ph-05.jpg",
+          "/images/placeholder/ph-06.jpg",
+          "/images/placeholder/ph-07.jpg",
+          "/images/placeholder/ph-08.jpg",
+          "/images/placeholder/ph-09.jpg"
+        ]
+      }
+    },
+    {
+      "type": "cta",
+      "settings": {
+        "label": "Interested?",
+        "heading": "Want it | when it lands?",
+        "text": "[Template] Say the word and I'll send it over when the kit ships.",
+        "button": "Get in touch"
+      }
+    }
+  ]
+}

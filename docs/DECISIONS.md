@@ -4,6 +4,9 @@ Why things are the way they are. Newest first.
 
 | Date | Decision | Why |
 |---|---|---|
+| 2026-10-21 | TBX engine ported verbatim, not rewritten | Its solver and measuring rig took several passes in the original; the skill says explicitly not to rebuild it. The block wraps it instead. |
+| 2026-10-21 | Tube defaults to a `band`, not a full screen | It replaces a thin marquee strip; a 100svh section would change the home page's rhythm. `height: full` is one setting away. |
+| 2026-10-21 | Old flat `marquee` block kept | Still the right choice for a quiet strip; the tube is heavier. |
 | 2026-10-09 | Curtain footer replaces the v0.9 height reveal entirely | John: "this should replace v0.9". Keeping both meant two footer layouts to maintain; v0.9 stays in git history and as a mock mode. |
 | 2026-10-09 | Accent look (red panel, night wordmark) | John's pick in the mock. |
 | 2026-10-09 | Panel height proportional to the wordmark | Keeps John's desktop overlap (~55% of the letters above the edge) identical on phones; his literal formula would show ~75% on phones. |
