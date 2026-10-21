@@ -5,6 +5,7 @@
 // elements (keyboard + native navigation), popups use the shared lightbox.
 import { openLightbox, itemFrom } from './lightbox';
 import { stepSpring } from './spring';
+import { setupVertical } from './orbit-vertical';
 
 const DEG = Math.PI / 180;
 const clamp = (v: number, a: number, b: number) => Math.min(b, Math.max(a, v));
@@ -203,9 +204,24 @@ function setup(sec: HTMLElement) {
     stage.inert = on; if (grid) grid.inert = !on;
     if (!on) { layout(true); kick(); }
   };
-  toggle?.addEventListener('click', () => setGrid(!gridMode));
-  // Reduced motion and no-pointer-precision keyboard-first users start in grid.
-  setGrid(sec.dataset.start === 'grid' || reduce);
+  // v2: the vertical list replaces the grid (orbit-vertical.ts); v1 keeps the grid.
+  const vert = sec.dataset.altView === 'vertical'
+    ? setupVertical(sec, {
+        cards: cardEls, toggle, reduce,
+        pause: () => { gridMode = true; stage.inert = true; },
+        resume: () => { gridMode = false; stage.inert = false; layout(true); kick(); },
+      })
+    : null;
+  if (vert) {
+    toggle?.addEventListener('click', () => vert.toggle());
+    if (reduce) vert.enterStatic();
+    else if (sec.dataset.start === 'vertical') vert.enter(false);
+    if (/[?&]debug\b/.test(location.search)) (window as any).__grxOrbitV2 = vert;
+  } else {
+    toggle?.addEventListener('click', () => setGrid(!gridMode));
+    // Reduced motion and no-pointer-precision keyboard-first users start in grid.
+    setGrid(sec.dataset.start === 'grid' || reduce);
+  }
 
   if (/[?&]debug\b/.test(location.search)) (window as any).__grxOrbit = { state: () => ({ p: progress(), avgE, avgT, vs, settings: X }) };
 

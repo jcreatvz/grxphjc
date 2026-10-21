@@ -128,8 +128,11 @@ const sr = words.join(divider === 'text' ? ` ${dividerText} ` : ', ');
     --tbx-case: uppercase;
   }
   /* band = a strip in the page flow (what the old marquee was); full = a whole screen. */
-  .mtbx[data-height="band"] :global(.tbx) { height: clamp(320px, 46svh, 520px); min-height: 0; }
-  .mtbx[data-height="full"] :global(.tbx) { height: 100svh; }
+  /* Height = whatever the tilted, perspective-projected tube needs (computed in marquee-tbx.ts as
+     --mtbx-h), so it is never cut off at the top or bottom. The clamp/100svh are only the first-paint
+     guess before the script measures. band = just the tube; full = at least a whole screen. */
+  .mtbx[data-height="band"] :global(.tbx) { height: var(--mtbx-h, clamp(360px, 52svh, 640px)); min-height: 0; }
+  .mtbx[data-height="full"] :global(.tbx) { height: var(--mtbx-h, 100svh); min-height: 0; }
 
   /* Reduced motion / no JS: the ring never mounts, so show the plain word list instead. */
   @media (prefers-reduced-motion: reduce) {

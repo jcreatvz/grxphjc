@@ -4,6 +4,11 @@ Why things are the way they are. Newest first.
 
 | Date | Decision | Why |
 |---|---|---|
+| 2026-10-21 | Orbit v2's list is driven by page scroll, not wheel hijacking | bokid takes over the wheel for the whole page; a portfolio with sections below can't. "Loop twice, then release" (John) gives a finite runway with a visually looping list. |
+| 2026-10-21 | Orbit v2 shares `Orbit.astro` with v1 (`altView`) | The sphere is identical; duplicating ~200 lines of markup/CSS would drift. |
+| 2026-10-21 | Orbit v2 reviewed on a hidden page before replacing v1 | It changes the home page's first impression; John feels it first. |
+| 2026-10-21 | No title sidebar in orbit v2; caption on the centred project | John dropped the sidebar; a caption keeps the project identifiable. |
+| 2026-10-21 | Tube section height computed from the projection | Fixed heights clipped the tilted tube on tablets and desktops. |
 | 2026-10-21 | TBX engine ported verbatim, not rewritten | Its solver and measuring rig took several passes in the original; the skill says explicitly not to rebuild it. The block wraps it instead. |
 | 2026-10-21 | Tube defaults to a `band`, not a full screen | It replaces a thin marquee strip; a 100svh section would change the home page's rhythm. `height: full` is one setting away. |
 | 2026-10-21 | Old flat `marquee` block kept | Still the right choice for a quiet strip; the tube is heavier. |

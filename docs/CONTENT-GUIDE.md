@@ -71,8 +71,11 @@ On the `orbit` block: `explosion` (max spread; `0` = off), `burst` (extra spread
 ## Scramble speed
 Hover-scramble timing: add `data-scramble-ms="400"` to a `[data-scramble]` element, or set `--scramble-ms: 400` in CSS for a whole area (`:root` for everything). `auto` keeps the built-in timing.
 
+## Orbit v2
+Same settings as `orbit` (headline, source, projectAction, explosion…), plus the list view: `loops` (passes through the projects before the page moves on, default 2), `travel` (list speed — higher makes the section shorter), `snap` (centre the nearest project when scrolling stops). `startView`: `sphere` or `vertical`. Preview: `/orbit-v2`. To use it on the home page, change the home page's `"type": "orbit"` to `"orbit-v2"`.
+
 ## Tube marquee (`marquee-tbx`)
-`words` ride a 3D cylinder. `preset`: `marquee` (drifts on its own, words wrap onto the tube) or `tube` (scroll-driven only, flat words). `height`: `band` (a strip, the default) or `full` (a whole screen). `tone`: accent / ink / paper. `divider`: `text` (a character), `svg` (paste inline SVG; blank uses a bundled sample) or `none`. `idleSpin` 0 turns the drift off. The solver measures every word in the real font and will condense, shrink or grow the ring so nothing ever overlaps — long words are safe.
+`words` ride a 3D cylinder. `preset`: `marquee` (drifts on its own, words wrap onto the tube) or `tube` (scroll-driven only, flat words). `height`: `band` (exactly as tall as the tube needs — measured, so it's never cut off) or `full` (at least a whole screen). `tone`: accent / ink / paper. `divider`: `text` (a character), `svg` (paste inline SVG; blank uses a bundled sample) or `none`. `idleSpin` 0 turns the drift off. The solver measures every word in the real font and will condense, shrink or grow the ring so nothing ever overlaps — long words are safe.
 
 ## Contact email
 `src/site.json → contact`:
@@ -87,3 +90,37 @@ When email hosting is live, set `mailto` to `hello@grxphjc.com`.
 - `loader.coords` / `loader.lines` — intro text
 - `menu.signature` — "JC by design"
 - `footer` — footer columns and credits line
+
+## Publishing a new version
+Claude sends a zip (e.g. `grxphjc-v0.12.zip`). Put it in the folder that holds your `repo` folder, open a terminal there, and paste **one block at a time** — never paste the `#` comment lines, or the terminal gets stuck at `quote>` (press **Ctrl+C** to get out).
+
+**Mac (Terminal):**
+```bash
+rm -rf /tmp/grx-unzip && unzip -q grxphjc-v0.12.zip -d /tmp/grx-unzip
+```
+```bash
+[ -d repo/.git ] && git -C repo pull || git clone https://github.com/jcreatvz/grxphjc.git repo
+```
+```bash
+rsync -a --delete --exclude .git /tmp/grx-unzip/grxphjc/ repo/
+```
+```bash
+cd repo && git add -A && git commit -m "v0.12" && git push
+```
+
+**PC (PowerShell):**
+```powershell
+Remove-Item -Recurse -Force "$env:TEMP\grx-unzip" -ErrorAction SilentlyContinue; Expand-Archive -Path .\grxphjc-v0.12.zip -DestinationPath "$env:TEMP\grx-unzip"
+```
+```powershell
+if (Test-Path .\repo\.git) { git -C .\repo pull } else { git clone https://github.com/jcreatvz/grxphjc.git repo }
+```
+```powershell
+robocopy "$env:TEMP\grx-unzip\grxphjc" .\repo /MIR /XD .git /NFL /NDL /NJH /NJS
+```
+```powershell
+cd repo; git add -A; git commit -m "v0.12"; git push
+```
+
+If `git pull` says you have local changes (e.g. edits made in VS Code), stop and send Claude the output of `git status` before continuing — the copy step would overwrite them. After pushing, the run at `github.com/jcreatvz/grxphjc/actions` goes green in about a minute; hard-refresh the site (Cmd/Ctrl+Shift+R).
+

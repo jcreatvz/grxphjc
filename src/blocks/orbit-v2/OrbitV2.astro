@@ -1,0 +1,8 @@
+---
+// Orbit v2 — the same 3D sphere as v1, but its second view is a bokid-style vertical list that
+// pins, loops through the projects (default twice), snaps to centre, and morphs to/from the sphere.
+// Rendering is shared with v1 (Orbit.astro); behaviour lives in scripts/orbit-vertical.ts.
+import Orbit from '../orbit/Orbit.astro';
+const props = Astro.props as any;
+---
+<Orbit {...props} altView="vertical" />

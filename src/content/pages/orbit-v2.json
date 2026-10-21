@@ -1,0 +1,61 @@
+{
+  "title": "Orbit v2 — preview",
+  "slug": "orbit-v2",
+  "noindex": true,
+  "blocks": [
+    {
+      "type": "orbit-v2",
+      "settings": {
+        "label": "Archive — Frames & Studies",
+        "headline": "Experienced *n* Experimental",
+        "source": "projects",
+        "projectAction": "popup",
+        "startView": "sphere",
+        "maxItems": 28,
+        "cue": "Drag to rotate · Scroll to dive",
+        "items": [],
+        "loops": 2,
+        "travel": 1,
+        "snap": true
+      }
+    },
+    {
+      "type": "statement",
+      "settings": {
+        "label": "After the list",
+        "text": "Two passes through the projects, then the pin *lets go* and the page carries on.",
+        "size": "l"
+      }
+    },
+    {
+      "type": "marquee-tbx",
+      "settings": {
+        "words": [
+          "Motion",
+          "Identity",
+          "Type",
+          "Campaign",
+          "Experimental"
+        ],
+        "preset": "marquee",
+        "height": "band",
+        "tone": "ink",
+        "divider": "text",
+        "dividerText": "+",
+        "idleSpin": 7,
+        "tilt": 20,
+        "radius": 0.51,
+        "ariaLabel": "Studio disciplines"
+      }
+    },
+    {
+      "type": "cta",
+      "settings": {
+        "label": "Preview",
+        "heading": "Orbit v2 | preview",
+        "text": "Hidden page (noindex, not in the menu). Swap it into the home page once it feels right.",
+        "email": "hello@grxphjc.com"
+      }
+    }
+  ]
+}

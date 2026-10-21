@@ -7,14 +7,17 @@ interface Item { image: string; title: string; meta?: string; note?: string; act
 export interface Props {
   label?: string; headline?: string;
   source?: 'projects' | 'manual' | 'both'; projectAction?: 'popup' | 'page';
-  items?: Item[]; startView?: 'sphere' | 'grid'; maxItems?: number; cue?: string;
+  items?: Item[]; startView?: 'sphere' | 'grid' | 'vertical'; maxItems?: number; cue?: string;
+  /** v2: 'vertical' swaps the grid view for the bokid-style looping list */
+  altView?: 'grid' | 'vertical'; loops?: number; travel?: number; snap?: boolean;
   explosion?: number; burst?: number; stiffness?: number; bounce?: number; variation?: number;
   stagger?: number; tumble?: number; fade?: number; squeeze?: boolean; runway?: number;
 }
 const { label = '', headline = '', source = 'both', projectAction = 'popup',
         items = [], startView = 'sphere', maxItems = 28, cue = 'Drag to rotate',
         explosion = 1.6, burst = 0.3, stiffness = 120, bounce = 0.87, variation = 0.35,
-        stagger = 0.25, tumble = 1.5, fade = 1, squeeze = true, runway = 100 } = Astro.props;
+        stagger = 0.25, tumble = 1.5, fade = 1, squeeze = true, runway = 100,
+        altView = 'grid', loops = 2, travel = 1, snap = true } = Astro.props;
 
 const fromProjects: Item[] = source === 'manual' ? [] :
   (await getProjects())
@@ -43,7 +46,8 @@ const plainHeadline = headline.replace(/\*/g, '');
 ---
 <section class="orbit" data-orbit data-start={startView} aria-label={label || plainHeadline || 'Image orbit'}
   data-explosion={explosion} data-burst={burst} data-stiffness={stiffness} data-bounce={bounce} data-variation={variation}
-  data-stagger={stagger} data-tumble={tumble} data-fade={fade} data-squeeze={String(squeeze)} style={`--runway:${runway}`}>
+  data-stagger={stagger} data-tumble={tumble} data-fade={fade} data-squeeze={String(squeeze)} style={`--runway:${runway}`}
+  data-alt-view={altView} data-loops={loops} data-travel={travel} data-snap={String(snap)}>
   <div class="orbit__sticky">
     <div class="orbit__stage" data-orbit-stage>
       <div class="orbit__world">
@@ -64,6 +68,27 @@ const plainHeadline = headline.replace(/\*/g, '');
         </div>
       </div>
     </div>
+    {altView === 'vertical' && (
+      <div class="orbit__vlist" data-orbit-vlist inert>
+        <ul class="orbit__vul" data-lb-group>
+          {list.map((it, i) => {
+            const lb = it.action === 'popup'
+              ? { 'data-lb': '', 'data-lb-src': it.img, 'data-lb-title': it.title, 'data-lb-meta': it.meta, 'data-lb-note': it.note, 'data-lb-href': it.link }
+              : {};
+            const Tag = it.action === 'popup' ? 'button' : 'a';
+            return (
+              <li class="orbit__vitem" data-i={i} data-tall={it.tall ? '1' : undefined}>
+                <Tag class="orbit__vlink" {...(Tag === 'a' ? { href: it.link, target: it.action === 'url' ? '_blank' : undefined, rel: it.action === 'url' ? 'noopener noreferrer' : undefined } : { type: 'button' })}
+                     {...lb} aria-label={`${it.title}${it.meta ? ` — ${it.meta}` : ''}`}>
+                  <img src={it.img} alt="" draggable="false" decoding="async" loading="lazy" />
+                  <span class="orbit__vcap mono-xs"><span>{pad(i + 1)}</span> {it.title}</span>
+                </Tag>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+    )}
     <div class="orbit__vig" aria-hidden="true"></div>
     {words.length > 0 && (
       <h1 class="orbit__headline brand-type">
@@ -76,12 +101,12 @@ const plainHeadline = headline.replace(/\*/g, '');
       <span class="orbit__cue mono-xs" aria-hidden="true"><s></s>{cue}</span>
       <button class="orbit__toggle mono-xs" type="button" data-orbit-toggle aria-pressed="false">
         <span class="orbit__toggle-icon" aria-hidden="true"><b></b><b></b><b></b><b></b></span>
-        <span data-orbit-toggle-label>Grid</span>
+        <span data-orbit-toggle-label>{altView === 'vertical' ? 'List' : 'Grid'}</span>
       </button>
     </div>
   </div>
 
-  <div class="orbit__grid" inert>
+  {altView !== 'vertical' && <div class="orbit__grid" inert>
     {words.length > 0 && <h2 class="orbit__grid-title brand-type">{plainHeadline}</h2>}
     <ul class="orbit__rows" data-lb-group>
       {list.map((it, i) => (
@@ -100,7 +125,7 @@ const plainHeadline = headline.replace(/\*/g, '');
         </li>
       ))}
     </ul>
-  </div>
+  </div>}
 </section>
 
 <style>
@@ -205,4 +230,40 @@ const plainHeadline = headline.replace(/\*/g, '');
   }
   @media (max-width: 380px) { .orbit__rows { grid-template-columns: 1fr; } }
   @media (max-height: 520px) and (orientation: landscape) { .orbit__cue, .orbit__label { display: none; } }
+
+  /* ---------- v2: vertical list view (bokid) ---------- */
+  /* no z-index: DOM order keeps the vignette, headline and HUD (toggle) painted above the list */
+  .orbit__vlist { position: absolute; inset: 0; overflow: hidden; display: none; }
+  .orbit.is-vertical { height: calc(100svh + var(--v-runway, 0px)); }
+  .orbit.is-vertical .orbit__vlist, .orbit.is-morphing .orbit__vlist { display: block; }
+  .orbit.is-vertical .orbit__stage { visibility: hidden; }
+  .orbit.is-vertical .orbit__headline { opacity: 0; visibility: hidden; }
+  .orbit.is-vertical .orbit__cue { opacity: 0; }  /* 'drag to rotate' doesn't apply to the list */
+  .orbit.is-morphing .orbit__vlist { pointer-events: none; }
+  .orbit.is-morphing .orbit__stage { opacity: 0; transition: opacity 260ms var(--ease-out); }
+  .orbit.is-morphing .orbit__headline { opacity: 0; }
+  .orbit.is-landing .orbit__stage { opacity: 1; }
+  .orbit.is-landing .orbit__vlist { opacity: 0; transition: opacity 260ms var(--ease-out); }
+  .orbit__vul { list-style: none; margin: 0; padding: 0; }
+  .orbit__vitem { position: absolute; top: 0; left: 0; will-change: transform; }
+  .orbit__vlink { position: absolute; inset: 0; display: block; padding: 0; border: 0; overflow: hidden; background: var(--paper-2); cursor: pointer; }
+  .orbit__vlink img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: grayscale(1); transition: filter 500ms var(--ease-out); }
+  .orbit__vitem.is-selected img, .orbit__vlink:hover img, .orbit__vlink:focus-visible img { filter: none; }
+  .orbit__vcap {
+    position: absolute; left: 0; right: 0; bottom: 0; padding: 22px 10px 8px; text-align: left;
+    color: var(--on-media); background: linear-gradient(transparent, rgba(10, 10, 10, 0.62));
+    opacity: 0; transition: opacity 300ms var(--ease-out); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .orbit__vcap span { color: var(--accent-strong); }
+  .orbit__vitem.is-selected .orbit__vcap, .orbit__vlink:focus-visible .orbit__vcap { opacity: 1; }
+  /* reduced motion: a plain column in the page flow */
+  .orbit.is-static { height: auto; }
+  .orbit.is-static .orbit__sticky { position: relative; height: auto; overflow: visible; }
+  .orbit.is-static .orbit__stage, .orbit.is-static .orbit__vig, .orbit.is-static .orbit__headline, .orbit.is-static .orbit__cue { display: none; }
+  .orbit.is-static .orbit__hud { position: static; padding: calc(var(--frame-top) + var(--safe-top) + 16px) var(--gutter) 0; }
+  .orbit.is-static .orbit__vlist { position: relative; inset: auto; overflow: visible; }
+  .orbit.is-static .orbit__vul { display: grid; justify-items: center; gap: 10px; padding: 24px var(--gutter) var(--section-y); }
+  .orbit.is-static .orbit__vitem { position: relative; width: min(320px, 70vw); aspect-ratio: 3 / 2; }
+  .orbit.is-static .orbit__vitem[data-tall] { aspect-ratio: 4 / 5; }
+  .orbit.is-static .orbit__vcap, .orbit.is-static .orbit__vlink img { opacity: 1; filter: none; }
 </style>

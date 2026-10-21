@@ -18,6 +18,7 @@ import Credits from './credits/Credits.astro';       import creditsSchema from '
 import ProjectMeta from './project-meta/ProjectMeta.astro'; import projectMetaSchema from './project-meta/schema.js';
 import FullbleedImage from './fullbleed-image/FullbleedImage.astro'; import fullbleedSchema from './fullbleed-image/schema.js';
 import MarqueeTbx from './marquee-tbx/MarqueeTbx.astro'; import marqueeTbxSchema from './marquee-tbx/schema.js';
+import OrbitV2 from './orbit-v2/OrbitV2.astro'; import orbitV2Schema from './orbit-v2/schema.js';
 
 export const blockRegistry = {
   'hero':         { component: Hero,        schema: heroSchema },
@@ -29,6 +30,7 @@ export const blockRegistry = {
   'list-rows':    { component: ListRows,    schema: listRowsSchema },
   'steps':        { component: Steps,       schema: stepsSchema },
   'marquee':      { component: Marquee,     schema: marqueeSchema },
+  'orbit-v2':     { component: OrbitV2,     schema: orbitV2Schema },
   'marquee-tbx':  { component: MarqueeTbx,  schema: marqueeTbxSchema },
   'cta':          { component: Cta,         schema: ctaSchema },
   'text':         { component: Text,        schema: textSchema },

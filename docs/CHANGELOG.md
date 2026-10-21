@@ -1,6 +1,12 @@
 # Changelog
 
-Dated entry per release. Newest first. See [`ROADMAP.md`](ROADMAP.md) for what's next.
+Every release, newest first. Each version is one zip from Claude, pushed to `main`. *What's next* lives in [`ROADMAP.md`](ROADMAP.md); *why* lives in [`DECISIONS.md`](DECISIONS.md).
+
+## v0.12 — 2026-10-21 · Orbit v2 preview, tube fit, motion toolkit, docs cleanup
+- **Orbit v2** (`orbit-v2` block) — the same 3D sphere, with v1's grid view replaced by a vertical list after John's bokid build. The section pins and fills the screen; the page's own scroll drives the list (no wheel hijacking), which loops through the projects twice (`loops`) before the pin releases into the next section. Damped follow (bokid's 0.09/frame), snap-to-centre when scrolling stops, the centred project in colour with its caption, the rest grayscale. Switching views FLIP-morphs every visible card from its sphere position into the list and back. Keyboard: tabbing to a project scrolls it to the middle. Reduced motion: a plain static column. No title sidebar (John's call). On the hidden preview page `/orbit-v2` for review; the home page still uses v1.
+- **Tube marquee never cut off.** The section is now sized from the tube's real projection (engine's radius, type size, perspective, tilt — worst case over a full turn), verified at 13 viewports from 320px phones to 2560px and landscape. Home page now uses the `ink` tone (John's edit).
+- **`src/scripts/motion/`** — shared toolkit: `spring` (moved here), `damp`, `flip`.
+- **Docs cleanup** — ROADMAP rewritten as one clear page (done / now / next / waiting on John); README refreshed (24 blocks, hidden pages, mocks, where things live); ARCHITECTURE covers orbit v2, the tube sizing and the motion toolkit; CONTENT-GUIDE gains orbit v2 and step-by-step publishing for Mac and PC; `tools/editor.html` no longer says "Phase 2".
 
 ## v0.11 — 2026-10-21 · Tube marquee + two new projects
 - **`marquee-tbx` block** — words ride a tilted 3D cylinder that turns with scroll and drifts on its own. The engine is John's `tbx-tube-text` skill ported **unchanged** into `src/scripts/tbx.ts` (arc-length solver, glyph wrapping, measuring rig); the block supplies only markup, brand tokens and a settings → config mapping. Settings: words, preset (`marquee` | `tube`), height (`band` | `full`), tone, divider (text/svg/none), idle spin, tilt, radius, turns, repeat. Replaces the flat `marquee` on the home page; the old block stays available for other pages.
