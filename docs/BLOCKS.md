@@ -108,7 +108,7 @@ Source: `src/blocks/marquee-tbx/schema.js`
 | `ariaLabel` | text | `"Studio disciplines"` | Describe the list for screen readers |
 | `preset` | select: `marquee` · `tube` | `"marquee"` | Preset: marquee = drifts on its own, wraps onto the tube · tube = scroll-driven only, flat words |
 | `height` | select: `band` · `full` | `"band"` | Section height: band = a strip like the old marquee · full = a full screen |
-| `tone` | select: `accent` · `ink` · `paper` | `"accent"` | Colours |
+| `tone` | select: `auto` · `accent` · `ink` · `paper` | `"auto"` | Colours: auto = contrasts the page and flips with light/dark mode · accent · ink (always dark) · paper |
 | `divider` | select: `text` · `svg` · `none` | `"text"` | Between words |
 | `dividerText` | text | `"+"` | Divider character (divider = text) |
 | `dividerSvg` | textarea | `""` | Inline SVG (divider = svg; blank uses a bundled sample) |
@@ -162,9 +162,15 @@ Source: `src/blocks/orbit-v2/schema.js`
 | `squeeze` | toggle | `true` | Fast upward scroll squeezes cards inward |
 | `runway` | range 0–300 | `100` | Scroll length after pinning (svh) |
 | `cue` | text | `"Drag to rotate"` | Interaction cue |
-| `loops` | range 1–4 | `2` | List: passes through the projects before the page moves on |
-| `travel` | range 0.5–3 | `1` | List: speed (list px per scroll px; higher = shorter section) |
-| `snap` | toggle | `true` | List: snap the nearest project to the centre when scrolling stops |
+| `showHeadline` | toggle | `true` | Show the headline over the sphere |
+| `media` | select: `none` · `cube` · `image` · `video` | `"cube"` | Centre media inside the sphere: none · cube (sample wireframe placeholder) · image (jpg, png, gif, svg, webp) · video (mp4/webm, plays muted on loop) |
+| `mediaSrc` | text | `""` | Media file: a path like /media/logo.svg (put the file in public/media/) or a full https:// URL. Not needed for the cube. |
+| `mediaPoster` | image | `""` | Video poster (shown before it plays and with reduced motion) |
+| `mediaAlt` | text | `""` | Describe the media for screen readers (leave empty if decorative) |
+| `mediaSize` | range 0.15–0.7 | `0.36` | Media size (share of the sphere's width) |
+| `loops` | range 1–4 | `2` | Vertical: passes through the projects before the page moves on |
+| `travel` | range 0.5–3 | `1` | Vertical: speed (list px per scroll px; higher = shorter section) |
+| `snap` | toggle | `true` | Vertical: snap the nearest project to the centre when scrolling stops |
 
 ### `orbit` — Orbit (3D image sphere)
 

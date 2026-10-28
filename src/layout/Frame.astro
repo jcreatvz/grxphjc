@@ -1,18 +1,15 @@
 ---
-// Top frame: scroll-progress line with square end-nubs + corner labels.
-// Fixed, pointer-events off except labels. Mirrors the Webflow grxphjc frame.
+// Top frame: corner labels + plus-marks, and (v0.14) scroll progress drawn as an outline of the
+// whole screen — a rounded rectangle just inside the edges, starting at the top-left corner.
+// Geometry and progress live in src/scripts/progress.ts.
 import site from '../site.json';
 export interface Props { chrome?: string; }
 const { chrome = 'auto' } = Astro.props;
-const f = site.frame;
+const f = site.frame as any;
+const p = f.progress === true ? { enabled: true } : (f.progress || { enabled: false });
+const edge = p.enabled === false ? null : { direction: 'clockwise', inset: 6, nub: false, ...p };
 ---
 <div class="site-frame" data-chrome={chrome} aria-hidden="true">
-  {f.progress && (
-    <div class="site-frame__progress">
-      <span class="site-frame__nub site-frame__nub--start"></span>
-      <span class="site-frame__fill"><span class="site-frame__nub site-frame__nub--end"></span></span>
-    </div>
-  )}
   {f.marks && (<>
     <span class="site-frame__mark" style="left:var(--gutter)">+</span>
     <span class="site-frame__mark" style="left:50%">+</span>
@@ -21,6 +18,16 @@ const f = site.frame;
   <span class="site-frame__label site-frame__label--left">{f.left}</span>
   <span class="site-frame__label site-frame__label--right">{f.right}</span>
 </div>
+{edge && (
+  <>
+    <!-- measures the inset + device safe areas + corner radius in CSS, so JS draws exactly that -->
+    <div class="edge-ruler" data-edge-ruler aria-hidden="true" style={`--edge-inset:${edge.inset}px`}></div>
+    <svg class="edge-progress" data-edge-progress data-chrome={chrome} data-direction={edge.direction} aria-hidden="true" focusable="false">
+      <path class="edge-progress__line" d="M0 0" />
+      {edge.nub && <rect class="edge-progress__nub" x="-4" y="-4" width="8" height="8" />}
+    </svg>
+  </>
+)}
 
 <style>
   .site-frame {
@@ -30,18 +37,21 @@ const f = site.frame;
     z-index: 80; pointer-events: none;
     color: var(--chrome-accent);
   }
-  .site-frame__progress {
-    position: absolute; top: calc(var(--safe-top) + 12px);
-    left: calc(var(--gutter) - 4px); right: calc(var(--gutter) - 4px); height: 8px;
+  /* ---- screen-edge progress outline ---- */
+  .edge-ruler {
+    position: fixed; inset: 0; visibility: hidden; pointer-events: none; box-sizing: border-box;
+    /* inset from each edge + that edge's safe area (notch, home indicator) — so the line is never hidden */
+    padding: calc(var(--edge-inset) + var(--safe-top)) calc(var(--edge-inset) + env(safe-area-inset-right, 0px))
+             calc(var(--edge-inset) + var(--safe-bottom)) calc(var(--edge-inset) + env(safe-area-inset-left, 0px));
+    border-radius: 10px;                  /* desktop: close to a browser window's corners */
   }
-  .site-frame__fill {
-    position: absolute; left: 0; top: 3px; height: 2px;
-    width: calc(var(--progress, 0) * 100%);
-    min-width: 8px; background: currentColor;
+  @media (pointer: coarse) { .edge-ruler { border-radius: 24px; } }   /* phones/tablets: rounder, like the screen */
+  .edge-progress {
+    position: fixed; inset: 0; width: 100%; height: 100%; z-index: 95; pointer-events: none; overflow: visible;
+    color: var(--chrome-accent, var(--accent));
   }
-  .site-frame__nub { position: absolute; width: 8px; height: 8px; background: currentColor; top: -3px; }
-  .site-frame__nub--start { left: 0; top: 0; }
-  .site-frame__nub--end { right: -4px; }
+  .edge-progress__line { fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: butt; stroke-linejoin: round; }
+  .edge-progress__nub { fill: currentColor; }
   .site-frame__mark {
     position: absolute; top: calc(var(--safe-top) + 8px); margin-left: -4px;
     font-family: var(--font-mono); font-size: 11px; line-height: 1;

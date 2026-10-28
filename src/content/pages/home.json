@@ -4,7 +4,7 @@
   "description": "Grxphjc — graphic and motion designer based in Edmonton. Self-initiated, alt, unapologetic.",
   "blocks": [
     {
-      "type": "orbit",
+      "type": "orbit-v2",
       "settings": {
         "label": "Archive — Frames & Studies",
         "headline": "Experienced *n* Experimental",
@@ -13,7 +13,13 @@
         "startView": "sphere",
         "maxItems": 28,
         "cue": "Drag to rotate · Scroll to dive",
-        "items": []
+        "items": [],
+        "showHeadline": true,
+        "media": "cube",
+        "mediaSize": 0.36,
+        "loops": 2,
+        "travel": 1,
+        "snap": true
       }
     },
     {
@@ -36,7 +42,7 @@
         ],
         "preset": "marquee",
         "height": "band",
-        "tone": "ink",
+        "tone": "auto",
         "divider": "text",
         "dividerText": "+",
         "idleSpin": 7,

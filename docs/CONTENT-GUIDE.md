@@ -71,11 +71,23 @@ On the `orbit` block: `explosion` (max spread; `0` = off), `burst` (extra spread
 ## Scramble speed
 Hover-scramble timing: add `data-scramble-ms="400"` to a `[data-scramble]` element, or set `--scramble-ms: 400` in CSS for a whole area (`:root` for everything). `auto` keeps the built-in timing.
 
-## Orbit v2
-Same settings as `orbit` (headline, source, projectAction, explosion…), plus the list view: `loops` (passes through the projects before the page moves on, default 2), `travel` (list speed — higher makes the section shorter), `snap` (centre the nearest project when scrolling stops). On screens 900px and wider a number + title column runs down the right, scrolling opposite to the images; phones show the title on the centred image instead. Titles come from each project's `title`. `startView`: `sphere` or `vertical`. Preview: `/orbit-v2`. To use it on the home page, change the home page's `"type": "orbit"` to `"orbit-v2"`.
+## Orbit v2 (home page hero)
+Same settings as `orbit` (headline, source, projectAction, explosion…), plus:
+
+**Centre media** — something in the middle of the sphere. Cards pass in front of and behind it.
+- `showHeadline`: `true`/`false` — the big headline over the sphere. Headline and media can be on together, or either off.
+- `media`: `none` · `cube` (sample wireframe placeholder) · `image` · `video`.
+- `mediaSrc`: the file. Put it in `public/media/` and write `/media/name.ext`, or use a full `https://` URL. Images: jpg, png, gif, svg, webp (transparent PNG/SVG look best — the sphere shows through). Video: mp4 (H.264) or webm; it plays muted on a loop while the sphere is on screen. Keep video short and small (a few MB).
+- `mediaPoster`: a still for video (shown before it plays and for reduced-motion visitors).
+- `mediaAlt`: describe it for screen readers, or leave empty if it's decorative.
+- `mediaSize`: its width as a share of the sphere (0.15–0.7; default 0.36).
+- Images and video always face the viewer; the cube turns with the sphere. When switching to Vertical the media shrinks away, and comes back with the sphere.
+- **3D objects (Spline):** coming next. Send Claude the scene's public URL (Spline → Export → Code → the link ending in `scene.splinecode`), the names of the objects to control, and what should drive them (sphere rotation, scroll, pointer).
+
+**Vertical list** — `loops` (passes through the projects before the page moves on, default 2), `travel` (speed; higher = shorter section), `snap` (centre the nearest project when scrolling stops). The centred project gets an accent outline; on screens 900px and wider a number + title column runs down the right, scrolling opposite to the images. Titles come from each project's `title`. `startView`: `sphere` or `vertical`.
 
 ## Tube marquee (`marquee-tbx`)
-`words` ride a 3D cylinder. `preset`: `marquee` (drifts on its own, words wrap onto the tube) or `tube` (scroll-driven only, flat words). `height`: `band` (exactly as tall as the tube needs — measured, so it's never cut off) or `full` (at least a whole screen). `tone`: accent / ink / paper. `divider`: `text` (a character), `svg` (paste inline SVG; blank uses a bundled sample) or `none`. `idleSpin` 0 turns the drift off. The solver measures every word in the real font and will condense, shrink or grow the ring so nothing ever overlaps — long words are safe.
+`words` ride a 3D cylinder. `preset`: `marquee` (drifts on its own, words wrap onto the tube) or `tube` (scroll-driven only, flat words). `height`: `band` (exactly as tall as the tube needs — measured, so it's never cut off) or `full` (at least a whole screen). `tone`: `auto` (default — contrasts the page and flips with light/dark mode) / accent / ink / paper. Dividers always follow the accent colour. `divider`: `text` (a character), `svg` (paste inline SVG; blank uses a bundled sample) or `none`. `idleSpin` 0 turns the drift off. The solver measures every word in the real font and will condense, shrink or grow the ring so nothing ever overlaps — long words are safe.
 
 ## Contact email
 `src/site.json → contact`:
@@ -91,10 +103,16 @@ When email hosting is live, set `mailto` to `hello@grxphjc.com`.
 - `menu.signature` — "JC by design"
 - `footer` — footer columns and credits line
 
+## Scroll progress outline
+`site.json → frame.progress`: `enabled`, `direction` (`clockwise` · `counter-clockwise`, both starting at the top-left corner), `inset` (px from the screen edge; phones add their safe areas automatically), `nub` (`true` puts a square dot on the tip).
+
 ## Publishing a new version
 Claude sends a zip (e.g. `grxphjc-v0.12.zip`). Put it in the folder that holds your `repo` folder, open a terminal there, and paste **one block at a time** — never paste the `#` comment lines, or the terminal gets stuck at `quote>` (press **Ctrl+C** to get out).
 
-**Mac (Terminal):**
+**Mac (Terminal)** — the first line moves Terminal to the right folder, wherever it was:
+```bash
+cd ~/Downloads/Widgets/grxphjc
+```
 ```bash
 rm -rf /tmp/grx-unzip && unzip -q grxphjc-v0.12.zip -d /tmp/grx-unzip
 ```

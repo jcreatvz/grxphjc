@@ -19,7 +19,13 @@
   "frame": {
     "left": "2026",
     "right": "Dad Designer",
-    "progress": true,
+    "progress": {
+      "enabled": true,
+      "direction": "clockwise",
+      "inset": 6,
+      "nub": false,
+      "_note": "Scroll progress drawn as an outline of the whole screen, starting at the top-left corner. direction: clockwise | counter-clockwise. inset: px from the screen edge (safe areas are added automatically on phones). nub: square dot at the tip."
+    },
     "marks": true
   },
   "header": {

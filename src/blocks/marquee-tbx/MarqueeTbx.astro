@@ -4,12 +4,12 @@
 // This file only supplies the markup, the brand tokens and the settings → config mapping.
 export interface Props {
   label?: string; words?: string[]; ariaLabel?: string;
-  preset?: 'marquee' | 'tube'; height?: 'band' | 'full'; tone?: 'accent' | 'ink' | 'paper';
+  preset?: 'marquee' | 'tube'; height?: 'band' | 'full'; tone?: 'auto' | 'accent' | 'ink' | 'paper';
   divider?: 'text' | 'svg' | 'none'; dividerText?: string; dividerSvg?: string;
   idleSpin?: number; tilt?: number; radius?: number; turns?: number; repeat?: number;
 }
 const {
-  label = '', words = [], ariaLabel = 'Studio disciplines', preset = 'marquee', height = 'band', tone = 'accent',
+  label = '', words = [], ariaLabel = 'Studio disciplines', preset = 'marquee', height = 'band', tone = 'auto',
   divider = 'text', dividerText = '+', dividerSvg = '', idleSpin = 7, tilt = 20, radius = 0.51, turns = 1, repeat = 1,
 } = Astro.props;
 
@@ -18,7 +18,9 @@ const {
 const config = {
   preset,
   words,
-  divider: { mode: divider, text: dividerText, svg: dividerSvg, scale: preset === 'marquee' ? 0.75 : 0.7 },
+  // colour as a CSS variable, not a hex: the engine writes it inline as --tbx-accent, and a var()
+  // there keeps following the theme/accent switches (a hex froze it at #d23235 — v0.13 bug)
+  divider: { mode: divider, text: dividerText, svg: dividerSvg, scale: preset === 'marquee' ? 0.75 : 0.7, color: 'var(--mtbx-div)' },
   tube: { idleSpin, tilt, radius, turns, repeat },
 };
 const sr = words.join(divider === 'text' ? ` ${dividerText} ` : ', ');
@@ -34,6 +36,8 @@ const sr = words.join(divider === 'text' ? ` ${dividerText} ` : ', ');
 
 <style>
   .mtbx { position: relative; background: var(--mtbx-bg); color: var(--mtbx-ink); }
+  /* auto: always contrasts the page — a dark band in light mode, a light band in dark mode */
+  .mtbx[data-tone="auto"] { --mtbx-bg: var(--ink); --mtbx-ink: var(--paper); --mtbx-div: var(--accent); }
   .mtbx[data-tone="accent"] { --mtbx-bg: var(--accent); --mtbx-ink: var(--on-accent); --mtbx-div: var(--paper); }
   .mtbx[data-tone="ink"] { --mtbx-bg: var(--night); --mtbx-ink: var(--night-ink); --mtbx-div: var(--accent-strong); }
   .mtbx[data-tone="paper"] { --mtbx-bg: var(--paper); --mtbx-ink: var(--ink); --mtbx-div: var(--accent); }

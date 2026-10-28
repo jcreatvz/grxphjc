@@ -39,6 +39,7 @@ Brutalist editorial: grayscale + one accent, a graffiti brand face, monospace ut
 | Brand-mark bullet | `.brand-mark` → `▪ TEXT` |
 | Play button | accent square + triangle on video and embed posters |
 | Red flood | hover fill rising from the baseline (bar cells, steps, CTA button) |
+| Scroll progress | 2px accent outline of the whole screen, rounded (10px desktop / 24px touch), from the top-left corner, clockwise |
 | Plus-mark offsets | `--plus-x: -3.5px`, `--plus-y: -8.5px` — where `+` sits on metrics / project-meta hairlines |
 | Scramble | `data-scramble` on link text (random glyphs); the logo uses `data-scramble="swap"` — its own letters trade places, so every frame stays in the brand font |
 | Watermark | solid-fill brand wordmark cut off at the top of the footer |

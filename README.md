@@ -2,7 +2,7 @@
 
 Personal portfolio — an Astro static site with a Shopify-style block system. Every page and every project is a JSON list of blocks; the site chrome is configured in one JSON file. Deploys to <https://jcreatvz.github.io/grxphjc/> through GitHub Actions on every push to `main`. No server, database or login.
 
-**Current version: v0.13** — see [`docs/CHANGELOG.md`](docs/CHANGELOG.md) for what changed and [`docs/ROADMAP.md`](docs/ROADMAP.md) for what's next.
+**Current version: v0.14** — see [`docs/CHANGELOG.md`](docs/CHANGELOG.md) for what changed and [`docs/ROADMAP.md`](docs/ROADMAP.md) for what's next.
 
 ```bash
 npm install
@@ -23,7 +23,7 @@ npm run docs     # regenerate docs/BLOCKS.md from every schema.js
 | [`docs/DECISIONS.md`](docs/DECISIONS.md) | Why things are the way they are |
 | [`docs/CHANGELOG.md`](docs/CHANGELOG.md) | Every release, newest first |
 
-Hidden pages (not in the menu, not indexed): `/styleguide` (every block rendered) and `/orbit-v2` (orbit v2 preview).
+Hidden page (not in the menu, not indexed): `/styleguide` (every block rendered).
 Motion tuning tools: `/mocks/footer-reveal-mock.html` (curtain footer) and `/mocks/orbit-explode-mock.html` (orbit explosion) — each has a settings panel and a *Copy settings* button.
 
 ## Where things live

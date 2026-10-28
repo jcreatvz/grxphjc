@@ -10,6 +10,8 @@ export interface Props {
   items?: Item[]; startView?: 'sphere' | 'grid' | 'vertical'; maxItems?: number; cue?: string;
   /** v2: 'vertical' swaps the grid view for the bokid-style looping list */
   altView?: 'grid' | 'vertical'; loops?: number; travel?: number; snap?: boolean;
+  /** v2 centre piece: headline and media can each be switched off */
+  showHeadline?: boolean; media?: 'none' | 'cube' | 'image' | 'video'; mediaSrc?: string; mediaPoster?: string; mediaAlt?: string; mediaSize?: number;
   explosion?: number; burst?: number; stiffness?: number; bounce?: number; variation?: number;
   stagger?: number; tumble?: number; fade?: number; squeeze?: boolean; runway?: number;
 }
@@ -17,7 +19,9 @@ const { label = '', headline = '', source = 'both', projectAction = 'popup',
         items = [], startView = 'sphere', maxItems = 28, cue = 'Drag to rotate',
         explosion = 1.6, burst = 0.3, stiffness = 120, bounce = 0.87, variation = 0.35,
         stagger = 0.25, tumble = 1.5, fade = 1, squeeze = true, runway = 100,
-        altView = 'grid', loops = 2, travel = 1, snap = true } = Astro.props;
+        altView = 'grid', loops = 2, travel = 1, snap = true,
+        showHeadline = true, media = 'none', mediaSrc = '', mediaPoster = '', mediaAlt = '', mediaSize = 0.36 } = Astro.props;
+const hasMedia = media === 'cube' || ((media === 'image' || media === 'video') && !!mediaSrc);
 
 const fromProjects: Item[] = source === 'manual' ? [] :
   (await getProjects())
@@ -47,10 +51,19 @@ const plainHeadline = headline.replace(/\*/g, '');
 <section class="orbit" data-orbit data-start={startView} aria-label={label || plainHeadline || 'Image orbit'}
   data-explosion={explosion} data-burst={burst} data-stiffness={stiffness} data-bounce={bounce} data-variation={variation}
   data-stagger={stagger} data-tumble={tumble} data-fade={fade} data-squeeze={String(squeeze)} style={`--runway:${runway}`}
-  data-alt-view={altView} data-loops={loops} data-travel={travel} data-snap={String(snap)}>
+  data-alt-view={altView} data-loops={loops} data-travel={travel} data-snap={String(snap)} data-media-size={mediaSize}>
   <div class="orbit__sticky">
     <div class="orbit__stage" data-orbit-stage>
       <div class="orbit__world">
+        {hasMedia && (
+          <div class="orbit__media" data-orbit-media data-kind={media} aria-hidden={media === 'cube' ? 'true' : undefined}>
+            <div class="orbit__media-in">
+              {media === 'cube' && <div class="orbit__cube">{['f', 'b', 'l', 'r', 't', 'u'].map((s) => <span class={`orbit__face orbit__face--${s}`}></span>)}</div>}
+              {media === 'image' && <img src={href(mediaSrc)} alt={mediaAlt} draggable="false" decoding="async" />}
+              {media === 'video' && <video src={href(mediaSrc)} poster={mediaPoster ? href(mediaPoster) : undefined} muted loop playsinline preload="metadata" aria-label={mediaAlt || undefined}></video>}
+            </div>
+          </div>
+        )}
         <div class="orbit__orb" data-lb-group>
           {list.map((it, i) => {
             const lb = it.action === 'popup'
@@ -87,6 +100,7 @@ const plainHeadline = headline.replace(/\*/g, '');
             );
           })}
         </ul>
+        <div class="orbit__focus" data-orbit-focus aria-hidden="true"></div>
       </div>
     )}
     {altView === 'vertical' && (
@@ -99,7 +113,7 @@ const plainHeadline = headline.replace(/\*/g, '');
       </div>
     )}
     <div class="orbit__vig" aria-hidden="true"></div>
-    {words.length > 0 && (
+    {showHeadline && words.length > 0 && (
       <h1 class="orbit__headline brand-type">
         {words.map((w, i) => <><span class:list={['w', { 'is-accent': w.accent }]} style={`--i:${i}`}>{w.t}</span>{' '}</>)}
       </h1>
@@ -110,7 +124,7 @@ const plainHeadline = headline.replace(/\*/g, '');
       <span class="orbit__cue mono-xs" aria-hidden="true"><s></s>{cue}</span>
       <button class="orbit__toggle mono-xs" type="button" data-orbit-toggle aria-pressed="false">
         <span class="orbit__toggle-icon" aria-hidden="true"><b></b><b></b><b></b><b></b></span>
-        <span data-orbit-toggle-label>{altView === 'vertical' ? 'List' : 'Grid'}</span>
+        <span data-orbit-toggle-label>{altView === 'vertical' ? 'Vertical' : 'Grid'}</span>
       </button>
     </div>
   </div>
@@ -157,7 +171,10 @@ const plainHeadline = headline.replace(/\*/g, '');
   }
   .orbit__card.is-tall { height: calc(var(--cw) * 1.25); margin-top: calc(var(--cw) * -0.625); }
   .orbit__card figure { position: absolute; inset: 0; margin: 0; overflow: hidden; background: var(--paper-2); transition: transform 500ms var(--ease-out); }
-  .orbit__card img { width: 100%; height: 100%; object-fit: cover; user-select: none; -webkit-user-drag: none; filter: grayscale(var(--g, 0)); }
+  .orbit__card img { width: 100%; height: 100%; object-fit: cover; user-select: none; -webkit-user-drag: none; }
+  /* grayscale only DURING the morph: a filter on every card inside the 3D scene forces separate
+     offscreen renders and flickers (v0.13 bug, worst in Safari). At rest the sphere has no filter. */
+  .orbit.is-morphing .orbit__card img { filter: grayscale(var(--g, 0)); }
   .orbit__card figure::after {
     content: ''; position: absolute; inset: 0; pointer-events: none;
     background: rgb(var(--shade-rgb, 245 244 240) / var(--d, 0));
@@ -281,23 +298,59 @@ const plainHeadline = headline.replace(/\*/g, '');
   /* ---------- v2: number + title column (right), counter-scrolling, infinite ---------- */
   .orbit__titles {
     position: absolute; top: 0; bottom: 0; right: var(--gutter); width: min(26vw, 380px);
-    overflow: hidden; pointer-events: none; display: none; opacity: 0; transition: opacity 400ms var(--ease-out);
+    overflow: hidden; pointer-events: none;
     -webkit-mask-image: linear-gradient(transparent, #000 22%, #000 78%, transparent);
             mask-image: linear-gradient(transparent, #000 22%, #000 78%, transparent);
   }
-  .orbit.is-vertical .orbit__titles { display: block; opacity: 1; }
-  .orbit.is-morphing .orbit__titles { opacity: 0; }
   .orbit__ttrack { position: absolute; left: 0; right: 0; top: 0; will-change: transform; }
   .orbit__ti {
     display: flex; align-items: baseline; gap: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
     font-family: var(--font-display); font-weight: 500; letter-spacing: -0.01em;
     font-size: clamp(15px, 1.2vw, 20px); line-height: 2.1; color: var(--ghost);
-    transition: color 250ms var(--ease-out);
+    /* stagger: each line waits --stg (set by distance from the centre line), then slides in from the right */
+    opacity: 0; transform: translate3d(28px, 0, 0);
+    transition: opacity 380ms var(--ease-out) var(--stg, 0ms), transform 560ms var(--ease-out) var(--stg, 0ms), color 250ms var(--ease-out);
   }
+  .orbit__titles.is-in .orbit__ti { opacity: 1; transform: none; }
   .orbit__tn { color: var(--ghost); min-width: 2.2em; }
   .orbit__ti.is-on { color: var(--ink); }
   .orbit__ti.is-on .orbit__tn { color: var(--accent); }
   /* the right column replaces the per-item caption on wide screens; phones keep the caption */
   @media (min-width: 900px) { .orbit__vitem.is-selected .orbit__vcap { opacity: 0; } }
   @media (max-width: 899px) { .orbit__titles { display: none !important; } }
+
+  /* ---------- v2: centre media (inside the 3D world, so cards pass in front of and behind it) ---------- */
+  .orbit__media {
+    position: absolute; top: 0; left: 0; width: var(--media-s, 240px); height: var(--media-s, 240px);
+    margin: calc(var(--media-s, 240px) / -2) 0 0 calc(var(--media-s, 240px) / -2);
+    transform-style: preserve-3d; pointer-events: none;
+  }
+  .orbit__media-in {
+    position: absolute; inset: 0; transform-style: preserve-3d;
+    transition: transform 760ms var(--ease-out), opacity 520ms var(--ease-out);
+  }
+  .orbit.media-out .orbit__media-in, .orbit.is-vertical .orbit__media-in { transform: scale(0.12); opacity: 0; }
+  .orbit__media-in > img, .orbit__media-in > video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
+  /* sample wireframe cube — the placeholder until a real object (image, video, 3D scene) goes here */
+  .orbit__cube { position: absolute; inset: 0; transform-style: preserve-3d; animation: orbit-cube 26s linear infinite; }
+  .orbit__face {
+    position: absolute; inset: 0; box-sizing: border-box;
+    border: 1.5px solid color-mix(in srgb, var(--ink) 58%, transparent);
+    background: color-mix(in srgb, var(--paper) 6%, transparent);
+  }
+  .orbit__face--f { transform: translateZ(calc(var(--media-s, 240px) / 2)); }
+  .orbit__face--b { transform: rotateY(180deg) translateZ(calc(var(--media-s, 240px) / 2)); }
+  .orbit__face--l { transform: rotateY(-90deg) translateZ(calc(var(--media-s, 240px) / 2)); }
+  .orbit__face--r { transform: rotateY(90deg) translateZ(calc(var(--media-s, 240px) / 2)); }
+  .orbit__face--t { transform: rotateX(90deg) translateZ(calc(var(--media-s, 240px) / 2)); }
+  .orbit__face--u { transform: rotateX(-90deg) translateZ(calc(var(--media-s, 240px) / 2)); }
+  @keyframes orbit-cube { from { transform: rotateX(-22deg) rotateY(0deg); } to { transform: rotateX(-22deg) rotateY(360deg); } }
+  @media (prefers-reduced-motion: reduce) { .orbit__cube { animation: none; transform: rotateX(-22deg) rotateY(32deg); } }
+
+  /* ---------- v2: selected-card outline (same accent + 2px as the page progress) ---------- */
+  .orbit__focus {
+    position: absolute; top: 0; left: 0; width: 0; height: 0; box-sizing: border-box; pointer-events: none;
+    border: 2px solid var(--accent); opacity: 0; transition: opacity 320ms var(--ease-out); will-change: transform;
+  }
+  .orbit__focus.is-on { opacity: 1; }
 </style>

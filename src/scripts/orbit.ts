@@ -21,6 +21,12 @@ function setup(sec: HTMLElement) {
   const cardEls = [...sec.querySelectorAll<HTMLElement>('.orbit__card')];
   const toggle = sec.querySelector<HTMLButtonElement>('[data-orbit-toggle]');
   const grid = sec.querySelector<HTMLElement>('.orbit__grid');
+  const media = sec.querySelector<HTMLElement>('[data-orbit-media]');
+  const mediaVideo = media?.querySelector<HTMLVideoElement>('video') ?? null;
+  const mediaSize = parseFloat(sec.dataset.mediaSize || '0.36') || 0.36;
+  // flat media (image/video) always faces the viewer: undo the camera's rotation. The cube is a real
+  // 3D object, so it turns with the sphere (and spins on its own).
+  const billboard = (sx: number, sy: number) => { if (media && media.dataset.kind !== 'cube') media.style.transform = `rotateX(${(-sx).toFixed(3)}deg) rotateY(${(-sy).toFixed(3)}deg)`; };
   const N = cardEls.length;
   if (!N) return;
 
@@ -64,6 +70,7 @@ function setup(sec: HTMLElement) {
     persp = tiny ? 620 : small ? 760 : w <= 900 ? 920 : 1150;
     sec.style.setProperty('--persp', `${persp}px`);
     sec.style.setProperty('--cw', `${cw}px`);
+    sec.style.setProperty('--media-s', `${Math.round(2 * R * mediaSize)}px`);
     for (const c of cards) place(c);
   };
   // Card position = its point on the sphere pushed outward along the centre→card line, plus tumble.
@@ -106,6 +113,7 @@ function setup(sec: HTMLElement) {
     camZ += (p * Math.min(80, R * 0.16) - camZ) * 0.075;
     const sx = tilt + dragY, sy = dragX;
     world.style.transform = `translateZ(${camZ.toFixed(2)}px) rotateY(${sy.toFixed(3)}deg) rotateX(${sx.toFixed(3)}deg)`;
+    billboard(sx, sy);
     if (headline) {
       headline.style.opacity = Math.max(0, 1 - p * 1.6).toFixed(3);
       headline.style.transform = `translate(-50%, calc(-50% - ${(p * 40).toFixed(1)}px)) scale(${(1 + p * 0.08).toFixed(3)})`;
@@ -144,7 +152,8 @@ function setup(sec: HTMLElement) {
     requestAnimationFrame(frame);
   };
   const kick = () => { if (!running && visible && !gridMode) { running = true; requestAnimationFrame(frame); } };
-  new IntersectionObserver(([en]) => { visible = en.isIntersecting; kick(); }).observe(sec);
+  const syncVideo = () => { if (!mediaVideo) return; if (visible && !gridMode && !reduce) mediaVideo.play().catch(() => {}); else mediaVideo.pause(); };
+  new IntersectionObserver(([en]) => { visible = en.isIntersecting; kick(); syncVideo(); }).observe(sec);
 
   // ---- drag (mouse captures after 4px; touch only after a horizontal intent) ----
   let drag: null | { id: number; type: string; x0: number; y0: number; lx: number; ly: number; t: number; moved: number; active: boolean } = null;
@@ -208,8 +217,9 @@ function setup(sec: HTMLElement) {
   const vert = sec.dataset.altView === 'vertical'
     ? setupVertical(sec, {
         cards: cardEls, toggle, reduce, world,
-        pause: () => { gridMode = true; stage.inert = true; },
-        resume: () => { gridMode = false; stage.inert = false; layout(true); kick(); },
+        pause: () => { gridMode = true; stage.inert = true; syncVideo(); },
+        resume: () => { gridMode = false; stage.inert = false; layout(true); kick(); syncVideo(); },
+        billboard: (cam: { sx: number; sy: number }) => billboard(cam.sx, cam.sy),
         // 3D poses for the morph — the SAME formulas place() and frame() use, so a morph that ends on
         // `cardRest`/`worldRest` hands back to the live sphere without a single-pixel jump.
         pose: {

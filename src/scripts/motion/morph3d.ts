@@ -28,7 +28,7 @@ export function applyPose(el: HTMLElement, p: Pose3) {
 
 export function morph3d(o: {
   world: HTMLElement; els: HTMLElement[]; from: Pose3[]; to: Pose3[]; camFrom: Cam3; camTo: Cam3;
-  ms?: number; delays?: number[]; ease?: (t: number) => number; onFrame?: (k: number) => void;
+  ms?: number; delays?: number[]; ease?: (t: number) => number; onFrame?: (k: number, cam: Cam3) => void;
 }): Promise<void> {
   const ms = o.ms ?? 1250, ease = o.ease ?? easeInOutCubic;
   const delays = o.delays ?? o.els.map(() => 0);
@@ -39,13 +39,14 @@ export function morph3d(o: {
     const t0 = performance.now();
     const step = (now: number) => {
       const el = now - t0, kc = ease(clamp01(el / ms));
-      o.world.style.transform = camCss({ camZ: lerp(o.camFrom.camZ, camTo.camZ, kc), sx: lerp(o.camFrom.sx, camTo.sx, kc), sy: lerp(o.camFrom.sy, camTo.sy, kc) });
+      const cam = { camZ: lerp(o.camFrom.camZ, camTo.camZ, kc), sx: lerp(o.camFrom.sx, camTo.sx, kc), sy: lerp(o.camFrom.sy, camTo.sy, kc) };
+      o.world.style.transform = camCss(cam);
       for (let i = 0; i < o.els.length; i++) {
         const a = o.from[i], b = to[i], k = ease(clamp01((el - Math.min(delays[i], maxD)) / (ms - maxD)));
         applyPose(o.els[i], { x: lerp(a.x, b.x, k), y: lerp(a.y, b.y, k), z: lerp(a.z, b.z, k), ry: lerp(a.ry, b.ry, k), rx: lerp(a.rx, b.rx, k),
           s: lerp(a.s, b.s, k), o: lerp(a.o, b.o, k), d: lerp(a.d, b.d, k), g: lerp(a.g, b.g, k) });
       }
-      o.onFrame?.(kc);
+      o.onFrame?.(kc, cam);
       if (el < ms) requestAnimationFrame(step); else res();
     };
     requestAnimationFrame(step);

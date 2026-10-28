@@ -10,12 +10,12 @@
 //     from the sphere into the flat column and back (motion/morph3d). List items share each
 //     card's aspect ratio, so the card's final flat pose IS the list item: the handoff happens
 //     in one frame with nothing to see.
-import { damp, morph3d, applyPose, camCss, type Pose3, type Cam3 } from './motion';
+import { damp, morph3d, applyPose, camCss, stepSpring, type Pose3, type Cam3 } from './motion';
 
 interface PoseApi {
   worldNow(): Cam3; worldRest(): Cam3; cardNow(i: number): Pose3; cardRest(i: number): Pose3; reset(): void;
 }
-interface Api { cards: HTMLElement[]; pause(): void; resume(): void; toggle: HTMLButtonElement | null; reduce: boolean; world: HTMLElement; pose: PoseApi }
+interface Api { cards: HTMLElement[]; pause(): void; resume(): void; toggle: HTMLButtonElement | null; reduce: boolean; world: HTMLElement; pose: PoseApi; billboard?(cam: Cam3): void }
 interface VItem { el: HTMLElement; i: number; clone: boolean; x: number; y: number; w: number; h: number; sy: number }
 
 const FACT = [0.68, 0.89, 0.93, 0.68, 1.0]; // bokid's width rhythm: 190 / 250 / 260 / 190 / 280
@@ -65,6 +65,48 @@ export function setupVertical(sec: HTMLElement, api: Api) {
     track.style.transform = `translate3d(0, ${ty.toFixed(2)}px, 0)`;
     const k = ((Math.round(frac) % N) + N) % N;
     if (k !== onIdx) { onIdx = k; track.querySelectorAll<HTMLElement>('.orbit__ti').forEach((t) => t.classList.toggle('is-on', Number(t.dataset.i) === k)); }
+  }
+
+  // ---------- selected-card outline: one box that springs to the centred card (kinetic morph) ----------
+  const focus = sec.querySelector<HTMLElement>('[data-orbit-focus]');
+  const fs = { x: { x: 0, v: 0 }, y: { x: 0, v: 0 }, w: { x: 0, v: 0 }, h: { x: 0, v: 0 } };
+  const FOCUS_K = 240, FOCUS_Z = 0.62;                 // a little overshoot as it lands on each card
+  const focusOff = () => (innerWidth < 640 ? 6 : 8);   // gap between the card and its outline
+  const selectedItem = () => {
+    let best: VItem | null = null, bd = Infinity;
+    for (const it of items) if (it.i === selected) { const d = Math.abs(it.sy + it.h / 2 - innerHeight / 2); if (d < bd) { bd = d; best = it; } }
+    return best;
+  };
+  function focusTo(dt: number, snapNow = false) {
+    if (!focus) return;
+    const it = selectedItem(); if (!it) return;
+    const o = focusOff(), t = { x: it.x - o, y: it.sy - o, w: it.w + 2 * o, h: it.h + 2 * o };
+    (['x', 'y', 'w', 'h'] as const).forEach((k) => {
+      if (snapNow) { fs[k].x = t[k]; fs[k].v = 0; } else stepSpring(fs[k], t[k], FOCUS_K, FOCUS_Z, dt / 1000);
+    });
+    focus.style.transform = `translate3d(${fs.x.x.toFixed(2)}px, ${fs.y.x.toFixed(2)}px, 0)`;
+    focus.style.width = `${Math.max(0, fs.w.x).toFixed(2)}px`; focus.style.height = `${Math.max(0, fs.h.x).toFixed(2)}px`;
+  }
+  /** entrance: start exactly on the card (no gap) and spring outward to the offset */
+  function focusIn() {
+    if (!focus) return;
+    const it = selectedItem(); if (!it) return;
+    fs.x = { x: it.x, v: 0 }; fs.y = { x: it.sy, v: 0 }; fs.w = { x: it.w, v: 0 }; fs.h = { x: it.h, v: 0 };
+    focusTo(0, false); focus.classList.add('is-on');
+  }
+  const focusOut = () => focus?.classList.remove('is-on');
+
+  // ---------- title stagger: lines cascade from the centre line outward ----------
+  function staggerTitles(on: boolean) {
+    if (!titles || !track) return;
+    const ch = titles.clientHeight, ty = new DOMMatrix(getComputedStyle(track).transform).m42;
+    const lines = track.querySelectorAll<HTMLElement>('.orbit__ti');
+    lines.forEach((ln, r) => {
+      const y = ty + r * (lineH || ln.offsetHeight) + (lineH || ln.offsetHeight) / 2;
+      const rows = Math.abs(y - ch / 2) / (lineH || 36);
+      ln.style.setProperty('--stg', `${Math.round(Math.min(rows, 13) * (on ? 34 : 22))}ms`);
+    });
+    titles.classList.toggle('is-in', on);
   }
 
   // ---------- layout (bokid M0: a centred column, varied widths, tight gap) ----------
@@ -138,6 +180,7 @@ export function setupVertical(sec: HTMLElement, api: Api) {
       cur = damp(cur, target, DAMP, dt);
       if (Math.abs(target - cur) < 0.2) cur = target;
       place(cur);
+      focusTo(dt);
     }
     const st = secTop(), pinned = scrollY >= st - 1 && scrollY <= st + runway + 1;
     if (snapOn && !morphing && !snapping && pinned && now() - lastInput > 250 && now() - lastScroll > 140 && Math.abs(target - cur) < 5) {
@@ -175,7 +218,7 @@ export function setupVertical(sec: HTMLElement, api: Api) {
 
   const setLabel = (vert: boolean) => {
     api.toggle?.setAttribute('aria-pressed', String(vert));
-    if (label) label.textContent = vert ? 'Sphere' : 'List';
+    if (label) label.textContent = vert ? 'Sphere' : 'Vertical';
   };
   const shown = (el: HTMLElement, r: DOMRect) => {
     const cs = getComputedStyle(el);
@@ -203,7 +246,7 @@ export function setupVertical(sec: HTMLElement, api: Api) {
     const camFrom = api.pose.worldNow();
     api.pause();
     active = true;
-    sec.classList.add('is-vertical'); if (morph) sec.classList.add('is-morphing');
+    sec.classList.add('is-vertical', 'media-out'); if (morph) sec.classList.add('is-morphing');
     vlist.inert = false; setLabel(true);
     api.cards.forEach((c) => { c.style.visibility = ''; });
     measure();
@@ -218,20 +261,25 @@ export function setupVertical(sec: HTMLElement, api: Api) {
       // cards bound for list slots far off-screen only travel just past the edge and fade out —
       // they're invisible at the handoff anyway, and streaking 3000px across the screen reads as noise
       const to = api.cards.map((_, i) => flatPose(i, W, H, true));
-      await morph3d({ world: api.world, els: api.cards, from, to, camFrom, camTo: { camZ: 0, sx: 0, sy: 0 }, ms: MORPH_MS, delays: cascade(to, H) });
+      const tIn = window.setTimeout(() => staggerTitles(true), MORPH_MS * 0.55);   // titles arrive as the cards land
+      await morph3d({ world: api.world, els: api.cards, from, to, camFrom, camTo: { camZ: 0, sx: 0, sy: 0 }, ms: MORPH_MS, delays: cascade(to, H),
+        onFrame: (_k, cam) => api.billboard?.(cam) });
       place(cur);
       sec.classList.remove('is-morphing');           // handoff: the flat cards ARE the list — swap in one frame
       morphing = false;
-    }
+      if (!titles?.classList.contains('is-in')) { clearTimeout(tIn); staggerTitles(true); }
+    } else staggerTitles(true);
+    focusIn();
     lastInput = now(); kick();
   }
 
   // ---------- list → sphere ----------
   async function exit(morph = true) {
     if (!active) return;
-    if (staticMode) { staticMode = false; active = false; sec.classList.remove('is-vertical', 'is-static'); vlist.inert = true; setLabel(false); api.resume(); return; }
+    if (staticMode) { staticMode = false; active = false; sec.classList.remove('is-vertical', 'is-static', 'media-out'); vlist.inert = true; setLabel(false); api.resume(); return; }
     const { W, H } = frameBox();
     const from = api.cards.map((_, i) => flatPose(i, W, H, true));
+    staggerTitles(false); focusOut();
     morphing = true; active = false; snapping = false;
     if (morph) {
       // swap list → flat cards in one frame, at exactly the same boxes
@@ -244,9 +292,13 @@ export function setupVertical(sec: HTMLElement, api: Api) {
     api.pose.reset();
     if (morph) {
       const to = api.cards.map((_, i) => api.pose.cardRest(i));
-      await morph3d({ world: api.world, els: api.cards, from, to, camFrom: { camZ: 0, sx: 0, sy: 0 }, camTo: api.pose.worldRest(), ms: MORPH_MS, delays: cascade(from, H) });
+      const tMedia = window.setTimeout(() => sec.classList.remove('media-out'), MORPH_MS * 0.42);  // media grows back as cards fold in
+      await morph3d({ world: api.world, els: api.cards, from, to, camFrom: { camZ: 0, sx: 0, sy: 0 }, camTo: api.pose.worldRest(), ms: MORPH_MS, delays: cascade(from, H),
+        onFrame: (_k, cam) => api.billboard?.(cam) });
+      clearTimeout(tMedia);
       sec.classList.remove('is-morphing');
     }
+    sec.classList.remove('media-out');
     api.cards.forEach((c) => { c.style.setProperty('--g', '0'); });
     vlist.inert = true; morphing = false;
     api.resume();                                      // the live sphere continues from exactly this pose
@@ -256,7 +308,7 @@ export function setupVertical(sec: HTMLElement, api: Api) {
   function enterStatic() {
     staticMode = true; active = true;
     api.pause();
-    sec.classList.add('is-vertical', 'is-static'); vlist.inert = false; setLabel(true);
+    sec.classList.add('is-vertical', 'is-static', 'media-out'); vlist.inert = false; setLabel(true);
     for (const it of items) { it.el.style.width = ''; it.el.style.height = ''; it.el.style.transform = ''; }
   }
 

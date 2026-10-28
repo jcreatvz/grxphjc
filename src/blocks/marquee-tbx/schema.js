@@ -6,7 +6,7 @@ export default {
     { id: 'ariaLabel', type: 'text', label: 'Describe the list for screen readers', default: 'Studio disciplines' },
     { id: 'preset', type: 'select', label: 'Preset: marquee = drifts on its own, wraps onto the tube · tube = scroll-driven only, flat words', options: ['marquee', 'tube'], default: 'marquee' },
     { id: 'height', type: 'select', label: 'Section height: band = a strip like the old marquee · full = a full screen', options: ['band', 'full'], default: 'band' },
-    { id: 'tone', type: 'select', label: 'Colours', options: ['accent', 'ink', 'paper'], default: 'accent' },
+    { id: 'tone', type: 'select', label: 'Colours: auto = contrasts the page and flips with light/dark mode · accent · ink (always dark) · paper', options: ['auto', 'accent', 'ink', 'paper'], default: 'auto' },
     { id: 'divider', type: 'select', label: 'Between words', options: ['text', 'svg', 'none'], default: 'text' },
     { id: 'dividerText', type: 'text', label: 'Divider character (divider = text)', default: '+' },
     { id: 'dividerSvg', type: 'textarea', label: 'Inline SVG (divider = svg; blank uses a bundled sample)', default: '' },

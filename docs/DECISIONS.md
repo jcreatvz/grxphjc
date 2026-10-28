@@ -4,6 +4,10 @@ Why things are the way they are. Newest first.
 
 | Date | Decision | Why |
 |---|---|---|
+| 2026-10-28 | Grayscale filter only while morphing | Filters on images inside a CSS 3D scene flicker (Safari worst); the fade only matters mid-morph. |
+| 2026-10-28 | Centre media inside the 3D world, billboarded | Cards pass in front of and behind it (real depth); images and video stay readable. |
+| 2026-10-28 | Progress outline inset + safe areas, rounded | John asked for edge-to-edge but never cut off; phones' notches/home indicators and rounded screens would hide a true edge line. |
+| 2026-10-28 | Tube default tone `auto` | Follows light/dark mode with contrast; dividers carry the accent via a CSS variable so the accent switch reaches them. |
 | 2026-10-21 | Orbit v2 morph in CSS 3D, no three.js | The sphere is already CSS 3D; tweening each card's pose and the camera in that same space is exact, light, and keeps the cards real DOM (links, popups, focus). |
 | 2026-10-21 | List items take the sphere card's aspect ratio | Makes the morph's flat end pose identical to the list item, so the handoff is invisible. |
 | 2026-10-21 | Title column returns (right side), caption on phones | John's call after seeing v2; a right column doesn't fit beside the centred list under 900px. |

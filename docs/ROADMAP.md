@@ -1,13 +1,13 @@
 # grxphjc — Roadmap
 
-> Last updated: **2026-10-21** · Current version: **v0.13** · Live: <https://jcreatvz.github.io/grxphjc/>
+> Last updated: **2026-10-21** · Current version: **v0.14** · Live: <https://jcreatvz.github.io/grxphjc/>
 >
 > One page, three questions: **what's done**, **what's next**, **what's waiting on John**.
 > The full history of every release is in [`CHANGELOG.md`](CHANGELOG.md); the reasons behind choices are in [`DECISIONS.md`](DECISIONS.md).
 
 ## Where we are
 
-The site is built and live: block system, chrome, 24 content blocks, 23 project pages (template copy), curtain footer, 3D orbit hero, tube marquee. **Orbit v2** (sphere + bokid-style vertical list) is built and waiting on John's review at `/grxphjc/orbit-v2` (hidden page). After that the work is **real content**.
+The site is built and live: block system, chrome, 24 content blocks, 23 project pages (template copy), curtain footer, tube marquee, and **orbit v2 on the home page** (3D sphere with centre media ⇄ vertical project list). The next phase is **real content**.
 
 ## Done
 
@@ -26,14 +26,12 @@ The site is built and live: block system, chrome, 24 content blocks, 23 project 
 | v0.11 | 2026-10-21 | `marquee-tbx` tube marquee on the home page; The Centers + Graphics Kit projects |
 | v0.12 | 2026-10-21 | **Orbit v2** (preview page) · tube never cut off · `scripts/motion/` toolkit · docs cleanup |
 | v0.13 | 2026-10-21 | Orbit v2: real 3D morph sphere ⇄ list (no library), counter-scrolling number + title column |
+| v0.14 | 2026-10-28 | Orbit v2 on the home page · centre media (sample cube) · selected-card outline · title stagger · screen-edge progress outline · sphere flicker fix · tube follows theme + accent |
 
 ## Now
 
-### ◐ Orbit v2 — review, then swap into the home page
-Built and tested; on the hidden page `/grxphjc/orbit-v2` so it can be felt before it replaces v1.
-- [ ] John reviews on desktop, Safari and iPhone (pin, two loops, snap, 3D morph, title column)
-- [ ] Tune if needed: `loops`, `travel` (speed), `snap`
-- [ ] Swap: change the home page's `orbit` block to `orbit-v2`; delete the preview page
+### ☐ Centre media — real object
+The orbit's centre slot shows a sample wireframe cube. It already takes an **image** (jpg, png, gif, svg, webp) or a **video**. For a **Spline** scene John sends: the public scene URL (Spline → Export → Code → link ending in `scene.splinecode`), the names of the objects to control, and what should drive them (sphere rotation, scroll, pointer). Claude then adds a `spline` media type (runtime lazy-loaded, poster fallback on phones / reduced motion).
 
 ## Next — in order
 
@@ -58,7 +56,7 @@ Form-based editor (`tools/editor.html`) generated from each block's `schema.js`,
 
 | Item | Needed for |
 |---|---|
-| Orbit v2 review (see *Now*) | Swapping it into the home page |
+| Spline scene URL + object names (see *Now*), or an image/video for the centre | Centre media |
 | Per project: cover, frames, video link, write-up, role, year, client | Real content |
 | Shipped-projects and clients counts (placeholders: 140 and 38) | Real content |
 | Bio, story and services copy | Real content |
