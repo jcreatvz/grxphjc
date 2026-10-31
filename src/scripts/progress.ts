@@ -13,12 +13,21 @@ export function initProgress() {
 
   const geometry = () => {
     if (!svg || !ruler || !line) return;
-    const cs = getComputedStyle(ruler), sw = 2;
+    // The path runs ON the inset line (0 = the screen edge); the stroke is centred on it and drawn
+    // twice the visible thickness, so with inset 0 the outer half is clipped off-screen.
+    const cs = getComputedStyle(ruler);
     const W = svg.clientWidth, H = svg.clientHeight;
-    const t = parseFloat(cs.paddingTop) + sw / 2, r0 = parseFloat(cs.paddingRight) + sw / 2;
-    const b = parseFloat(cs.paddingBottom) + sw / 2, l = parseFloat(cs.paddingLeft) + sw / 2;
+    const t = parseFloat(cs.paddingTop) || 0, r0 = parseFloat(cs.paddingRight) || 0;
+    const b = parseFloat(cs.paddingBottom) || 0, l = parseFloat(cs.paddingLeft) || 0;
     const r = Math.max(0, Math.min(parseFloat(cs.borderTopLeftRadius) || 0, (W - l - r0) / 2, (H - t - b) / 2));
     const R = W - r0, B = H - b, f = (n: number) => n.toFixed(2);
+    if (r < 0.5) {   // square corners: plain straight runs, still starting at the top-left corner
+      line.setAttribute('d', svg.dataset.direction === 'counter-clockwise'
+        ? `M${f(l)} ${f(t)} V${f(B)} H${f(R)} V${f(t)} H${f(l)}`
+        : `M${f(l)} ${f(t)} H${f(R)} V${f(B)} H${f(l)} V${f(t)}`);
+      L = line.getTotalLength(); line.style.strokeDasharray = `${L} ${L}`;
+      return;
+    }
     // starts AT the top-left corner and ends there after one lap
     const cw = `M${f(l)} ${f(t + r)} A${f(r)} ${f(r)} 0 0 1 ${f(l + r)} ${f(t)} H${f(R - r)} A${f(r)} ${f(r)} 0 0 1 ${f(R)} ${f(t + r)} ` +
                `V${f(B - r)} A${f(r)} ${f(r)} 0 0 1 ${f(R - r)} ${f(B)} H${f(l + r)} A${f(r)} ${f(r)} 0 0 1 ${f(l)} ${f(B - r)} V${f(t + r)}`;

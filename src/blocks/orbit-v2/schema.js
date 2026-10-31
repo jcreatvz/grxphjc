@@ -5,7 +5,8 @@ export default {
   type: 'orbit-v2', name: 'Orbit v2 (sphere + vertical list)',
   settings: [
     ...base,
-    { id: 'showHeadline', type: 'toggle', label: 'Show the headline over the sphere', default: true },
+    { id: 'showHeadline', type: 'toggle', label: 'Show the headline (it sits inside the sphere, behind the centre media)', default: true },
+    { id: 'headlineGlow', type: 'toggle', label: 'Soft glow behind the headline letters (helps legibility over busy cards)', default: false },
     { id: 'media', type: 'select', label: 'Centre media inside the sphere: none · cube (sample wireframe placeholder) · image (jpg, png, gif, svg, webp) · video (mp4/webm, plays muted on loop)', options: ['none', 'cube', 'image', 'video'], default: 'cube' },
     { id: 'mediaSrc', type: 'text', label: 'Media file: a path like /media/logo.svg (put the file in public/media/) or a full https:// URL. Not needed for the cube.', default: '' },
     { id: 'mediaPoster', type: 'image', label: 'Video poster (shown before it plays and with reduced motion)', default: '' },

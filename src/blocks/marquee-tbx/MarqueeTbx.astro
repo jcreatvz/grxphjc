@@ -4,7 +4,7 @@
 // This file only supplies the markup, the brand tokens and the settings → config mapping.
 export interface Props {
   label?: string; words?: string[]; ariaLabel?: string;
-  preset?: 'marquee' | 'tube'; height?: 'band' | 'full'; tone?: 'auto' | 'accent' | 'ink' | 'paper';
+  preset?: 'marquee' | 'tube'; height?: 'band' | 'full'; tone?: 'auto' | 'contrast' | 'accent' | 'ink' | 'paper';
   divider?: 'text' | 'svg' | 'none'; dividerText?: string; dividerSvg?: string;
   idleSpin?: number; tilt?: number; radius?: number; turns?: number; repeat?: number;
 }
@@ -36,8 +36,10 @@ const sr = words.join(divider === 'text' ? ` ${dividerText} ` : ', ');
 
 <style>
   .mtbx { position: relative; background: var(--mtbx-bg); color: var(--mtbx-ink); }
-  /* auto: always contrasts the page — a dark band in light mode, a light band in dark mode */
-  .mtbx[data-tone="auto"] { --mtbx-bg: var(--ink); --mtbx-ink: var(--paper); --mtbx-div: var(--accent); }
+  /* auto: flows with the neighbouring sections — the page's own background and ink, flipping with
+     light/dark mode. contrast: the opposite, a band that stands out (dark in light mode, light in dark). */
+  .mtbx[data-tone="auto"] { --mtbx-bg: transparent; --mtbx-ink: var(--ink); --mtbx-div: var(--accent); }
+  .mtbx[data-tone="contrast"] { --mtbx-bg: var(--ink); --mtbx-ink: var(--paper); --mtbx-div: var(--accent); }
   .mtbx[data-tone="accent"] { --mtbx-bg: var(--accent); --mtbx-ink: var(--on-accent); --mtbx-div: var(--paper); }
   .mtbx[data-tone="ink"] { --mtbx-bg: var(--night); --mtbx-ink: var(--night-ink); --mtbx-div: var(--accent-strong); }
   .mtbx[data-tone="paper"] { --mtbx-bg: var(--paper); --mtbx-ink: var(--ink); --mtbx-div: var(--accent); }

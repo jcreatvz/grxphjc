@@ -108,7 +108,7 @@ Source: `src/blocks/marquee-tbx/schema.js`
 | `ariaLabel` | text | `"Studio disciplines"` | Describe the list for screen readers |
 | `preset` | select: `marquee` · `tube` | `"marquee"` | Preset: marquee = drifts on its own, wraps onto the tube · tube = scroll-driven only, flat words |
 | `height` | select: `band` · `full` | `"band"` | Section height: band = a strip like the old marquee · full = a full screen |
-| `tone` | select: `auto` · `accent` · `ink` · `paper` | `"auto"` | Colours: auto = contrasts the page and flips with light/dark mode · accent · ink (always dark) · paper |
+| `tone` | select: `auto` · `contrast` · `accent` · `ink` · `paper` | `"auto"` | Colours: auto = same as the sections around it (flips with light/dark mode) · contrast = a band that stands out · accent · ink (always dark) · paper |
 | `divider` | select: `text` · `svg` · `none` | `"text"` | Between words |
 | `dividerText` | text | `"+"` | Divider character (divider = text) |
 | `dividerSvg` | textarea | `""` | Inline SVG (divider = svg; blank uses a bundled sample) |
@@ -162,7 +162,8 @@ Source: `src/blocks/orbit-v2/schema.js`
 | `squeeze` | toggle | `true` | Fast upward scroll squeezes cards inward |
 | `runway` | range 0–300 | `100` | Scroll length after pinning (svh) |
 | `cue` | text | `"Drag to rotate"` | Interaction cue |
-| `showHeadline` | toggle | `true` | Show the headline over the sphere |
+| `showHeadline` | toggle | `true` | Show the headline (it sits inside the sphere, behind the centre media) |
+| `headlineGlow` | toggle | `false` | Soft glow behind the headline letters (helps legibility over busy cards) |
 | `media` | select: `none` · `cube` · `image` · `video` | `"cube"` | Centre media inside the sphere: none · cube (sample wireframe placeholder) · image (jpg, png, gif, svg, webp) · video (mp4/webm, plays muted on loop) |
 | `mediaSrc` | text | `""` | Media file: a path like /media/logo.svg (put the file in public/media/) or a full https:// URL. Not needed for the cube. |
 | `mediaPoster` | image | `""` | Video poster (shown before it plays and with reduced motion) |

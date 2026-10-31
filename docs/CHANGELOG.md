@@ -2,6 +2,16 @@
 
 Every release, newest first. Each version is one zip from Claude, pushed to `main`. *What's next* lives in [`ROADMAP.md`](ROADMAP.md); *why* lives in [`DECISIONS.md`](DECISIONS.md).
 
+## v0.15 — 2026-10-29 · Headline in the sphere, brackets + breathing, edge progress
+- **Headline inside the sphere.** It now lives in the 3D scene, facing the viewer, pushed back behind the centre media (past the cube's furthest corner as it spins): front cards and the cube pass in front of it, back cards behind. Scaled to cancel the perspective shrink, so it reads at the same size. A visually-hidden `<h1>` keeps it as the page heading for screen readers. New `headlineGlow` setting (off by default) for the soft halo.
+- **Cube transition** — switching to Vertical it grows 25% as it fades out; coming back it shrinks from 125% into place as it fades in (was: shrink to a point).
+- **Selected card: `[ ]` brackets.** The outline is now two brackets (top/bottom lines split; each arm a third of the box), fixed at the centre of the screen — it only resizes to fit the selected card (+8px, 6px on phones), with a spring.
+- **Breathing.** Once a card has snapped to the centre, the cards above and below ease 2rem away from the bracket box; the gap closes as soon as scrolling resumes and opens again after the next snap.
+- **Progress on the screen edge.** Square corners, no inset: the line is drawn 4px wide centred on the edge, so the outer 2px is clipped off-screen and exactly 2px shows — nothing spills, nothing scrolls. Settings: `thickness` (visible px), `inset`, `radius`, `direction`, `nub`.
+- **Tube flows with its neighbours.** `auto` now uses the page's own background and ink (flipping with light/dark mode); the standing-out band is the new `contrast` tone.
+- **Fix:** on desktops with a visible scrollbar (Windows), the Vertical list centred its cards on the full window width while the brackets and morph used the visible area — cards sat 7.5px right of the brackets. Everything now centres on the visible frame.
+- Tests: 21 new checks (headline depth/scale/heading, cube scale curve both ways, bracket geometry + centre lock, breathing 32px both sides + closing on scroll, edge pixels exactly 2px, tube colours), all earlier suites green.
+
 ## v0.14 — 2026-10-28 · Orbit v2 on the home page, centre media, screen-edge progress
 - **Orbit v2 replaces v1 on the home page**; the hidden preview page is gone. The toggle now reads **Vertical**.
 - **Sphere flicker fixed.** v0.13 put a grayscale filter on every sphere image so the morph could fade cards to gray; filters inside a 3D scene force separate offscreen renders and flicker (worst in Safari). The filter now applies only while morphing — at rest the sphere has none.

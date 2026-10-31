@@ -4,6 +4,10 @@ Why things are the way they are. Newest first.
 
 | Date | Decision | Why |
 |---|---|---|
+| 2026-10-29 | Headline inside the 3D scene, behind the media; hidden `<h1>` for screen readers | John wanted it in the sphere; the 3D copy is inert when the stage is, so the real heading stays outside. |
+| 2026-10-29 | Progress line: thick stroke centred on the screen edge, clipped | "To the edge" with no layout cost — a stroke on the edge can't widen the page or create scrolling. |
+| 2026-10-29 | Brackets fixed at the centre, resizing only | John's call; matches the snap line, so the frame reads as a viewfinder. |
+| 2026-10-29 | Tube `auto` = flow with neighbours, `contrast` for a standing-out band | John wanted the tube to blend into the surrounding sections. |
 | 2026-10-28 | Grayscale filter only while morphing | Filters on images inside a CSS 3D scene flicker (Safari worst); the fade only matters mid-morph. |
 | 2026-10-28 | Centre media inside the 3D world, billboarded | Cards pass in front of and behind it (real depth); images and video stay readable. |
 | 2026-10-28 | Progress outline inset + safe areas, rounded | John asked for edge-to-edge but never cut off; phones' notches/home indicators and rounded screens would hide a true edge line. |

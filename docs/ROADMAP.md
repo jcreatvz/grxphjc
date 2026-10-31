@@ -1,6 +1,6 @@
 # grxphjc — Roadmap
 
-> Last updated: **2026-10-21** · Current version: **v0.14** · Live: <https://jcreatvz.github.io/grxphjc/>
+> Last updated: **2026-10-21** · Current version: **v0.15** · Live: <https://jcreatvz.github.io/grxphjc/>
 >
 > One page, three questions: **what's done**, **what's next**, **what's waiting on John**.
 > The full history of every release is in [`CHANGELOG.md`](CHANGELOG.md); the reasons behind choices are in [`DECISIONS.md`](DECISIONS.md).
@@ -27,6 +27,7 @@ The site is built and live: block system, chrome, 24 content blocks, 23 project 
 | v0.12 | 2026-10-21 | **Orbit v2** (preview page) · tube never cut off · `scripts/motion/` toolkit · docs cleanup |
 | v0.13 | 2026-10-21 | Orbit v2: real 3D morph sphere ⇄ list (no library), counter-scrolling number + title column |
 | v0.14 | 2026-10-28 | Orbit v2 on the home page · centre media (sample cube) · selected-card outline · title stagger · screen-edge progress outline · sphere flicker fix · tube follows theme + accent |
+| v0.15 | 2026-10-29 | Headline inside the sphere (behind the cube) · cube grows/shrinks 25% on the switch · `[ ]` brackets that resize at the centre + 2rem breathing after snap · progress on the screen edge (square) · tube flows with its neighbours · cards centre correctly beside a desktop scrollbar |
 
 ## Now
 

@@ -7,7 +7,7 @@ export interface Props { chrome?: string; }
 const { chrome = 'auto' } = Astro.props;
 const f = site.frame as any;
 const p = f.progress === true ? { enabled: true } : (f.progress || { enabled: false });
-const edge = p.enabled === false ? null : { direction: 'clockwise', inset: 6, nub: false, ...p };
+const edge = p.enabled === false ? null : { direction: 'clockwise', thickness: 2, inset: 0, radius: 0, nub: false, ...p };
 ---
 <div class="site-frame" data-chrome={chrome} aria-hidden="true">
   {f.marks && (<>
@@ -21,8 +21,9 @@ const edge = p.enabled === false ? null : { direction: 'clockwise', inset: 6, nu
 {edge && (
   <>
     <!-- measures the inset + device safe areas + corner radius in CSS, so JS draws exactly that -->
-    <div class="edge-ruler" data-edge-ruler aria-hidden="true" style={`--edge-inset:${edge.inset}px`}></div>
-    <svg class="edge-progress" data-edge-progress data-chrome={chrome} data-direction={edge.direction} aria-hidden="true" focusable="false">
+    <div class="edge-ruler" data-edge-ruler aria-hidden="true" style={`--edge-inset:${edge.inset}px;--edge-radius:${edge.radius}px`}></div>
+    <svg class="edge-progress" data-edge-progress data-chrome={chrome} data-direction={edge.direction} aria-hidden="true" focusable="false"
+         style={`--edge-sw:${edge.thickness * 2}px`}>
       <path class="edge-progress__line" d="M0 0" />
       {edge.nub && <rect class="edge-progress__nub" x="-4" y="-4" width="8" height="8" />}
     </svg>
@@ -40,17 +41,15 @@ const edge = p.enabled === false ? null : { direction: 'clockwise', inset: 6, nu
   /* ---- screen-edge progress outline ---- */
   .edge-ruler {
     position: fixed; inset: 0; visibility: hidden; pointer-events: none; box-sizing: border-box;
-    /* inset from each edge + that edge's safe area (notch, home indicator) — so the line is never hidden */
-    padding: calc(var(--edge-inset) + var(--safe-top)) calc(var(--edge-inset) + env(safe-area-inset-right, 0px))
-             calc(var(--edge-inset) + var(--safe-bottom)) calc(var(--edge-inset) + env(safe-area-inset-left, 0px));
-    border-radius: 10px;                  /* desktop: close to a browser window's corners */
+    padding: var(--edge-inset, 0px);
+    border-radius: var(--edge-radius, 0px);
   }
-  @media (pointer: coarse) { .edge-ruler { border-radius: 24px; } }   /* phones/tablets: rounder, like the screen */
   .edge-progress {
-    position: fixed; inset: 0; width: 100%; height: 100%; z-index: 95; pointer-events: none; overflow: visible;
+    /* overflow hidden: the stroke's outer half lies beyond the screen and is clipped — nothing spills, no scroll */
+    position: fixed; inset: 0; width: 100%; height: 100%; z-index: 95; pointer-events: none; overflow: hidden;
     color: var(--chrome-accent, var(--accent));
   }
-  .edge-progress__line { fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: butt; stroke-linejoin: round; }
+  .edge-progress__line { fill: none; stroke: currentColor; stroke-width: var(--edge-sw, 4px); stroke-linecap: butt; stroke-linejoin: miter; }
   .edge-progress__nub { fill: currentColor; }
   .site-frame__mark {
     position: absolute; top: calc(var(--safe-top) + 8px); margin-left: -4px;

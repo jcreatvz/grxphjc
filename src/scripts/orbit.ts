@@ -18,6 +18,8 @@ function setup(sec: HTMLElement) {
   const stage = sec.querySelector<HTMLElement>('[data-orbit-stage]')!;
   const world = sec.querySelector<HTMLElement>('.orbit__world')!;
   const headline = sec.querySelector<HTMLElement>('.orbit__headline');
+  const hl3d = sec.querySelector<HTMLElement>('[data-orbit-hl]');   // v2: headline inside the sphere
+  let hlDepth = 0, hlScale = 1;
   const cardEls = [...sec.querySelectorAll<HTMLElement>('.orbit__card')];
   const toggle = sec.querySelector<HTMLButtonElement>('[data-orbit-toggle]');
   const grid = sec.querySelector<HTMLElement>('.orbit__grid');
@@ -26,7 +28,13 @@ function setup(sec: HTMLElement) {
   const mediaSize = parseFloat(sec.dataset.mediaSize || '0.36') || 0.36;
   // flat media (image/video) always faces the viewer: undo the camera's rotation. The cube is a real
   // 3D object, so it turns with the sphere (and spins on its own).
-  const billboard = (sx: number, sy: number) => { if (media && media.dataset.kind !== 'cube') media.style.transform = `rotateX(${(-sx).toFixed(3)}deg) rotateY(${(-sy).toFixed(3)}deg)`; };
+  const billboard = (sx: number, sy: number) => {
+    const face = `rotateX(${(-sx).toFixed(3)}deg) rotateY(${(-sy).toFixed(3)}deg)`;
+    if (media && media.dataset.kind !== 'cube') media.style.transform = face;
+    // the headline faces the viewer, pushed back behind the media; scaled up so the push-back
+    // doesn't shrink it (perspective) — it reads at the same size as before
+    if (hl3d) hl3d.style.transform = `${face} translateZ(${(-hlDepth).toFixed(1)}px) scale(${hlScale.toFixed(4)})`;
+  };
   const N = cardEls.length;
   if (!N) return;
 
@@ -71,6 +79,9 @@ function setup(sec: HTMLElement) {
     sec.style.setProperty('--persp', `${persp}px`);
     sec.style.setProperty('--cw', `${cw}px`);
     sec.style.setProperty('--media-s', `${Math.round(2 * R * mediaSize)}px`);
+    const S = 2 * R * mediaSize;
+    hlDepth = !media ? 0 : media.dataset.kind === 'cube' ? S * 0.9 : 28;   // behind the cube's furthest corner as it spins
+    hlScale = (persp + hlDepth) / persp;
     for (const c of cards) place(c);
   };
   // Card position = its point on the sphere pushed outward along the centre→card line, plus tumble.

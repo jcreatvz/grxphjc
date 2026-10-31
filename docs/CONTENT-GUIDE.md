@@ -75,19 +75,20 @@ Hover-scramble timing: add `data-scramble-ms="400"` to a `[data-scramble]` eleme
 Same settings as `orbit` (headline, source, projectAction, explosion…), plus:
 
 **Centre media** — something in the middle of the sphere. Cards pass in front of and behind it.
-- `showHeadline`: `true`/`false` — the big headline over the sphere. Headline and media can be on together, or either off.
+- `showHeadline`: `true`/`false` — the big headline. It sits *inside* the sphere, behind the centre media (cards and the cube pass in front of it). Headline and media can be on together, or either off.
+- `headlineGlow`: `true`/`false` — a soft halo behind the letters for legibility over busy cards (off by default).
 - `media`: `none` · `cube` (sample wireframe placeholder) · `image` · `video`.
 - `mediaSrc`: the file. Put it in `public/media/` and write `/media/name.ext`, or use a full `https://` URL. Images: jpg, png, gif, svg, webp (transparent PNG/SVG look best — the sphere shows through). Video: mp4 (H.264) or webm; it plays muted on a loop while the sphere is on screen. Keep video short and small (a few MB).
 - `mediaPoster`: a still for video (shown before it plays and for reduced-motion visitors).
 - `mediaAlt`: describe it for screen readers, or leave empty if it's decorative.
 - `mediaSize`: its width as a share of the sphere (0.15–0.7; default 0.36).
-- Images and video always face the viewer; the cube turns with the sphere. When switching to Vertical the media shrinks away, and comes back with the sphere.
+- Images and video always face the viewer; the cube turns with the sphere. When switching to Vertical the media grows 25% as it fades away, and shrinks back into place as the sphere returns.
 - **3D objects (Spline):** coming next. Send Claude the scene's public URL (Spline → Export → Code → the link ending in `scene.splinecode`), the names of the objects to control, and what should drive them (sphere rotation, scroll, pointer).
 
-**Vertical list** — `loops` (passes through the projects before the page moves on, default 2), `travel` (speed; higher = shorter section), `snap` (centre the nearest project when scrolling stops). The centred project gets an accent outline; on screens 900px and wider a number + title column runs down the right, scrolling opposite to the images. Titles come from each project's `title`. `startView`: `sphere` or `vertical`.
+**Vertical list** — `loops` (passes through the projects before the page moves on, default 2), `travel` (speed; higher = shorter section), `snap` (centre the nearest project when scrolling stops). The centred project is framed by accent `[ ]` brackets fixed at the centre of the screen (they resize to each card); once it has snapped, the cards above and below ease 2rem away from the brackets, closing again as you scroll; on screens 900px and wider a number + title column runs down the right, scrolling opposite to the images. Titles come from each project's `title`. `startView`: `sphere` or `vertical`.
 
 ## Tube marquee (`marquee-tbx`)
-`words` ride a 3D cylinder. `preset`: `marquee` (drifts on its own, words wrap onto the tube) or `tube` (scroll-driven only, flat words). `height`: `band` (exactly as tall as the tube needs — measured, so it's never cut off) or `full` (at least a whole screen). `tone`: `auto` (default — contrasts the page and flips with light/dark mode) / accent / ink / paper. Dividers always follow the accent colour. `divider`: `text` (a character), `svg` (paste inline SVG; blank uses a bundled sample) or `none`. `idleSpin` 0 turns the drift off. The solver measures every word in the real font and will condense, shrink or grow the ring so nothing ever overlaps — long words are safe.
+`words` ride a 3D cylinder. `preset`: `marquee` (drifts on its own, words wrap onto the tube) or `tube` (scroll-driven only, flat words). `height`: `band` (exactly as tall as the tube needs — measured, so it's never cut off) or `full` (at least a whole screen). `tone`: `auto` (default — the same background and ink as the sections around it, flipping with light/dark mode) / `contrast` (a band that stands out) / accent / ink / paper. Dividers always follow the accent colour. `divider`: `text` (a character), `svg` (paste inline SVG; blank uses a bundled sample) or `none`. `idleSpin` 0 turns the drift off. The solver measures every word in the real font and will condense, shrink or grow the ring so nothing ever overlaps — long words are safe.
 
 ## Contact email
 `src/site.json → contact`:
@@ -104,7 +105,7 @@ When email hosting is live, set `mailto` to `hello@grxphjc.com`.
 - `footer` — footer columns and credits line
 
 ## Scroll progress outline
-`site.json → frame.progress`: `enabled`, `direction` (`clockwise` · `counter-clockwise`, both starting at the top-left corner), `inset` (px from the screen edge; phones add their safe areas automatically), `nub` (`true` puts a square dot on the tip).
+`site.json → frame.progress`: `enabled`, `direction` (`clockwise` · `counter-clockwise`, both starting at the top-left corner), `thickness` (visible px, default 2), `inset` (px from the screen edge; 0 = on the edge), `radius` (corner rounding; 0 = square), `nub` (`true` puts a square dot on the tip).
 
 ## Publishing a new version
 Claude sends a zip (e.g. `grxphjc-v0.12.zip`). Put it in the folder that holds your `repo` folder, open a terminal there, and paste **one block at a time** — never paste the `#` comment lines, or the terminal gets stuck at `quote>` (press **Ctrl+C** to get out).

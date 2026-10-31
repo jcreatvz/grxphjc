@@ -16,7 +16,7 @@ interface PoseApi {
   worldNow(): Cam3; worldRest(): Cam3; cardNow(i: number): Pose3; cardRest(i: number): Pose3; reset(): void;
 }
 interface Api { cards: HTMLElement[]; pause(): void; resume(): void; toggle: HTMLButtonElement | null; reduce: boolean; world: HTMLElement; pose: PoseApi; billboard?(cam: Cam3): void }
-interface VItem { el: HTMLElement; i: number; clone: boolean; x: number; y: number; w: number; h: number; sy: number }
+interface VItem { el: HTMLElement; i: number; clone: boolean; x: number; y: number; w: number; h: number; sy: number; sy0: number }
 
 const FACT = [0.68, 0.89, 0.93, 0.68, 1.0]; // bokid's width rhythm: 190 / 250 / 260 / 190 / 280
 const DAMP = 0.09, MORPH_MS = 1300;
@@ -33,7 +33,7 @@ export function setupVertical(sec: HTMLElement, api: Api) {
 
   const base = [...ul.querySelectorAll<HTMLElement>('.orbit__vitem')];
   const N = base.length;
-  let items: VItem[] = base.map((el, i) => ({ el, i, clone: false, x: 0, y: 0, w: 0, h: 0, sy: 0 }));
+  let items: VItem[] = base.map((el, i) => ({ el, i, clone: false, x: 0, y: 0, w: 0, h: 0, sy: 0, sy0: 0 }));
   let active = false, staticMode = false, morphing = false, visible = false, running = false;
   let T = 0, maxH = 0, runway = 0, O0 = 0, cur = 0, last = 0, selected = -1, frac = 0;
   let lastInput = 0, lastScroll = 0, snapping = false, snapY = 0, snapTarget = 0;
@@ -69,31 +69,30 @@ export function setupVertical(sec: HTMLElement, api: Api) {
 
   // ---------- selected-card outline: one box that springs to the centred card (kinetic morph) ----------
   const focus = sec.querySelector<HTMLElement>('[data-orbit-focus]');
-  const fs = { x: { x: 0, v: 0 }, y: { x: 0, v: 0 }, w: { x: 0, v: 0 }, h: { x: 0, v: 0 } };
+  const fs = { w: { x: 0, v: 0 }, h: { x: 0, v: 0 } };   // size only: the brackets stay centred and resize
   const FOCUS_K = 240, FOCUS_Z = 0.62;                 // a little overshoot as it lands on each card
   const focusOff = () => (innerWidth < 640 ? 6 : 8);   // gap between the card and its outline
-  const selectedItem = () => {
-    let best: VItem | null = null, bd = Infinity;
-    for (const it of items) if (it.i === selected) { const d = Math.abs(it.sy + it.h / 2 - innerHeight / 2); if (d < bd) { bd = d; best = it; } }
-    return best;
-  };
-  function focusTo(dt: number, snapNow = false) {
-    if (!focus) return;
-    const it = selectedItem(); if (!it) return;
-    const o = focusOff(), t = { x: it.x - o, y: it.sy - o, w: it.w + 2 * o, h: it.h + 2 * o };
-    (['x', 'y', 'w', 'h'] as const).forEach((k) => {
-      if (snapNow) { fs[k].x = t[k]; fs[k].v = 0; } else stepSpring(fs[k], t[k], FOCUS_K, FOCUS_Z, dt / 1000);
-    });
-    focus.style.transform = `translate3d(${fs.x.x.toFixed(2)}px, ${fs.y.x.toFixed(2)}px, 0)`;
-    focus.style.width = `${Math.max(0, fs.w.x).toFixed(2)}px`; focus.style.height = `${Math.max(0, fs.h.x).toFixed(2)}px`;
+  let selItem: VItem | null = null;                   // the instance of the selected project nearest the centre
+  function focusTo(dt: number) {
+    if (!focus || !selItem) return;
+    const o = focusOff();
+    stepSpring(fs.w, selItem.w + 2 * o, FOCUS_K, FOCUS_Z, dt / 1000);
+    stepSpring(fs.h, selItem.h + 2 * o, FOCUS_K, FOCUS_Z, dt / 1000);
+    const { W, H } = frameBox(), w = Math.max(0, fs.w.x), h = Math.max(0, fs.h.x);
+    focus.style.transform = `translate3d(${(W / 2 - w / 2).toFixed(2)}px, ${(H / 2 - h / 2).toFixed(2)}px, 0)`;
+    focus.style.width = `${w.toFixed(2)}px`; focus.style.height = `${h.toFixed(2)}px`;
   }
   /** entrance: start exactly on the card (no gap) and spring outward to the offset */
   function focusIn() {
-    if (!focus) return;
-    const it = selectedItem(); if (!it) return;
-    fs.x = { x: it.x, v: 0 }; fs.y = { x: it.sy, v: 0 }; fs.w = { x: it.w, v: 0 }; fs.h = { x: it.h, v: 0 };
-    focusTo(0, false); focus.classList.add('is-on');
+    if (!focus || !selItem) return;
+    fs.w = { x: selItem.w, v: 0 }; fs.h = { x: selItem.h, v: 0 };
+    focusTo(0); focus.classList.add('is-on');
   }
+
+  // ---------- breathing: once a card has snapped to the centre, its neighbours ease 2rem away from
+  // the bracket box (top and bottom); the gap closes again as soon as scrolling resumes ----------
+  let breath = 0, gapPx = 7;
+  const breathPx = () => 2 * (parseFloat(getComputedStyle(document.documentElement).fontSize) || 16);
   const focusOut = () => focus?.classList.remove('is-on');
 
   // ---------- title stagger: lines cascade from the centre line outward ----------
@@ -111,14 +110,14 @@ export function setupVertical(sec: HTMLElement, api: Api) {
 
   // ---------- layout (bokid M0: a centred column, varied widths, tight gap) ----------
   function measure() {
-    const vw = innerWidth, vh = innerHeight;
+    const vw = innerWidth, vh = innerHeight, fw = frameBox().W;
     const wBase = vw < 640 ? vw * 0.5 : Math.min(300, Math.max(150, vw * 0.2));
-    const gap = Math.max(6, Math.round(vw * 0.005));
+    const gap = Math.max(6, Math.round(vw * 0.005)); gapPx = gap;
     let y = 0; maxH = 0;
     for (const it of items) {
       it.w = Math.round(wBase * FACT[it.i % FACT.length]);
       it.h = Math.round(it.w / cardRatio(it.i));           // same aspect as the sphere card → seamless morph
-      it.x = Math.round(vw / 2 - it.w / 2); it.y = y; y += it.h + gap;
+      it.x = Math.round(fw / 2 - it.w / 2); it.y = y; y += it.h + gap;   // centre in the visible frame (a desktop scrollbar narrows it)
       maxH = Math.max(maxH, it.h);
       it.el.style.width = `${it.w}px`; it.el.style.height = `${it.h}px`;
     }
@@ -138,7 +137,7 @@ export function setupVertical(sec: HTMLElement, api: Api) {
         n.addEventListener('click', (e) => { e.preventDefault(); src.querySelector<HTMLElement>('a,button')?.click(); });
       });
       ul.appendChild(el);
-      items.push({ el, i: Number(src.dataset.i), clone: true, x: 0, y: 0, w: 0, h: 0, sy: 0 });
+      items.push({ el, i: Number(src.dataset.i), clone: true, x: 0, y: 0, w: 0, h: 0, sy: 0, sy0: 0 });
     }
   }
 
@@ -160,12 +159,18 @@ export function setupVertical(sec: HTMLElement, api: Api) {
     return 0;
   }
   function place(O: number) {
-    const vh = innerHeight; let best = -1, bd = Infinity;
+    const vh = innerHeight; let best = -1, bd = Infinity, bi: VItem | null = null;
     for (const it of items) {
-      it.sy = wrapY(it, O);
+      it.sy0 = wrapY(it, O);
+      const d = Math.abs(it.sy0 + it.h / 2 - vh / 2);
+      if (d < bd) { bd = d; best = it.i; bi = it; }
+    }
+    selItem = bi;
+    // neighbours sit 2rem from the bracket box: shift = (bracket offset + 2rem) − the normal gap
+    const shift = breath > 0.001 && bi ? (focusOff() + breathPx() - gapPx) * breath : 0;
+    for (const it of items) {
+      it.sy = it === bi || !shift ? it.sy0 : it.sy0 + (it.sy0 < bi!.sy0 ? -shift : shift);
       it.el.style.transform = `translate3d(${it.x}px, ${it.sy.toFixed(1)}px, 0)`;
-      const d = Math.abs(it.sy + it.h / 2 - vh / 2);
-      if (d < bd) { bd = d; best = it.i; }
     }
     if (best !== selected) { selected = best; for (const it of items) it.el.classList.toggle('is-selected', it.i === selected); }
     frac = fracAt(O); placeTitles();
@@ -179,13 +184,18 @@ export function setupVertical(sec: HTMLElement, api: Api) {
     if (!morphing) {
       cur = damp(cur, target, DAMP, dt);
       if (Math.abs(target - cur) < 0.2) cur = target;
+      const still = now() - lastInput > 250 && now() - lastScroll > 140 && Math.abs(target - cur) < 0.5 && !snapping;
+      const centred = !!selItem && Math.abs(selItem.sy0 + selItem.h / 2 - innerHeight / 2) < 1.5;
+      const want = still && (centred || !snapOn) ? 1 : 0;
+      breath = damp(breath, want, want ? 0.1 : 0.25, dt);   // opens gently, closes quickly when scrolling resumes
+      if (Math.abs(breath - want) < 0.002) breath = want;
       place(cur);
       focusTo(dt);
     }
     const st = secTop(), pinned = scrollY >= st - 1 && scrollY <= st + runway + 1;
     if (snapOn && !morphing && !snapping && pinned && now() - lastInput > 250 && now() - lastScroll > 140 && Math.abs(target - cur) < 5) {
       const vh = innerHeight; let d = Infinity;
-      for (const it of items) { const c = it.sy + it.h / 2 - vh / 2; if (Math.abs(c) < Math.abs(d)) d = c; }
+      for (const it of items) { const c = it.sy0 + it.h / 2 - vh / 2; if (Math.abs(c) < Math.abs(d)) d = c; }
       const ty = scrollY + d / travel;
       if (Math.abs(d) > 1 && ty > st + 1 && ty < st + runway - 1) { snapping = true; snapY = scrollY; snapTarget = ty; }
     }
@@ -212,7 +222,7 @@ export function setupVertical(sec: HTMLElement, api: Api) {
     if (!active || staticMode) return;
     const li = (e.target as HTMLElement).closest<HTMLElement>('.orbit__vitem'); if (!li) return;
     const it = items.find((x) => x.el === li); if (!it) return;
-    const d = it.sy + it.h / 2 - innerHeight / 2, st = secTop();
+    const d = it.sy0 + it.h / 2 - innerHeight / 2, st = secTop();
     instant(clamp(scrollY + d / travel, st, st + runway));
   });
 
@@ -280,7 +290,7 @@ export function setupVertical(sec: HTMLElement, api: Api) {
     const { W, H } = frameBox();
     const from = api.cards.map((_, i) => flatPose(i, W, H, true));
     staggerTitles(false); focusOut();
-    morphing = true; active = false; snapping = false;
+    morphing = true; active = false; snapping = false; breath = 0;
     if (morph) {
       // swap list → flat cards in one frame, at exactly the same boxes
       sec.classList.add('is-morphing');

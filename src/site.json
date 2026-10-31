@@ -22,9 +22,11 @@
     "progress": {
       "enabled": true,
       "direction": "clockwise",
-      "inset": 6,
+      "thickness": 2,
+      "inset": 0,
+      "radius": 0,
       "nub": false,
-      "_note": "Scroll progress drawn as an outline of the whole screen, starting at the top-left corner. direction: clockwise | counter-clockwise. inset: px from the screen edge (safe areas are added automatically on phones). nub: square dot at the tip."
+      "_note": "Scroll progress drawn around the whole screen, starting at the top-left corner. thickness: visible px (the stroke is drawn twice as thick, centred on the screen edge, so its outer half is clipped off-screen). direction: clockwise | counter-clockwise. inset/radius: 0 = right on the edge with square corners. nub: square dot at the tip."
     },
     "marks": true
   },
